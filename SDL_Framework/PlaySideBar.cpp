@@ -11,8 +11,8 @@ PlaySideBar::PlaySideBar() {
 
 	mBottomBackground = new GLTexture("Black.png");
 	mBottomBackground->Parent(this);
-	mBottomBackground->Scale(Vector2(8.5f, 1.0f));
-	mBottomBackground->Position(-520.0f, 910.0f);
+	mBottomBackground->Scale(Vector2(8.8f, 1.0f));
+	mBottomBackground->Position(-410.0f, 850.0f);
 
 	mHighLabel = new GLTexture("HIGH SCORE", "emulogic.ttf", 12, { 0, 255, 0 });
 	mHighLabel->Parent(this);

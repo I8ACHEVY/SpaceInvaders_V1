@@ -1,6 +1,7 @@
 #include "ScreenManager.h"
 
 ScreenManager* ScreenManager::sInstance = nullptr;
+GLTexture* mBackground = nullptr;
 
 ScreenManager* ScreenManager::Instance() {
 	if (sInstance == nullptr) {
@@ -16,6 +17,7 @@ void ScreenManager::Release() {
 
 ScreenManager::ScreenManager() {
 	mBackgroundStars = BackgroundStars::Instance();
+	mBackground = new GLTexture("Background.png");
 	mInput = InputManager::Instance();
 
 	mStartScreen = new StartScreen();
@@ -25,14 +27,6 @@ ScreenManager::ScreenManager() {
 	mHighScoreTable = new HighScoreTable();
 
 	mCurrentScreen = Start;
-
-	
-	//mBackground = mAssetManager->GetTexture("invaders.png");
-	//mBackground->Position(Vec2_Zero);
-	//mBackground->Scale(Vector2(1.5f, 1.5f));
-
-	//SDL_Rect srcRect = { 993, 12, 257, 224 };
-	
 }
 
 ScreenManager::~ScreenManager() {
@@ -41,10 +35,10 @@ ScreenManager::~ScreenManager() {
 	BackgroundStars::Release();
 	mBackgroundStars = nullptr;
 
-	//if (mBackground != nullptr) {
-	//	SDL_DestroyTexture(mBackground);
-	//	mBackground = nullptr;
-	//}
+	if (mBackground != nullptr) {
+		delete mBackground;
+		mBackground = nullptr;
+	}
 
 	delete mStartScreen;
 	mStartScreen = nullptr;
@@ -174,39 +168,34 @@ void ScreenManager::Update() {
 }
 
 void ScreenManager::Render() {
-	//mBackground = mAssetManager->GetTexture("invaders.png");
-	//mAssetManager = AssetManager::Instance();
-	//SDL_Rect destRect = { 0, 0, 1400, 1024 };
-
-	//mGraphic->DrawTexture(mBackground, nullptr, &destRect);
 
 	switch (mCurrentScreen) {
 		
 	case ScreenManager::Start:
-		mStartScreen->Render();
 		mBackgroundStars->Render();
+		mStartScreen->Render();
 		break;
 
 	case ScreenManager::Play:
+		mBackground->Render();
+		mBackground->Position(535, 660);
+		mBackground->Scale(Vector2(1.3f, 1.3f));
 		mPlayScreen->Render();
-		//mBackground->Render();
-		//mGraphic->Render();
-
 		break;
 
 	case ScreenManager::Option:
-		mOptionScreen->Render();
 		mBackgroundStars->Render();
+		mOptionScreen->Render();
 		break;
 
 	case ScreenManager::Credit:
-		mCreditScreen->Render();
 		mBackgroundStars->Render();
+		mCreditScreen->Render();
 		break;
 
 	case ScreenManager::HighScore:
-		mHighScoreTable->Render();
 		mBackgroundStars->Render();
+		mHighScoreTable->Render();
 		break;
 
 	default:

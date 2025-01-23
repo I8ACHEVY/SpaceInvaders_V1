@@ -222,7 +222,7 @@ namespace SDL_Framework {
 
 	Mix_Music* AssetManager::GetMusic(std::string filename, bool managed) {
 		std::string fullPath = SDL_GetBasePath();
-		fullPath.append("Assets/" + filename);
+		fullPath.append("Assets/Audio/" + filename);
 
 		if (mMusic[fullPath] == nullptr) {
 			mMusic[fullPath] = Mix_LoadMUS(fullPath.c_str());
@@ -240,7 +240,7 @@ namespace SDL_Framework {
 
 	Mix_Chunk* AssetManager::GetSFX(std::string filename, bool managed) {
 		std::string fullPath = SDL_GetBasePath();
-		fullPath.append("Assets/" + filename);
+		fullPath.append("Assets/Audio/SFX/" + filename);
 
 		if (mSFX[fullPath] == nullptr) {
 			mSFX[fullPath] = Mix_LoadWAV(fullPath.c_str());
