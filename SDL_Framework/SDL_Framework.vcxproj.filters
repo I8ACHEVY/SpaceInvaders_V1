@@ -51,7 +51,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Space_Invaders_V1.cpp">
+    <ClCompile Include="SpaceInvaders_V1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StartScreen.cpp">
