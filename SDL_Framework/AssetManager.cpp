@@ -75,7 +75,7 @@ namespace SDL_Framework {
 
 	TTF_Font* AssetManager::GetFont(std::string filename, int size) {
 		std::string fullPath = SDL_GetBasePath();
-		fullPath.append("Assets/" + filename);
+		fullPath.append("Assets/Font/" + filename);
 
 		std::stringstream ss;
 		ss << size;

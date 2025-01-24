@@ -4,9 +4,9 @@ CreditScreen::CreditScreen() {
 	mInputManager = InputManager::Instance();
 
 	mTopBar = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, 410.0f);
-	mPart = new GLTexture("Created by: ", "emulogic.ttf", 15, { 0, 255, 0 });
-	mName = new GLTexture("Tomohiro Nishikado", "emulogic.ttf", 15, { 0, 255, 0 });
-	mCredit = new GLTexture("Credits", "emulogic.ttf", 32, { 0, 255, 0 });
+	mPart = new GLTexture("Created by: ", "gunshipbold.ttf", 18, { 0, 255, 0 });
+	mName = new GLTexture("Tomohiro Nishikado", "gunshipbold.ttf", 18, { 0, 255, 0 });
+	mCredit = new GLTexture("Credits", "gunshiphalf.ttf", 24, { 0, 255, 0 });
 
 	mTopBar->Parent(this);
 	mPart->Parent(mTopBar);
@@ -18,10 +18,10 @@ CreditScreen::CreditScreen() {
 	mCredit->Position(0, 0.0f);
 
 	mPlayModes = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.7f);
-	mStartMode = new GLTexture("Start", "emulogic.ttf", 15, { 230, 230, 230 });
-	mOptionsMode = new GLTexture("Options", "emulogic.ttf", 15, { 230, 230, 230 });
-	mHighScoreMode = new GLTexture ("HighScores", "emulogic.ttf", 15, { 230, 230, 230 });
-	mBackMode = new GLTexture("Back", "emulogic.ttf", 15, { 230, 230, 230 });
+	mStartMode = new GLTexture("Start", "gunship.ttf", 18, { 230, 230, 230 });
+	mOptionsMode = new GLTexture("Options", "gunship.ttf", 18, { 230, 230, 230 });
+	mHighScoreMode = new GLTexture ("HighScores", "gunship.ttf", 18, { 230, 230, 230 });
+	mBackMode = new GLTexture("Back", "gunship.ttf", 18, { 230, 230, 230 });
 	mCursor = new GLTexture("Cursor.png");
 	mCursor->Scale(Vector2(0.5f, 0.5f));
 
@@ -43,9 +43,9 @@ CreditScreen::CreditScreen() {
 	mCursorStartPos = mCursor->Position(Local);
 
 	mBottomBar = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.8f);
-	mTaito = new GLTexture("taito", "namco__.ttf", 15, { 0, 255, 0 });
-	mDates = new GLTexture("1978 - 1997 taito corp.", "emulogic.ttf", 12, { 230, 230, 230 });
-	mRights = new GLTexture("ALL RIGHTS RESERVED", "emulogic.ttf", 12, { 230, 230, 230 });
+	mTaito = new GLTexture("taito", "gunshiphalf.ttf", 24, { 0, 255, 0 });
+	mDates = new GLTexture("1978 - 1997 taito corp.", "gunship.ttf", 18, { 230, 230, 230 });
+	mRights = new GLTexture("ALL RIGHTS RESERVED", "gunship.ttf", 18, { 230, 230, 230 });
 
 	mBottomBar->Parent(this);
 	mTaito->Parent(mBottomBar);
