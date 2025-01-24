@@ -5,9 +5,9 @@ OptionScreen::OptionScreen() {
 	mInputManager = InputManager::Instance();
 
 	mTopBar = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, 430.0f);
-	mVolume = new GLTexture("Volume: Use - or + to change Volume Level", "gunshipbold.ttf", 18, { 0, 255, 0 });
-	mMute = new GLTexture("Mute: Use M to mute and unmute audio", "gunshipbold.ttf", 18, { 0, 255, 0 });
-	mOptMenu = new GLTexture("Options Menu", "gunshiphalf.ttf", 24, { 0, 255, 0 });
+	mVolume = new GLTexture("Volume: Use - or + to change Volume Level", "ARCADE.ttf", 18, { 0, 255, 0 });
+	mMute = new GLTexture("Mute: Use M to mute and unmute audio", "ARCADE.ttf", 18, { 0, 255, 0 });
+	mOptMenu = new GLTexture("Options Menu", "ARCADE.ttf", 24, { 0, 255, 0 });
 
 	mTopBar->Parent(this);
 	mVolume->Parent(mTopBar);
@@ -19,10 +19,10 @@ OptionScreen::OptionScreen() {
 	mOptMenu->Position(0, 0.0f);
 
 	mPlayModes = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.7f);
-	mStartMode = new GLTexture("START", "gunship.ttf", 18, { 230, 230, 230 });
-	mCreditsMode = new GLTexture("CREDITS", "gunship.ttf", 18, { 230, 230, 230 });
-	mHighScoreMode = new GLTexture("HIGHSCORES", "gunship.ttf", 18, { 230, 230, 230 });
-	mBackMode = new GLTexture("BACK", "gunship.ttf", 18, { 230, 230, 230 });
+	mStartMode = new GLTexture("START", "ARCADE.ttf", 18, { 230, 230, 230 });
+	mCreditsMode = new GLTexture("CREDITS", "ARCADE.ttf", 18, { 230, 230, 230 });
+	mHighScoreMode = new GLTexture("HIGHSCORES", "ARCADE.ttf", 18, { 230, 230, 230 });
+	mBackMode = new GLTexture("BACK", "ARCADE.ttf", 18, { 230, 230, 230 });
 	mCursor = new GLTexture("Cursor.png");
 	mCursor->Scale(Vector2(0.5f, 0.5f));
 
@@ -44,9 +44,9 @@ OptionScreen::OptionScreen() {
 	mCursorStartPos = mCursor->Position(Local);
 
 	mBottomBar = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.8f);
-	mTaito = new GLTexture("TAITO", "gunshiphalf.ttf", 24, { 0, 255, 0 });
-	mDates = new GLTexture("1978 - 1997 TAITO CORP.", "gunship.ttf", 18, { 230, 230, 230 });
-	mRights = new GLTexture("ALL RIGHTS RESERVED", "gunship.ttf", 18, { 230, 230, 230 });
+	mTaito = new GLTexture("TAITO", "ARCADE.ttf", 24, { 0, 255, 0 });
+	mDates = new GLTexture("1978 - 1997 TAITO CORP.", "ARCADE.ttf", 18, { 230, 230, 230 });
+	mRights = new GLTexture("ALL RIGHTS RESERVED", "ARCADE.ttf", 18, { 230, 230, 230 });
 
 	mBottomBar->Parent(this);
 	mTaito->Parent(mBottomBar);

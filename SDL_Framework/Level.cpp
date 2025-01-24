@@ -15,7 +15,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 
 	mLabelTimer = 0.0f;
 
-	mStageLabel = new GLTexture("STAGE", "gunshiphalf.ttf", 24, { 0, 255, 0 });
+	mStageLabel = new GLTexture("STAGE", "ARCADE.ttf", 24, { 0, 255, 0 });
 	mStageLabel->Parent(this);
 	mStageLabel->Position(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.6f);
 
@@ -27,7 +27,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	mStageLabelOnScreen = 0.0f;
 	mStageLabelOffScreen = 1.5f;
 
-	mReadyLabel = new GLTexture("READY", "gunshiphalf.ttf", 24, { 150, 0,0 });
+	mReadyLabel = new GLTexture("READY", "ARCADE.ttf", 24, { 150, 0,0 });
 	mReadyLabel->Parent(this);
 	mReadyLabel->Position(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.6f);
 
@@ -39,7 +39,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	mRespawnDelay = 3.0f;
 	mRespawnLabelOnScreen = 2.0f;
 
-	mGameOverLabel = new GLTexture("GAME OVER!!", "gunshiphalf.ttf", 24, { 150, 0, 0 });
+	mGameOverLabel = new GLTexture("GAME OVER!!", "ARCADE.ttf", 24, { 150, 0, 0 });
 	mGameOverLabel->Parent(this);
 	mGameOverLabel->Position(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f);
 

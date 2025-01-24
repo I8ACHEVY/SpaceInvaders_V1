@@ -98,7 +98,7 @@ namespace SDL_Framework
 	}
 
 	SDL_Surface* Graphics::CreateTextSurface(TTF_Font* font, std::string text, SDL_Color color) {
-		SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), color);					//blended possible error
+		SDL_Surface* surface = TTF_RenderUTF8_Blended(font, text.c_str(), color);					//blended possible error TTF_RenderText_Blended
 
 		if (surface == nullptr) {
 			std::cerr << "CreateTextTexture:: TTF_RenderText_Blended Error: " << TTF_GetError() << std::endl;

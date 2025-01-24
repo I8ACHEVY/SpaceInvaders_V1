@@ -14,15 +14,15 @@ PlaySideBar::PlaySideBar() {
 	mBottomBackground->Scale(Vector2(8.8f, 1.0f));
 	mBottomBackground->Position(-410.0f, 850.0f);
 
-	mHighLabel = new GLTexture("HIGH SCORE", "emulogic.ttf", 12, { 0, 255, 0 });
+	mHighLabel = new GLTexture("HIGH SCORE", "ARCADE.ttf", 12, { 0, 255, 0 });
 	mHighLabel->Parent(this);
 	mHighLabel->Position(-390.0f, 350.0f);
 
-	mP1ScoreLabel = new GLTexture("SCORE<1>", "emulogic.ttf", 12, { 0, 255, 0 });
+	mP1ScoreLabel = new GLTexture("SCORE<1>", "ARCADE.ttf", 12, { 0, 255, 0 });
 	mP1ScoreLabel->Parent(this);
 	mP1ScoreLabel->Position(-580.0f, 350.0f);
 
-	mP2ScoreLabel = new GLTexture("SCORE<2>", "emulogic.ttf", 12, { 0, 255, 0 });
+	mP2ScoreLabel = new GLTexture("SCORE<2>", "ARCADE.ttf", 12, { 0, 255, 0 });
 	mP2ScoreLabel->Parent(this);
 	mP2ScoreLabel->Position(-200.0f, 350.0f);
 
@@ -30,7 +30,7 @@ PlaySideBar::PlaySideBar() {
 	mHighScoreBoard->Parent(this);
 	mHighScoreBoard->Position(-343.0f, 380.0f);
 
-	mOneUpLabel = new GLTexture("1UP", "emulogic.ttf", 20, { 0, 255, 0 });
+	mOneUpLabel = new GLTexture("1UP", "ARCADE.ttf", 20, { 0, 255, 0 });
 	mOneUpLabel->Parent(this);
 	mOneUpLabel->Position(-400.0f, 836.0f);
 
