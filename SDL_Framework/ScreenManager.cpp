@@ -132,6 +132,7 @@ void ScreenManager::Update() {
 				mCurrentScreen = HighScore;
 			}
 			if (selectedMode == 3) {
+
 				mCurrentScreen = Start;
 			}
 		}

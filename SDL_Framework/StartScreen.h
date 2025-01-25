@@ -1,5 +1,6 @@
 #pragma once
 #include "GLAnimatedTexture.h"
+#include "AudioManager.h"
 #include "InputManager.h"
 #include "ScoreBoard.h"
 
@@ -20,9 +21,9 @@ public:
 	void Render() override;
 
 private:
-
 	Timer* mTimer;
 	InputManager* mInputManager;
+	AudioManager* mAudio;
 
 	Vector2 mAnimationStartPos;
 	Vector2 mAnimationEndPos;

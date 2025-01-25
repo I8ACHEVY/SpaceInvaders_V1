@@ -2,9 +2,10 @@
 
 HighScoreTable::HighScoreTable() {
 	mInputManager = InputManager::Instance();
+	mAudio = AudioManager::Instance();
 
 	mTopBar = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, 410.0f);
-	mHighScores = new GLTexture("HighScore Table", "ARCADE.ttf", 24, { 0, 255, 0 });
+	mHighScores = new GLTexture("HighScore Table", "ARCADE.ttf", 30, { 0, 255, 0 });
 
 	mTopBar->Parent(this);
 	mHighScores->Parent(mTopBar);
@@ -12,10 +13,10 @@ HighScoreTable::HighScoreTable() {
 	mHighScores->Position(0, 0.0f);
 
 	mPlayModes = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.7f);
-	mStartMode = new GLTexture("Start", "ARCADE.ttf", 18, { 230, 230, 230 });
-	mOptionsMode = new GLTexture("Options", "ARCADE.ttf", 18, { 230, 230, 230 });
-	mCreditsMode = new GLTexture("Credits", "ARCADE.ttf", 18, { 230, 230, 230 });
-	mBackMode = new GLTexture("Back", "ARCADE.ttf", 18, { 230, 230, 230 });
+	mStartMode = new GLTexture("Start", "ARCADE.ttf", 25, { 230, 230, 230 });
+	mOptionsMode = new GLTexture("Options", "ARCADE.ttf", 25, { 230, 230, 230 });
+	mCreditsMode = new GLTexture("Credits", "ARCADE.ttf", 25, { 230, 230, 230 });
+	mBackMode = new GLTexture("Back", "ARCADE.ttf", 25, { 230, 230, 230 });
 	mCursor = new GLTexture("Cursor.png");
 	mCursor->Scale(Vector2(0.5f, 0.5f));
 
@@ -26,7 +27,7 @@ HighScoreTable::HighScoreTable() {
 	mBackMode->Parent(mPlayModes);
 	mCursor->Parent(mPlayModes);
 
-	mStartMode->Position(0.0f, -28.0f);
+	mStartMode->Position(0.0f, -30.0f);
 	mOptionsMode->Position(0.0f, 0.0f);
 	mCreditsMode->Position(0.0f, 30.0f);
 	mBackMode->Position(0.0f, 60.0f);
@@ -37,9 +38,9 @@ HighScoreTable::HighScoreTable() {
 	mCursorStartPos = mCursor->Position(Local);
 
 	mBottomBar = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.8f);
-	mTaito = new GLTexture("taito", "ARCADE.ttf", 24, { 0, 255, 0 });
-	mDates = new GLTexture("1978 - 1997 taito corp.", "ARCADE.ttf", 18, { 230, 230, 230 });
-	mRights = new GLTexture("ALL RIGHTS RESERVED", "ARCADE.ttf", 18, { 230, 230, 230 });
+	mTaito = new GLTexture("TAITO", "ARCADE.ttf", 40, { 0, 255, 0 });
+	mDates = new GLTexture("1978 - 1997 TAITO CORP.", "ARCADE.ttf", 25, { 230, 230, 230 });
+	mRights = new GLTexture("ALL RIGHTS RESERVED", "ARCADE.ttf", 25, { 230, 230, 230 });
 
 	mBottomBar->Parent(this);
 	mTaito->Parent(mBottomBar);
@@ -75,9 +76,11 @@ void HighScoreTable::Update() {
 
 	if (mInputManager->KeyPressed(SDL_SCANCODE_DOWN)) {
 		ChangeSelectedMode(1);
+		mAudio->PlaySFX("futuristicShot.wav", 0);
 	}
 	else if (mInputManager->KeyPressed(SDL_SCANCODE_UP)) {
 		ChangeSelectedMode(-1);
+		mAudio->PlaySFX("futuristicShot.wav", 0);
 	}
 }
 
@@ -97,6 +100,7 @@ void HighScoreTable::Render() {
 }
 
 HighScoreTable::~HighScoreTable() {
+	mAudio = nullptr;
 
 	delete mTopBar;
 	mTopBar = nullptr;

@@ -1,6 +1,7 @@
 #pragma once
 #include "GLAnimatedTexture.h"
 #include "InputManager.h"
+#include "AudioManager.h"
 
 using namespace SDL_Framework;
 
@@ -20,6 +21,7 @@ private:
 
 	Timer* mTimer;
 	InputManager* mInputManager;
+	AudioManager* mAudio;
 
 	GameEntity* mTopBar;
 	Texture* mPart;

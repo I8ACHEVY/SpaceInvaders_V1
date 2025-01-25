@@ -3,6 +3,7 @@
 StartScreen::StartScreen() {
 	mTimer = Timer::Instance();
 	mInputManager = InputManager::Instance();
+	mAudio = AudioManager::Instance();
 
 	mAnimationStartPos = Vector2(0.0f, Graphics::SCREEN_HEIGHT * 0.5f);
 	mAnimationEndPos = Vec2_Zero;
@@ -11,9 +12,9 @@ StartScreen::StartScreen() {
 	mAnimationDone = false;
 
 mTopBar = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, 410.0f);
-mPlayer1 = new GLTexture("1UP", "ARCADE.ttf", 15, { 0, 255, 0 });
-mPlayer2 = new GLTexture("2UP", "ARCADE.ttf", 15, { 0, 255, 0 });
-mHiScore = new GLTexture("HI SCORE", "ARCADE.ttf", 15, { 0, 255, 0 });
+mPlayer1 = new GLTexture("1UP", "ARCADE.ttf", 30, { 0, 255, 0 });
+mPlayer2 = new GLTexture("2UP", "ARCADE.ttf", 30, { 0, 255, 0 });
+mHiScore = new GLTexture("HI SCORE", "ARCADE.ttf", 30, { 0, 255, 0 });
 mPlayer1Score = new Scoreboard({ 255, 255, 255 });
 mPlayer2Score = new Scoreboard({ 255, 255, 255 });
 mTopScore = new Scoreboard();
@@ -40,6 +41,8 @@ mLogo = new GLTexture("InvaderSprites.png", -10, 0, 520, 184);
 mAnimatedLogo = new GLAnimatedTexture("InvaderSprites.png", -10, 0, 520, 184, 0, 0.5f,
 	Animation::Layouts::Vertical);
 
+mAudio->PlaySFX("HybridLogo.wav", 0);
+
 mLogoHolder->Parent(this);
 mLogo->Parent(mLogoHolder);
 mAnimatedLogo->Parent(mLogoHolder);
@@ -49,10 +52,10 @@ mAnimatedLogo->Position(Vec2_Zero);
 
 
 mPlayModes = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.7f);
-mStartMode = new GLTexture("Start", "ARCADE.ttf", 18, { 230, 230, 230 });
-mOptionsMode = new GLTexture("Options", "ARCADE.ttf", 18, { 230, 230, 230 });
-mCreditsMode = new GLTexture("Credits", "ARCADE.ttf", 18, { 230, 230, 230 });
-mHighScoreMode = new GLTexture("HighScores", "ARCADE.ttf", 18, { 230, 230, 230 });
+mStartMode = new GLTexture("Start", "ARCADE.ttf", 25, { 230, 230, 230 });
+mOptionsMode = new GLTexture("Options", "ARCADE.ttf", 25, { 230, 230, 230 });
+mCreditsMode = new GLTexture("Credits", "ARCADE.ttf", 25, { 230, 230, 230 });
+mHighScoreMode = new GLTexture("HighScores", "ARCADE.ttf", 25, { 230, 230, 230 });
 mCursor = new GLTexture("Cursor.png");
 mCursor->Scale(Vector2(0.5f, 0.5f));
 
@@ -67,16 +70,16 @@ mStartMode->Position(0.0f, -28.0f);
 mOptionsMode->Position(0.0f, 0.0f);
 mCreditsMode->Position(0.0f, 30.0f);
 mHighScoreMode->Position(0.0f, 60.0f);
-mCursor->Position(-90.0f, -28.0f);
+mCursor->Position(-90.0f, -30.0f);
 
 mSelectedMode = 0;
 mCursorOffsetPos = Vector2(0.0f, 29.0f);
 mCursorStartPos = mCursor->Position(Local);
 
 mBottomBar = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.8f);
-mTaito = new GLTexture("TAITO", "ARCADE.ttf", 24, { 0, 255, 0 });
-mDates = new GLTexture("1978 - 1997 TAITO CORP.", "ARCADE.ttf", 18, { 230, 230, 230 });
-mRights = new GLTexture("ALL RIGHTS RESERVED", "ARCADE.ttf", 18, { 230, 230, 230 });
+mTaito = new GLTexture("TAITO", "ARCADE.ttf", 40, { 0, 255, 0 });
+mDates = new GLTexture("1978 - 1997 TAITO CORP.", "ARCADE.ttf", 25, { 230, 230, 230 });
+mRights = new GLTexture("ALL RIGHTS RESERVED", "ARCADE.ttf", 25, { 230, 230, 230 });
 
 mBottomBar->Parent(this);
 mTaito->Parent(mBottomBar);
@@ -140,9 +143,11 @@ void StartScreen::Update() {
 
 		if (mInputManager->KeyPressed(SDL_SCANCODE_DOWN)) {
 			ChangeSelectedMode(1);
+			mAudio->PlaySFX("futuristicShot.wav", 0);
 		}
 		else if (mInputManager->KeyPressed(SDL_SCANCODE_UP)) {
 			ChangeSelectedMode(-1);
+			mAudio->PlaySFX("futuristicShot.wav", 0);
 		}
 	}
 }
@@ -197,6 +202,7 @@ StartScreen::~StartScreen() {
 	mLogo = nullptr;
 	delete mAnimatedLogo;
 	mAnimatedLogo = nullptr;
+	mAudio = nullptr;
 
 	delete mPlayModes;
 	mPlayModes = nullptr;
