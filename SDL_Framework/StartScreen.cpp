@@ -41,8 +41,6 @@ mLogo = new GLTexture("InvaderSprites.png", -10, 0, 530, 184);
 mAnimatedLogo = new GLAnimatedTexture("InvaderSprites.png", -10, 0, 530, 184, 0, 0.5f,
 	Animation::Layouts::Vertical);
 
-mAudio->PlaySFX("HybridLogo.wav", 0);
-
 mLogoHolder->Parent(this);
 mLogo->Parent(mLogoHolder);
 mAnimatedLogo->Parent(mLogoHolder);
@@ -50,6 +48,7 @@ mAnimatedLogo->Parent(mLogoHolder);
 mLogo->Position(Vec2_Zero);
 mAnimatedLogo->Position(Vec2_Zero);
 
+mAudio->PlaySFX("HybridLogo.wav", 0);
 
 mPlayModes = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.7f);
 mStartMode = new GLTexture("Start", "ARCADE.ttf", 25, { 230, 230, 230 });

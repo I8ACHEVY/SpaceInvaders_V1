@@ -32,7 +32,7 @@ public:
 	void Hit(PhysEntity* other) override;
 
 private:
-	static const int MAX_BULLETS = 2;
+	static const int MAX_BULLETS = 1;
 	Bullet* mBullets[MAX_BULLETS];
 
 	bool mWasHit;
