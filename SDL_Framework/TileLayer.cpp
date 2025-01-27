@@ -15,7 +15,7 @@ namespace SDL_Framework {
 	TileLayer::~TileLayer() {
 		for (int i = 0; i < tiles.size(); i++) {
 			for (int j = 0; j < tiles[i].size(); j++) {
-				delete tiles[i][j];
+				tiles[i].clear();
 			}
 			tiles[i].clear();
 		}
@@ -33,6 +33,6 @@ namespace SDL_Framework {
 	}
     bool TileLayer::IsTileHit(int row, int column, const Bullet& bullet) {
         tiles[row][column].Hit(const_cast<Bullet*>(&bullet));
-		mWasHit = true;
+		return mWasHit = true;
     }
 }

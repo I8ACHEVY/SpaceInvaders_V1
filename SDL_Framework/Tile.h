@@ -13,16 +13,14 @@ namespace SDL_Framework {
 		Tile(int index, bool challenge);
 		~Tile();
 
-		bool mWasHit;
-
 	private:
 		static std::vector<std::vector<Vector2>> sDivePaths;
 
 		int mCurrentPath;
-
+		int mHitCount;
 		int mCurrentTextureIndex;
 
-	
+		bool mWasHit;
 
 		Vector2 LocalFormationPosition() override;
 

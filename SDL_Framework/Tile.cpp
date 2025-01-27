@@ -3,19 +3,27 @@
 #include "AudioManager.h"
 
 void Tile::Hit(PhysEntity* other) {
-	if (mWasHit) {
-		Enemy::Hit(other);
-		AudioManager::Instance()->PlaySFX("BossDestroyed.wav", 0, 2);
-		Enemy::Hit(other);
+	mHitCount++;
+
+	if (mHitCount >= 5) {
+		this->Active(false);
+		return;
 	}
-	else {
+
+	mCurrentTextureIndex = mHitCount - 1;
+
+	if (mCurrentTextureIndex >= 0 && mCurrentTextureIndex < 4) {
+		SDL_Rect temp = { mCurrentTextureIndex * 18, 2, 16, 16 };
+		mTexture[mCurrentTextureIndex]->SetSourceRect(&temp);
+	}
+
+	if (mHitCount == 4) {
+		AudioManager::Instance()->PlaySFX("BossDestroyed.wav", 0, 2);
 		mWasHit = true;
-		SDL_Rect temp = { 0, 64, 60, 64 };
-		mTexture[0]->SetSourceRect(&temp);
-		temp.x = 66;
-		temp.y = 68;
-		mTexture[1]->SetSourceRect(&temp);
+	}
+	else{
 		AudioManager::Instance()->PlaySFX("BossInjured.wav", 0, -1);
+		
 	}
 }
 
