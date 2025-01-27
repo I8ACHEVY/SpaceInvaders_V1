@@ -197,6 +197,8 @@ xcopy "$(ProjectDir)\Data\*" "$(OutDir)Data\" /y /s
     <ClCompile Include="StarLayer.cpp" />
     <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TileLayer.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Tinyxml2.cpp" />
     <ClCompile Include="Octopus.cpp" />
@@ -242,6 +244,8 @@ xcopy "$(ProjectDir)\Data\*" "$(OutDir)Data\" /y /s
     <ClInclude Include="StarLayer.h" />
     <ClInclude Include="StartScreen.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="TileLayer.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Tinyxml2.h" />
     <ClInclude Include="Octopus.h" />

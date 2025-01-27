@@ -12,6 +12,16 @@ PlayScreen::PlayScreen() {
 	mStartLabel->Parent(this);
 	mStartLabel->Position(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.6f);
 
+	//mTexture[0] = new GLTexture("InvaderSprites.png", 0, 313, 150, 85);
+	//mTexture[1] = new GLTexture("InvaderSprites.png", 155, 313, 150, 85);
+
+	//for (auto texture : mTexture) {
+	//	texture->Parent(this);
+	//	texture->Position(Vec2_Zero);
+	//	//texture->Scale(Vector2(1.7f, 1.7f));
+
+	//}
+
 	mLevel = nullptr;
 	mLevelStartDelay = 6.0f;
 	mLevelStarted = false;
@@ -34,6 +44,9 @@ PlayScreen::~PlayScreen() {
 
 	delete mStartLabel;
 	mStartLabel = nullptr;
+
+	//delete mTexture;
+	//mTexture = nullptr;
 
 	delete mLevel;
 	mLevel = nullptr;
@@ -109,6 +122,7 @@ void PlayScreen::Update() {
 void PlayScreen::Render() {
 	if (!mGameStarted) {
 		mStartLabel->Render();
+		//mTexture->Render();
 	}
 
 	if (mGameStarted) {

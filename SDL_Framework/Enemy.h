@@ -12,7 +12,7 @@ using namespace SDL_Framework;
 class Enemy : public PhysEntity {
 public:
 	enum States { FlyIn, InFormation, Diving, Dead };
-	enum Types { Crab, Octopus, Squid, RedShips};
+	enum Types { Crab, Octopus, Squid, RedShips, Tile};
 
 	//static void CreatePaths();
 	static void SetFormation(Formation* formation);

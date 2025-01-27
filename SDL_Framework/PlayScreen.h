@@ -28,6 +28,7 @@ private:
 	Player* mPlayer;
 
 	Texture* mStartLabel;
+	//Texture* mTexture[2];
 
 	Level* mLevel;
 
