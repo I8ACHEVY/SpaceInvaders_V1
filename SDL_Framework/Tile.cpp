@@ -5,6 +5,10 @@
 
 namespace SDL_Framework {
 
+	Vector2 Tile::GetScaledDimensions() {
+		return mTexture[0]->ScaledDimensions();
+	}
+
 	void Tile::Hit(PhysEntity* other) {
 		mHitCount++;
 
@@ -55,11 +59,11 @@ namespace SDL_Framework {
 	}
 
 	bool Tile::IgnoreCollision() {
-        return !this->GameEntity::Active();
+        return !this->Active();
 	}
 
     void Tile::Render() {
-        if (this->GameEntity::Active()) {
+        if (this->Active()) {
             mTexture[mCurrentTextureIndex]->Render();
         }
     }

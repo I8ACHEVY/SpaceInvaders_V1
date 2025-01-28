@@ -454,7 +454,7 @@ void Level::Update() {
 		HandleStartLabels();
 	}
 	else {
-		mTileLayer->Update();
+		
 
 		if (!mSpawningFinished) {
 			HandleEnemySpawning();
@@ -480,6 +480,7 @@ void Level::Update() {
 			}
 		}
 	}
+	mTileLayer->Update();
 }
 
 void Level::Render() {
@@ -490,7 +491,7 @@ void Level::Render() {
 
 			mStageLabel->Render();
 			mStageNumber->Render();
-			mTileLayer->Render();
+
 		}
 
 		else if (mLabelTimer > mReadyLabelOnScreen && mLabelTimer < mReadyLabelOffScreen) {
@@ -544,4 +545,5 @@ void Level::Render() {
 			}
 		}
 	}
+	mTileLayer->Render();
 }

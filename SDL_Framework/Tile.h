@@ -16,6 +16,8 @@ namespace SDL_Framework {
 		void Render() override;
 		//void Update() override;
 
+		Vector2 GetScaledDimensions();
+
 	private:
 		int mHitCount;
 		int mCurrentTextureIndex;
