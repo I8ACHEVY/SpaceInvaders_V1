@@ -53,7 +53,7 @@ Player::Player() {
 	mMoveSpeed = 250.0f;
 	mMoveBounds = Vector2(300.0f, 780.0f);
 
-	mTank = new GLTexture("InvaderSprites.png", 278, 228, 28, 17);
+	mTank = new GLTexture("InvaderSprites.png", 278, 228, 27, 17);
 	mTank->Parent(this);
 	mTank->Position(Vec2_Zero);
 	//mShip->Scale(Vector2(1.5f, 1.5f));
@@ -65,9 +65,7 @@ Player::Player() {
 	mDeathAnimation->Position(Vec2_Zero);
 	mDeathAnimation->SetWrapMode(Animation::WrapModes::Once);
 
-	AddCollider(new BoxCollider(Vector2(10.0f, 45.0f)));
-	AddCollider(new BoxCollider(Vector2(18.0f, 32.0f)), Vector2(12.0f, 5.0f));
-	AddCollider(new BoxCollider(Vector2(18.0f, 32.0f)), Vector2(-12.0f, 5.0f));
+	AddCollider(new BoxCollider(mTank->ScaledDimensions()));
 
 	mId = PhysicsManager::Instance()->RegisterEntity(this,
 		PhysicsManager::CollisionLayers::Friendly);
