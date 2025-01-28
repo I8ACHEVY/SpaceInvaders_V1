@@ -3,11 +3,12 @@
 
 namespace SDL_Framework {
 	TileLayer::TileLayer(int numRows, int numTilesPerRow, float spacing) {
+		const std::vector<float> xPositions = {400, 500, 600, 700}; 
 		for (int j = 0; j < numRows; j++) {
 			for (int i = 0; i < numTilesPerRow; i++) {
 				Tile* tile = new Tile(i, false);
-				tile->Position(Vector2(i * (tile->GetScaledDimensions().x + spacing),
-									   j * (tile->GetScaledDimensions().y + spacing) + 700));
+				float xPos = xPositions[i % xPositions.size()]; 
+				tile->Position(Vector2(xPos, j * (tile->GetScaledDimensions().y + spacing) + 760));
 				mTiles.push_back(tile);
 			}
 		}

@@ -46,9 +46,11 @@ namespace SDL_Framework {
 			//mTexture[i]->Scale(Vector2(1.7f, 1.7f));
 		}
 
-		AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
+		AddCollider(new BoxCollider(mTexture[3]->ScaledDimensions()));
+		std::cout << "Collider added with dimensions: " << mTexture[3]->ScaledDimensions().x 
+			<< ", " << mTexture[3]->ScaledDimensions().y << std::endl;
 
-		mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Barracks); //add new collision layer for barracks
+		mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Barracks);
 	}
 
 	Tile::~Tile() {
