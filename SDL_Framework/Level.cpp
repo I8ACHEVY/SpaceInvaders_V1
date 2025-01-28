@@ -53,7 +53,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	int numTilesPerRow = 10;
 	float spacing = 10.0f;
 
-	mTileLayer = new TileLayer(4, 4, 0.0f);
+	mTileLayer = new TileLayer(4, 10, 1.0f);
 
 	mCrabCount = 0;
 	mOctopusCount = 0;

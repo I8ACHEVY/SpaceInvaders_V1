@@ -7,7 +7,7 @@ namespace SDL_Framework {
 			for (int i = 0; i < numTilesPerRow; i++) {
 				Tile* tile = new Tile(i, false);
 				tile->Position(Vector2(i * (tile->GetScaledDimensions().x + spacing),
-									   j * (tile->GetScaledDimensions().y + spacing) + 500));
+									   j * (tile->GetScaledDimensions().y + spacing) + 700));
 				mTiles.push_back(tile);
 			}
 		}
