@@ -49,6 +49,12 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 
 	mCurrentState = Running;
 
+	int numRows = 3;
+	int numTilesPerRow = 10;
+	float spacing = 10.0f;
+
+	mTileLayer = new TileLayer(4, 4, 0.0f);
+
 	mCrabCount = 0;
 	mOctopusCount = 0;
 	mSquidCount = 0;
@@ -437,156 +443,18 @@ void Level::HandleEnemyFormation() {
 			}
 		}
 	}
-	//else {
-	//	HandleEnemyDiving();
-	//}
 
 	if (levelCleared) {
 		mCurrentState = Finished;
 	}
 }
 
-//void Level::HandleEnemyDiving() {
-//
-//	if (mDivingCrab == nullptr) {
-//		mCrabDiveTimer += mTimer->DeltaTime();
-//
-//		if (mCrabDiveTimer >= mCrabDiveDelay) {
-//			bool skipped = false;
-//
-//			for (int i = MAX_CRABS - 1; i >= 0; i--) {
-//				if (mFormationCrabs[i] != nullptr
-//					&& mFormationCrabs[i]->CurrentState() == Enemy::InFormation) {
-//					if (!mSkipFirstCrab || (mSkipFirstCrab && skipped)) {
-//						mDivingCrab = mFormationCrabs[i];
-//						mDivingCrab->Dive();
-//						mSkipFirstCrab = !mSkipFirstCrab;
-//						break;
-//					}
-//				}
-//				skipped = true;
-//			}
-//
-//			mCrabDiveTimer = 0.0f;
-//		}
-//	}
-//	else {
-//		if (mDivingCrab->CurrentState() != Enemy::Diving) {
-//			mDivingCrab = nullptr;
-//		}
-//	}
-//
-//	mOctopusDiveTimer += mTimer->DeltaTime();
-//	if (mOctopusDiveTimer >= mOctopusDiveDelay) {
-//		for (int i = MAX_OCTOPI - 1; i >= 0; i--) {
-//			if (mFormationOctopi[i]->CurrentState() == Enemy::InFormation) {
-//				if (mDivingOctopus == nullptr) {
-//					mDivingOctopus = mFormationOctopi[i];
-//					mDivingOctopus->Dive();
-//				}
-//				else if (mDivingOctopus2 == nullptr) {
-//					mDivingOctopus2 = mFormationOctopi[i];
-//					mDivingOctopus2->Dive();
-//				}
-//				break;
-//			}
-//		}
-//
-//		mOctopusDiveTimer = 0.0f;
-//	}
-//
-//	if (mDivingOctopus != nullptr && mDivingOctopus->CurrentState() != Enemy::Diving) {
-//		mDivingOctopus = nullptr;
-//	}
-//	if (mDivingOctopus2 != nullptr && mDivingOctopus2->CurrentState() != Enemy::Diving) {
-//		mDivingOctopus2 = nullptr;
-//	}
-//
-//	if (mDivingShip == nullptr) {
-//		mShipDiveTimer += mTimer->DeltaTime();
-//
-//		if (mShipDiveTimer >= mShipDiveDelay) {
-//			bool skipped = false;
-//
-//			for (int i = MAX_SHIPS - 1; i >= 0; i--) {
-//				if (mFormationShip[i] != nullptr
-//					&& mFormationShip[i]->CurrentState() == Enemy::InFormation) {
-//					if (!mSkipFirstShip || (mSkipFirstShip && skipped)) {
-//						mDivingShip = mFormationShip[i];
-//						mDivingShip->Dive();
-//						mSkipFirstShip = !mSkipFirstShip;
-//						break;
-//					}
-//				}
-//				skipped = true;
-//			}
-//
-//			mShipDiveTimer = 0.0f;
-//		}
-//	}
-//	else {
-//		if (mDivingShip->CurrentState() != Enemy::Diving) {
-//			mDivingShip = nullptr;
-//		}
-//	}
-//
-//	if (mDivingSquid == nullptr) {
-//		mSquidDiveTimer += mTimer->DeltaTime();
-//
-//		if (mSquidDiveTimer >= mSquidDiveDelay) {
-//			bool skipped = false;
-//			for (int i = MAX_SQUIDS - 1; i >= 0; i--) {
-//				if (mFormationSquids[i]->CurrentState() == Enemy::InFormation) {
-//					if (!mSkipFirstSquid || (mSkipFirstSquid && skipped)) {
-//						mDivingSquid = mFormationSquids[i];
-//						if (mCaptureDive) {
-//							mDivingSquid->Dive(1);
-//						}
-//						else {
-//							mDivingSquid->Dive();
-//							int index = mDivingSquid->Index();
-//							int firstEscortIndex = (index % 2 == 0) ? (index * 2) : (index * 2 - 1);
-//							int secondEscortIndex = firstEscortIndex + 4;
-//
-//							int thirdEscortIndex = -1;			//RedShip Escort 
-//							
-//							if (mFormationShip[i] != nullptr) {
-//								thirdEscortIndex = mDivingSquid->Index();	// have RedShip associated with captureboss by index
-//							}
-//
-//							if (mFormationCrabs[firstEscortIndex]->CurrentState() == Enemy::InFormation) {
-//								mFormationCrabs[firstEscortIndex]->Dive(1);
-//							}
-//							if (mFormationCrabs[secondEscortIndex]->CurrentState() == Enemy::InFormation) {
-//								mFormationCrabs[secondEscortIndex]->Dive(1);
-//							}
-//							if (thirdEscortIndex != -1 && mFormationShip[thirdEscortIndex]->CurrentState() == Enemy::InFormation) {
-//								mFormationShip[thirdEscortIndex]->Dive(1);
-//							}
-//						}
-//						mSkipFirstSquid = !mSkipFirstSquid;
-//						mCaptureDive = !mCaptureDive;
-//						break;
-//					}
-//					skipped = true;
-//				}
-//			}
-//
-//			mSquidDiveTimer = 0.0f;
-//		}
-//	}
-//	else {
-//		if (mDivingSquid->CurrentState() != Enemy::Diving) {
-//			mDivingSquid = nullptr;
-//		}
-//	}
-//}
-
 void Level::Update() {
 	if (!mStageStarted) {
 		HandleStartLabels();
 	}
 	else {
+		mTileLayer->Update();
 
 		if (!mSpawningFinished) {
 			HandleEnemySpawning();
@@ -622,6 +490,7 @@ void Level::Render() {
 
 			mStageLabel->Render();
 			mStageNumber->Render();
+			mTileLayer->Render();
 		}
 
 		else if (mLabelTimer > mReadyLabelOnScreen && mLabelTimer < mReadyLabelOffScreen) {
@@ -630,6 +499,8 @@ void Level::Render() {
 	}
 
 	else {
+		
+
 		if (!mChallengeStage) {
 			for (Crab* crab : mFormationCrabs) {
 				if (crab != nullptr) {

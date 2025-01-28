@@ -122,6 +122,10 @@ namespace SDL_Framework {
 			PhysicsManager::CollisionFlags::Friendly |
 			PhysicsManager::CollisionFlags::FriendlyProjectile);
 
+		mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::Barracks,
+			PhysicsManager::CollisionFlags::HostileProjectile|
+			PhysicsManager::CollisionFlags::FriendlyProjectile);
+
 	}
 
 	GameManager::~GameManager() {

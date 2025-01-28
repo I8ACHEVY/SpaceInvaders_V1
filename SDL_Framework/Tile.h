@@ -1,28 +1,27 @@
 #pragma once
-#include "Enemy.h"
+#include "PhysicsEntity.h"
 #include "Random.h"
 #include "GLTexture.h"
 
 namespace SDL_Framework {
 
-	class Tile : public Enemy {
+	class Tile : public PhysEntity {
 	public:
-
-		void Hit(PhysEntity* other) override;
 
 		Tile(int index, bool challenge);
 		~Tile();
 
-	private:
-		static std::vector<std::vector<Vector2>> sDivePaths;
+		void Hit(PhysEntity* other) override;
+		bool IgnoreCollision() override;
+		void Render() override;
+		//void Update() override;
 
-		int mCurrentPath;
+	private:
 		int mHitCount;
 		int mCurrentTextureIndex;
-
 		bool mWasHit;
 
-		Vector2 LocalFormationPosition() override;
+		GLTexture* mTexture[4];
 
 	};
 }

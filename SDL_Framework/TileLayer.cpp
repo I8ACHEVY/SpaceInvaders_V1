@@ -1,38 +1,40 @@
 #include "TileLayer.h"
+#include "PhysicsManager.h"
 
 namespace SDL_Framework {
-	TileLayer::TileLayer(int rows, int columns) {
-		tiles.resize(rows);
-		for (int i = 0; i < rows; i++) {
-			std::vector<Tile> row;
-
-			for (int j = 0; j < columns; j++) {
-				row.push_back(Tile(j, false));
+	TileLayer::TileLayer(int numRows, int numTilesPerRow, float spacing) {
+		for (int j = 0; j < numRows; j++) {
+			for (int i = 0; i < numTilesPerRow; i++) {
+				Tile* tile = new Tile(i, false);
+				tile->Position(Vector2(i * (tile->Scale().x + spacing),
+									   j * (tile->Scale().y + spacing) + 500));
+				mTiles.push_back(tile);
 			}
-			tiles[i] = std::move(row);
 		}
 	}
 	TileLayer::~TileLayer() {
-		for (int i = 0; i < tiles.size(); i++) {
-			for (int j = 0; j < tiles[i].size(); j++) {
-				tiles[i].clear();
-			}
-			tiles[i].clear();
+		for (Tile* tile : mTiles) {
+			delete tile;
+			tile = nullptr;
 		}
-		tiles.clear();
+		mTiles.clear();
 	}
 	void TileLayer::Render() {
-		for (int i = 0; i < tiles.size(); i++) {
-			for (int j = 0; j < tiles[i].size(); j++) {
-				tiles[i][j].Render();
-			}
+		for (Tile* tile : mTiles) {
+			tile->Render();
 		}
 	}
-	void TileLayer::RemoveTile(int row, int column) {
-		tiles[row][column].Hit(nullptr);
+	
+	void TileLayer::Update() {
+		for (Tile* tile : mTiles) {
+			tile->Update();
+		}
 	}
-    bool TileLayer::IsTileHit(int row, int column, const Bullet& bullet) {
-        tiles[row][column].Hit(const_cast<Bullet*>(&bullet));
-		return mWasHit = true;
-    }
 }
+
+// render 
+//int numRows = 3;
+//int numTilesPerRow = 10;
+//float spacing = 10.0f;
+
+//mTileLayer = new TileLayer(numRows, numTilesPerRow, spacing);

@@ -5,6 +5,7 @@
 #include "Octopus.h"
 #include "Squid.h"
 #include "RedShip.h"
+#include "TileLayer.h"
 #include "Tinyxml2.h"
 
 using namespace SDL_Framework;
@@ -38,7 +39,8 @@ private:
 	int mOctopusCount;
 	int mSquidCount;
 	int mShipCount;
-
+	
+	TileLayer* mTileLayer;
 	Crab* mFormationCrabs[MAX_CRABS];
 	Octopus* mFormationOctopi[MAX_OCTOPI];
 	Squid* mFormationSquids[MAX_SQUIDS];

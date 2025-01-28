@@ -1,71 +1,66 @@
 #include "Tile.h"
+#include "PhysicsManager.h"
 #include "BoxCollider.h"
 #include "AudioManager.h"
 
-void Tile::Hit(PhysEntity* other) {
-	mHitCount++;
+namespace SDL_Framework {
 
-	if (mHitCount >= 5) {
-		this->Active(false);
-		return;
-	}
+	void Tile::Hit(PhysEntity* other) {
+		mHitCount++;
 
-	mCurrentTextureIndex = mHitCount - 1;
+		if (mHitCount >= 4) {
+			this->Active(false);
+			AudioManager::Instance()->PlaySFX("BossDestroyed.wav", 0, 2);
+			return;
+		}
 
-	if (mCurrentTextureIndex >= 0 && mCurrentTextureIndex < 4) {
+		mCurrentTextureIndex = mHitCount;
+
 		SDL_Rect temp = { mCurrentTextureIndex * 18, 2, 16, 16 };
 		mTexture[mCurrentTextureIndex]->SetSourceRect(&temp);
+
+		if (mHitCount == 3) {
+			AudioManager::Instance()->PlaySFX("BossInjured.wav", 0, -1);
+		}
 	}
 
-	if (mHitCount == 4) {
-		AudioManager::Instance()->PlaySFX("BossDestroyed.wav", 0, 2);
-		mWasHit = true;
-	}
-	else{
-		AudioManager::Instance()->PlaySFX("BossInjured.wav", 0, -1);
-		
-	}
-}
+	Tile::Tile(int index, bool challenge) {
 
-Vector2 Tile::LocalFormationPosition() {
-	Vector2 retVal;
-	int dir = mIndex % 2 == 0 ? -1 : 1;
+		mTag = "Tile";
+		mCurrentTextureIndex = 0;
+		mHitCount = 0;
+		mWasHit = false;
 
-	retVal.x =
-		(sFormation->GridSize().x + sFormation->GridSize().x *
-			2 * (mIndex / 2)) * (float)dir;
-	retVal.y = -sFormation->GridSize().y;
+		mTexture[0] = new GLTexture("blockSheet.png", 56, 2, 16, 16);
+		mTexture[1] = new GLTexture("blockSheet.png", 38, 2, 16, 16);
+		mTexture[2] = new GLTexture("blockSheet.png", 20, 2, 16, 16);
+		mTexture[3] = new GLTexture("blockSheet.png", 2, 2, 16, 16);
 
-	return retVal;
-}
+		for (int i = 0; i < 4; i++) {
+			mTexture[i]->Parent(this);
+			mTexture[i]->Position(Vec2_Zero);
+			//mTexture[i]->Scale(Vector2(1.7f, 1.7f));
+		}
 
-Tile::Tile(int index, bool challenge) :
-	Enemy(index, challenge) {
+		AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
 
-	mTag = "Tile";
-
-	mTexture[0] = new GLTexture("blockSheet.png", 56, 2, 16, 16);
-	mTexture[1] = new GLTexture("blockSheet.png", 38, 2, 16, 16);
-	mTexture[2] = new GLTexture("blockSheet.png", 20, 2, 16, 16);
-	mTexture[3] = new GLTexture("blockSheet.png", 2, 2, 16, 16);
-
-	for (auto texture : mTexture) {
-		texture->Parent(this);
-		texture->Position(Vec2_Zero);
-		//texture->Scale(Vector2(1.7f, 1.7f));
+		mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Barracks); //add new collision layer for barracks
 	}
 
-	mType = Enemy::Tile;
-
-	mCurrentTextureIndex = 0;
-	AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
-
-	mWasHit = false;
-}
-
-Tile::~Tile() {
-	for (int i = 0; i < 4; i++) {
-		delete mTexture[i];
-		mTexture[i] = nullptr;
+	Tile::~Tile() {
+		for (int i = 0; i < 4; i++) {
+			delete mTexture[i];
+			mTexture[i] = nullptr;
+		}
 	}
+
+	bool Tile::IgnoreCollision() {
+        return !this->GameEntity::Active();
+	}
+
+    void Tile::Render() {
+        if (this->GameEntity::Active()) {
+            mTexture[mCurrentTextureIndex]->Render();
+        }
+    }
 }

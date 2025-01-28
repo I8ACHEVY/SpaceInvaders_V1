@@ -1,26 +1,22 @@
 #pragma once
 #include "Tile.h"
-#include "Bullet.h"
+#include <vector>
 
 namespace SDL_Framework {
 
 	class TileLayer {
 
 	public:
-		std::vector<std::vector<Tile>> tiles;
 
-		TileLayer(int rows, int columns);
+		TileLayer(int numRows, int numTilesPerRow, float spacing);
 		~TileLayer();
 
 		void Render();
 
-		void RemoveTile(int rod, int column);
-
-		bool IsTileHit(int row, int column, const Bullet& bullet);
+		void Update();
 
 	private:
-
-		bool mWasHit;
+		std::vector<Tile*> mTiles;
 
 	};
 }
