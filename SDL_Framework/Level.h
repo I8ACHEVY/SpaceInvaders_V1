@@ -29,6 +29,7 @@ private:
 	PlaySideBar* mSideBar;
 	Player* mPlayer;
 	Formation* mFormation;
+	TileLayer* mTileLayer;
 
 	static const int MAX_CRABS = 22;
 	static const int MAX_OCTOPI = 22;
@@ -40,7 +41,6 @@ private:
 	int mSquidCount;
 	int mShipCount;
 	
-	TileLayer* mTileLayer;
 	Crab* mFormationCrabs[MAX_CRABS];
 	Octopus* mFormationOctopi[MAX_OCTOPI];
 	Squid* mFormationSquids[MAX_SQUIDS];

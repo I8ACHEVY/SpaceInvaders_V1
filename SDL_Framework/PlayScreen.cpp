@@ -23,7 +23,7 @@ PlayScreen::PlayScreen() {
 	//}
 
 	mLevel = nullptr;
-	mLevelStartDelay = 6.0f;
+	mLevelStartDelay = 3.0f;
 	mLevelStarted = false;
 
 	mPlayer = nullptr;
