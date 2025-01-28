@@ -450,6 +450,7 @@ void Level::HandleEnemyFormation() {
 }
 
 void Level::Update() {
+	mTileLayer->Update();
 	if (!mStageStarted) {
 		HandleStartLabels();
 	}
@@ -480,10 +481,10 @@ void Level::Update() {
 			}
 		}
 	}
-	mTileLayer->Update();
 }
 
 void Level::Render() {
+	mTileLayer->Render();
 
 	if (!mStageStarted) {
 		if (mLabelTimer > mStageLabelOnScreen &&
@@ -545,5 +546,4 @@ void Level::Render() {
 			}
 		}
 	}
-	mTileLayer->Render();
 }
