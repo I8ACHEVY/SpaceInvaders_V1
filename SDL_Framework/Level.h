@@ -29,7 +29,11 @@ private:
 	PlaySideBar* mSideBar;
 	Player* mPlayer;
 	Formation* mFormation;
-	TileLayer* mTileLayer;
+
+	TileLayer* mBarrack1;
+	TileLayer* mBarrack2;
+	TileLayer* mBarrack3;
+	TileLayer* mBarrack4;
 
 	static const int MAX_CRABS = 22;
 	static const int MAX_OCTOPI = 22;

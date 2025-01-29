@@ -53,9 +53,13 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	int numTilesPerRow = 3;
 	float spacing = 0.0f;
 
-	mTileLayer = new TileLayer(2, 3, 0.0f);
-	mTileLayer->Parent(this);
-	mTileLayer->Position(700, 500);
+	mBarrack1 = new TileLayer(2, 3, 0.0f, 30.0f, 0.0f);
+	mBarrack2 = new TileLayer(2, 3, 0.0f, 156.0f, 0.0f);
+	mBarrack3 = new TileLayer(2, 3, 0.0f, 282.0f, 0.0f);
+	mBarrack4 = new TileLayer(2, 3, 0.0f, 410.0f, 0.0f);
+
+	//mTileLayer->Parent(this);
+	//mTileLayer->Position(700, 500);
 
 	mCrabCount = 0;
 	mOctopusCount = 0;
@@ -150,6 +154,18 @@ Level::~Level() {
 	mTimer = nullptr;
 	mSideBar = nullptr;
 	mPlayer = nullptr;
+
+	delete mBarrack1;
+	mBarrack1 = nullptr;
+
+	delete mBarrack2;
+	mBarrack2 = nullptr;
+
+	delete mBarrack3;
+	mBarrack3 = nullptr;
+
+	delete mBarrack4;
+	mBarrack4 = nullptr;
 
 	delete mStageLabel;
 	mStageLabel = nullptr;
@@ -452,7 +468,11 @@ void Level::HandleEnemyFormation() {
 }
 
 void Level::Update() {
-	mTileLayer->Update();
+	mBarrack1->Update();
+	mBarrack2->Update();
+	mBarrack3->Update();
+	mBarrack4->Update();
+
 	if (!mStageStarted) {
 		HandleStartLabels();
 	}
@@ -486,7 +506,10 @@ void Level::Update() {
 }
 
 void Level::Render() {
-	mTileLayer->Render();
+	mBarrack1->Render();
+	mBarrack2->Render();
+	mBarrack3->Render();
+	mBarrack4->Render();
 
 	if (!mStageStarted) {
 		if (mLabelTimer > mStageLabelOnScreen &&

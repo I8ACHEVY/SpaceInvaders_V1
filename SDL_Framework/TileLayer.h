@@ -9,7 +9,7 @@ namespace SDL_Framework {
 
 	public:
 
-		TileLayer(int numRows, int numTilesPerRow, float spacing);
+		TileLayer(int numRows, int numTilesPerRow, float spacing, float offsetX, float offsetY);
 		~TileLayer();
 
 		void Render();
