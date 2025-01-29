@@ -12,16 +12,13 @@ namespace SDL_Framework {
 
                 float xPos = xPositions[i % xPositions.size()] + offsetX;
 
- /*               if (j == 0 || (j == 1 && (i == 0 || i == numTilesPerRow - 1))) {
-                    tile->Position(Vector2(xPos, j * (tile->GetScaledDimensions().y + spacing) + 760));
-                    mTiles.push_back(tile);
-                    tileCount++;
-                }*/
-
 				float yPos = j * (tile->GetScaledDimensions().y + spacing) + 760 + offsetY;
-				tile->Position(Vector2(xPos, yPos));
-				mTiles.push_back(tile);
-				tileCount++;
+
+				if (j == 0 || (j == 1 && (i == 0 || i == numTilesPerRow - 1))) {
+					tile->Position(Vector2(xPos, yPos));
+					mTiles.push_back(tile);
+					tileCount++;
+				}
             }
         }
     }
