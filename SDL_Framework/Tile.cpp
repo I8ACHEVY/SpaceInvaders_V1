@@ -18,7 +18,7 @@ namespace SDL_Framework {
 			return;
 		}
 
-		mCurrentTextureIndex = mHitCount;
+		mCurrentTextureIndex = 3 - mHitCount;
 
 		SDL_Rect temp = { mCurrentTextureIndex * 18, 2, 16, 16 };
 		mTexture[mCurrentTextureIndex]->SetSourceRect(&temp);
@@ -39,16 +39,14 @@ namespace SDL_Framework {
 		mTexture[1] = new GLTexture("blockSheet.png", 38, 2, 16, 16);
 		mTexture[2] = new GLTexture("blockSheet.png", 20, 2, 16, 16);
 		mTexture[3] = new GLTexture("blockSheet.png", 2, 2, 16, 16);
-
+		
 		for (int i = 0; i < 4; i++) {
 			mTexture[i]->Parent(this);
 			mTexture[i]->Position(Vec2_Zero);
 			//mTexture[i]->Scale(Vector2(1.7f, 1.7f));
 		}
 
-		AddCollider(new BoxCollider(mTexture[3]->ScaledDimensions()));
-		std::cout << "Collider added with dimensions: " << mTexture[3]->ScaledDimensions().x 
-			<< ", " << mTexture[3]->ScaledDimensions().y << std::endl;
+		AddCollider(new BoxCollider(mTexture[0]->ScaledDimensions()));
 
 		mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Barracks);
 	}
