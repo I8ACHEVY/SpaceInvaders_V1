@@ -1,10 +1,11 @@
 #pragma once
 #include "Tile.h"
+#include "GameEntity.h"
 #include <vector>
 
 namespace SDL_Framework {
 
-	class TileLayer {
+	class TileLayer : public GameEntity {
 
 	public:
 
