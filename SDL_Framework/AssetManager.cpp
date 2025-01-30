@@ -38,6 +38,7 @@ namespace SDL_Framework {
 
 		for (auto font : mFonts) {
 			if (font.second != nullptr) {
+
 				TTF_CloseFont(font.second);
 			}
 		}
