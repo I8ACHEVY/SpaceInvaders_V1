@@ -8,14 +8,15 @@ PlayScreen::PlayScreen() {
 	mSideBar->Parent(this);
 	mSideBar->Position(Graphics::SCREEN_WIDTH * 0.87f, Graphics::SCREEN_HEIGHT * 0.05f);
 
-	mStartLabel = new GLTexture("START", "ARCADE.ttf", 32, { 0, 255, 0 });
+	mStartLabel = new GLTexture("START", "ARCADE.ttf", 40, { 0, 255, 0 });
 	mStartLabel->Parent(this);
-	mStartLabel->Position(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.6f);
+	mStartLabel->Position(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.48f);
 
-	mScoreMap = new GLAnimatedTexture("InvaderSprites.png", 0, 313, 150, 85, 2, 1.0f, Animation::Layouts::Horizontal);
+	mScoreMap = new GLAnimatedTexture("InvaderSprites.png", 2, 313, 150, 85, 2, 1.0f, Animation::Layouts::Horizontal);
 	mScoreMap->Parent(this);
-	mScoreMap->Position(Vec2_Zero);
-	mScoreMap->SetWrapMode(Animation::WrapModes::Once);
+	mScoreMap->Position(520, 640);
+	mScoreMap->Scale(Vector2(2.0f, 2.0f));
+	mScoreMap->SetWrapMode(Animation::WrapModes::Loop);
 
 	//mTexture[0] = new GLTexture("InvaderSprites.png", 0, 313, 150, 85);
 	//mTexture[1] = new GLTexture("InvaderSprites.png", 155, 313, 150, 85);
@@ -95,6 +96,8 @@ bool PlayScreen::GameOver() {
 }
 
 void PlayScreen::Update() {
+	mScoreMap->Update();
+
 	if (mGameStarted) {
 		if (!mLevelStarted) {
 			mLevelStartTimer += mTimer->DeltaTime();
