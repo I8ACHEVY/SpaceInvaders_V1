@@ -240,8 +240,12 @@ void Level::HandleEnemySpawning() {
 
 	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S) &&
 		mCrabCount < MAX_CRABS && !mFormation->Locked()) {
+
+		//mFormationCrabs[mCrabCount] = new Crab(mCrabCount, false);
+		//mCrabCount++;
+
 		mEnemies.push_back(new Crab(mCrabCount++, false));
-		//mButterflyCount++;
+		mCrabCount++;
 	}
 
 	//mSpawnTimer += mTimer->DeltaTime();
@@ -336,19 +340,6 @@ void Level::HandleEnemySpawning() {
 	//}
 }
 
-bool Level::EnemyFlyingIn() {
-
-	for (RedShip* redShip : mFormationShip) {
-		if (redShip != nullptr &&
-			redShip->CurrentState() == Enemy::FlyIn) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-
 void Level::HandleEnemyFormation() {
 	mFormation->Update();
 
@@ -403,9 +394,9 @@ void Level::HandleEnemyFormation() {
 			mOctopusCount == MAX_OCTOPI &&
 			mSquidCount == MAX_SQUIDS && 
 			mShipCount == MAX_SHIPS){
-			if (!EnemyFlyingIn()) {
-				mFormation->Lock();
-			}
+
+			mFormation->Lock();
+			
 		}
 	}
 

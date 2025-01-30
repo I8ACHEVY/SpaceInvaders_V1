@@ -75,8 +75,6 @@ private:
 	std::vector<Enemy*> mEnemies;	//debug testing
 
 	XMLDocument mSpawningPatterns;
-	int mCurrentFlyInPriority;
-	int mCurrentFlyInIndex;
 
 	float mSpawnDelay;
 	float mSpawnTimer;
@@ -114,8 +112,6 @@ private:
 	void HandlePlayerDeath();
 	
 	void StartStage();
-
-	bool EnemyFlyingIn();
 
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();
