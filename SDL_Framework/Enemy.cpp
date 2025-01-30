@@ -63,7 +63,7 @@ void Enemy::HandleFiring() {
 
 		Bullet* bullet = new Bullet(false);
 		bullet->Fire(Position());
-		//PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
+		PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
 
 		if (!mBullets[i]->Active()) {
 			mBullets[i]->Fire(Position());
@@ -95,9 +95,9 @@ Enemy::Enemy(int index, bool challenge) :
 	mDeathAnimation->Position(Vec2_Zero);
 	mDeathAnimation->SetWrapMode(Animation::WrapModes::Once);
 
-	//for (int i = 0; i < MAX_BULLETS; i++) {
-	//	mBullets[i] = new Bullet(true);
-	//}
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		mBullets[i] = new Bullet(true);
+	}
 }
 
 Enemy::~Enemy() {
@@ -111,10 +111,10 @@ Enemy::~Enemy() {
 	delete mDeathAnimation;
 	mDeathAnimation = nullptr;
 
-	//for (auto bullet : mBullets) {
-	//	delete bullet;
-	//	bullet = nullptr;
-	//}
+	for (auto bullet : mBullets) {
+		delete bullet;
+		bullet = nullptr;
+	}
 }
 
 Enemy::States Enemy::CurrentState() {
@@ -165,18 +165,6 @@ int Enemy::Index() {
 void Enemy::Update() {
 	if (Active()) {
 		HandleStates();
-
-		//if (mCurrentState == Diving) {
-		//	static float shootInterval = 0.5f;
-		//	static float FinalFireTime = 0.6f;
-
-		//	FinalFireTime += mTimer->DeltaTime();
-
-		//	if (FinalFireTime >= shootInterval) {
-		//		HandleFiring();
-		//		FinalFireTime = 0.0f;
-		//	}
-		//}
 	}
 }
 
@@ -185,9 +173,9 @@ void Enemy::Render() {
 		RenderStates();
 	}
 
-	//	for (int i = 0; i < MAX_BULLETS; i++) {
-	//	mBullets[i]->Render();
-	//}
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		mBullets[i]->Render();
+	}
 }
 
 void Enemy::HandleFlyInState() {
@@ -254,14 +242,6 @@ void Enemy::HandleStates() {
 		HandleFlyInState();
 		break;
 
-	case InFormation:
-		HandleInFormationState();
-		break;
-
-	//case Diving: 
-	//	/*HandleDiveState();*/
-	//	break;
-
 	case Dead:
 		HandleDeadState();
 		break;
@@ -286,10 +266,6 @@ void Enemy::RenderStates() {
 	case InFormation:
 		RenderInFormationState();
 		break;
-
-	//case Diving:
-	//	RenderDiveState();
-	//	break;
 
 	case Dead:
 		RenderDeadState();

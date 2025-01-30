@@ -88,5 +88,5 @@ protected:
 	void FireBullet(Vector2 position, Vector2 direction);
 	static const int MAX_BULLETS = 2;
 	Bullet* mBullets[MAX_BULLETS];
-	//AudioManager* mAudio;
+	AudioManager* mAudio;
 };

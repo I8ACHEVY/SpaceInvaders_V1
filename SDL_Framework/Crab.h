@@ -14,8 +14,6 @@ public:
 private:
 	static std::vector<std::vector<Vector2>> sDivePaths;
 
-	bool mEscort;
-
 	Vector2 LocalFormationPosition() override;
 
 };

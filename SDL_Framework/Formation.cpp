@@ -3,6 +3,11 @@
 Formation::Formation() {
 	mTimer = Timer::Instance();
 
+	mMovingRight = true;
+	mMovingSpeed = 100.0f;
+	mFormationBoundaryLeft = 100.0f;
+	mFormationBoundaryRight = Graphics::SCREEN_WIDTH - 100.0f;
+
 	mOffsetAmount = 10.0f;
 	mOffsetDelay = 0.4f;
 	mOffsetTimer = 0.0f;
@@ -26,6 +31,26 @@ Formation::~Formation() {
 
 void Formation::Update() {
 	if (!mLocked || mOffsetCounter != 4) {
+		float movementDelta = mMovingSpeed * mTimer->DeltaTime();
+		if (mMovingRight) {
+			Translate(Vec2_Right * movementDelta, World);
+			if (Position().x > mFormationBoundaryRight) {
+				mMovingRight = false;
+
+				mDropTimer = 0.0f;
+			}
+		}
+		else {
+			Translate(-Vec2_Right * movementDelta, World);
+			if (Position().x < mFormationBoundaryLeft) {
+				mMovingRight = true;
+
+				mDropTimer = 0.0f;
+			}
+		}
+
+		mMovingSpeed += 10.0f * mTimer->DeltaTime(); // adjust for gradually increase speed of formation side to side
+
 		mOffsetTimer += mTimer->DeltaTime();
 
 		if (mOffsetTimer >= mOffsetDelay) {
@@ -43,6 +68,26 @@ void Formation::Update() {
 		}
 	}
 	else {
+		float movementDelta = mMovingSpeed * mTimer->DeltaTime();
+		if (mMovingRight) {
+			Translate(Vec2_Right * movementDelta, World);
+			if (Position().x > mFormationBoundaryRight) {
+				mMovingRight = false;
+
+				mDropTimer = 0.0f;
+			}
+		}
+		else {
+			Translate(-Vec2_Right * movementDelta, World);
+			if (Position().x < mFormationBoundaryLeft) {
+				mMovingRight = true;
+
+				mDropTimer = 0.0f;
+			}
+		}
+
+		mMovingSpeed += 10.0f * mTimer->DeltaTime(); // adjust for gradually increase speed of formation down
+
 		mPulseTimer += mTimer->DeltaTime();
 
 		if (mPulseTimer >= mPulseDelay) {
@@ -55,6 +100,12 @@ void Formation::Update() {
 			}
 
 			mPulseTimer = 0.0f;
+		}
+
+		mDropTimer += mTimer->DeltaTime();
+		if (mDropTimer >= mDropDelay) {
+			Translate(Vec2_Up * mDropAmount, World);
+			mDropTimer = 0.0f;
 		}
 	}
 }

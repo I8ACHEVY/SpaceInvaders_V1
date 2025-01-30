@@ -119,5 +119,4 @@ private:
 
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();
-	//void HandleEnemyDiving();
 };

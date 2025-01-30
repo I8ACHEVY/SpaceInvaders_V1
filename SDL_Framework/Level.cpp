@@ -58,15 +58,12 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	mBarrack3 = new TileLayer(2, 3, 0.0f, 282.0f, 0.0f);
 	mBarrack4 = new TileLayer(2, 3, 0.0f, 410.0f, 0.0f);
 
-	//mTileLayer->Parent(this);
-	//mTileLayer->Position(700, 500);
-
 	mCrabCount = 0;
 	mOctopusCount = 0;
 	mSquidCount = 0;
 	mShipCount = 0;
 
-	std::string fullPath = SDL_GetBasePath();
+	/*std::string fullPath = SDL_GetBasePath();
 
 	if (mStage == 1) {
 		fullPath.append("Data/Level1.xml");
@@ -92,60 +89,30 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 		fullPath.append("Data/Challenge.xml");
 		mSpawningPatterns.LoadFile(fullPath.c_str());
 		std::cout << mStage << std::endl;
+	}*/
+
+	mFormation = new Formation();
+	mFormation->Position(Graphics::SCREEN_WIDTH * 0.5f, 355.0f);
+	Enemy::SetFormation(mFormation);
+	
+	for (int i = 0; i < MAX_CRABS; i++) {
+		mFormationCrabs[i] = nullptr;
 	}
 
-	mChallengeStage = mSpawningPatterns.FirstChildElement("Level")
-		->FirstChildElement()
-		->BoolAttribute("value");
+	for (int i = 0; i < MAX_OCTOPI; i++) {
+		mFormationOctopi[i] = nullptr;
+	}
 
-	if (!mChallengeStage) {
-		mFormation = new Formation();
-		mFormation->Position(Graphics::SCREEN_WIDTH * 0.5f, 355.0f);
-		Enemy::SetFormation(mFormation);
-	
-		for (int i = 0; i < MAX_CRABS; i++) {
-			mFormationCrabs[i] = nullptr;
-		}
-	
-		for (int i = 0; i < MAX_OCTOPI; i++) {
-			mFormationOctopi[i] = nullptr;
-		}
-	
-		for (int i = 0; i < MAX_SQUIDS; i++) {
-			mFormationSquids[i] = nullptr;
-		}
-
-		for (int i = 0; i < MAX_SHIPS; i++) {
-			mFormationShip[i] = nullptr;
-		}
+	for (int i = 0; i < MAX_SQUIDS; i++) {
+		mFormationSquids[i] = nullptr;
+	}
+	for (int i = 0; i < MAX_SHIPS; i++) {
+		mFormationShip[i] = nullptr;
 	}
 	
-	mCurrentFlyInPriority = 0;
-	mCurrentFlyInIndex = 0;
 	mSpawnDelay = 0.2f;
 	mSpawnTimer = 0.0f;
 	mSpawningFinished = false;
-
-	mDivingCrab = nullptr;
-	mSkipFirstCrab = false;
-	mCrabDiveDelay = 1.0f;
-	mCrabDiveTimer = 0.0f;
-
-	mDivingOctopus = nullptr;
-	mDivingOctopus2 = nullptr;
-	mOctopusDiveDelay = 3.0f;
-	mOctopusDiveTimer = 0.0f;
-
-	mDivingSquid = nullptr;
-	mCaptureDive = true;
-	mSkipFirstSquid = true;
-	mSquidDiveDelay = 5.0f;
-	mSquidDiveTimer = 0.0f;
-
-	mDivingShip = nullptr;
-	mSkipFirstShip = false;
-	mShipDiveDelay = 6.0f;
-	mShipDiveTimer = 0.0f;
 
 	Enemy::CurrentPlayer(mPlayer);
 }
@@ -272,7 +239,7 @@ void Level::HandlePlayerDeath() {
 void Level::HandleEnemySpawning() {
 
 	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S) &&
-		mCrabCount < MAX_CRABS) {
+		mCrabCount < MAX_CRABS && !mFormation->Locked()) {
 		mEnemies.push_back(new Crab(mCrabCount++, false));
 		//mButterflyCount++;
 	}
@@ -370,26 +337,6 @@ void Level::HandleEnemySpawning() {
 }
 
 bool Level::EnemyFlyingIn() {
-	for (Crab* crab : mFormationCrabs) {
-		if (crab != nullptr &&
-			crab->CurrentState() == Enemy::FlyIn) {
-			return true;
-		}
-	}
-
-	for (Octopus* octopus : mFormationOctopi) {
-		if (octopus != nullptr &&
-			octopus->CurrentState() == Enemy::FlyIn) {
-			return true;
-		}
-	}
-
-	for (Squid* squid : mFormationSquids) {
-		if (squid != nullptr &&
-			squid->CurrentState() == Enemy::FlyIn) {
-			return true;
-		}
-	}
 
 	for (RedShip* redShip : mFormationShip) {
 		if (redShip != nullptr &&
@@ -527,39 +474,32 @@ void Level::Render() {
 
 	else {
 		
-
-		if (!mChallengeStage) {
-			for (Crab* crab : mFormationCrabs) {
-				if (crab != nullptr) {
-					crab->Render();
-				}
-			}
-
-			for (Octopus* octopus : mFormationOctopi) {
-				if (octopus != nullptr) {
-					octopus->Render();
-				}
-			}
-
-			for (RedShip* redShip : mFormationShip) {
-				if (redShip != nullptr) {
-					redShip->Render();
-				}
-			}
-
-			for (Squid* squid : mFormationSquids) {
-				if (squid != nullptr) {
-					squid->Render();
-				}
-			}
-
-		}
-
-		else {
-			for (auto enemy : mEnemies) {
-				enemy->Render();
+		for (Crab* crab : mFormationCrabs) {
+			if (crab != nullptr) {
+				crab->Render();
 			}
 		}
+
+		for (Octopus* octopus : mFormationOctopi) {
+			if (octopus != nullptr) {
+				octopus->Render();
+			}
+		}
+
+		for (RedShip* redShip : mFormationShip) {
+			if (redShip != nullptr) {
+				redShip->Render();
+			}
+		}
+
+		for (Squid* squid : mFormationSquids) {
+			if (squid != nullptr) {
+				squid->Render();
+			}
+		}
+
+			//for (auto enemy : mEnemies) {
+			//	enemy->Render();
 
 		if (mPlayerHit) {
 			if (mRespawnTimer >= mRespawnLabelOnScreen) {
