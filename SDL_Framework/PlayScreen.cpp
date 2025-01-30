@@ -12,7 +12,7 @@ PlayScreen::PlayScreen() {
 	mStartLabel->Parent(this);
 	mStartLabel->Position(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.48f);
 
-	mScoreMap = new GLAnimatedTexture("InvaderSprites.png", 2, 313, 150, 85, 2, 1.0f, Animation::Layouts::Horizontal);
+	mScoreMap = new GLAnimatedTexture("InvaderSprites.png", 1, 313, 150, 85, 2, 1.0f, Animation::Layouts::Horizontal);
 	mScoreMap->Parent(this);
 	mScoreMap->Position(520, 640);
 	mScoreMap->Scale(Vector2(2.0f, 2.0f));
@@ -29,7 +29,7 @@ PlayScreen::PlayScreen() {
 	//}
 
 	mLevel = nullptr;
-	mLevelStartDelay = 3.0f;
+	mLevelStartDelay = 2.0f;
 	mLevelStarted = false;
 
 	mPlayer = nullptr;
