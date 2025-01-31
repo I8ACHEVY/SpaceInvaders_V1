@@ -11,7 +11,7 @@ using namespace SDL_Framework;
 
 class Enemy : public PhysEntity {
 public:
-	enum States { FlyIn, InFormation, Dead };
+	enum States { FlyIn, Diving, InFormation, Dead };
 	enum Types { Crab, Octopus, Squid, RedShips};
 
 	static void CreatePaths();
@@ -51,6 +51,7 @@ protected:
 	bool mChallengeStage;
 
 	unsigned mCurrentPath;
+	Vector2 mDiveStartPosition;
 
 	unsigned mCurrentWayPoint;
 	const float EPSILON = 50.0f;
@@ -67,12 +68,14 @@ protected:
 
 	virtual void HandleFlyInState();
 	virtual void HandleInFormationState();
+	virtual void HandleDiveState() = 0;
 	virtual void HandleDeadState();
 
 	void HandleStates();
 
 	virtual void RenderFlyInState();
 	virtual void RenderInFormationState();
+	virtual void RenderDiveState() = 0;
 	virtual void RenderDeadState();
 
 	void RenderStates();

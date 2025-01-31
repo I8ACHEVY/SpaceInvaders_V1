@@ -5,6 +5,9 @@
 class Crab : public Enemy {
 
 public:
+	static void CreateDivePaths();
+
+	//void Dive(int type = 0) override;
 
 	void Hit(PhysEntity* other) override;
 
@@ -15,5 +18,9 @@ private:
 	static std::vector<std::vector<Vector2>> sDivePaths;
 
 	Vector2 LocalFormationPosition() override;
+
+	void HandleDiveState() override;
+
+	void RenderDiveState() override;
 
 };

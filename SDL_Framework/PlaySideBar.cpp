@@ -7,7 +7,7 @@ PlaySideBar::PlaySideBar() {
 	mTopBackground = new GLTexture("Black.png");
 	mTopBackground->Parent(this);
 	mTopBackground->Scale(Vector2(8.5f, 1.0f));
-	mTopBackground->Position(0.0f, 200.0f); 
+	mTopBackground->Position(-400.0f, 100.0f); 
 
 	mBottomBackground = new GLTexture("Black.png");
 	mBottomBackground->Parent(this);

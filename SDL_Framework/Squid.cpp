@@ -4,6 +4,19 @@
 
 std::vector<std::vector<Vector2>> Squid::sDivePaths;
 
+void Squid::CreateDivePaths() {
+}
+
+void Squid::RenderDiveState() {
+	int currentPath = mIndex % 2;
+
+	mTexture[0]->Render();
+
+	Vector2 finalPos = WorldFormationPosition();
+	auto currentDivePath = sDivePaths[currentPath];
+	Vector2 pathEndPos = mDiveStartPosition + currentDivePath[currentDivePath.size() - 1];
+}
+
 void Squid::Hit(PhysEntity* other) {
 	if (mWasHit) {
 		Enemy::Hit(other);
@@ -20,6 +33,41 @@ void Squid::Hit(PhysEntity* other) {
 		mTexture[1]->SetSourceRect(&temp);
 		AudioManager::Instance()->PlaySFX("BossInjured.wav", 0, -1);
 	}
+}
+
+void Squid::HandleDiveState() {
+	int currentPath = mIndex % 2;
+
+	if (mCurrentWayPoint < sDivePaths[currentPath].size() &&
+		!sPlayer->IsAnimating() && sPlayer->IsVisible()) {
+
+		Vector2 waypointPos = mDiveStartPosition + sDivePaths
+			[currentPath][mCurrentWayPoint];
+
+		Vector2 dist = waypointPos - Position();
+
+		Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
+
+		if (sPlayer->IsVisible()) {
+
+			Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
+		}
+
+		if ((waypointPos - Position()).MagnitudeSqr() < EPSILON * mSpeed / 25) {
+			mCurrentWayPoint++;
+		}
+	}
+	else {
+		Vector2 dist = WorldFormationPosition() - Position();
+
+		Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
+		Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
+
+		if (dist.MagnitudeSqr() < EPSILON * mSpeed / 25.0f) {
+			JoinFormation();
+		}
+	}
+
 }
 
 Vector2 Squid::LocalFormationPosition() {

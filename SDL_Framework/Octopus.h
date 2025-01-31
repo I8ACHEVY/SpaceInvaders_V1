@@ -5,6 +5,7 @@
 class Octopus : public Enemy {
 
 public:
+	static void CreateDivePaths();
 
 	void Hit(PhysEntity* other) override;
 
@@ -19,4 +20,7 @@ private:
 
 	Vector2 LocalFormationPosition() override;
 
+	void HandleDiveState() override;
+
+	void RenderDiveState() override;
 };

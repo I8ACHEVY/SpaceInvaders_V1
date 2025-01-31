@@ -452,6 +452,10 @@ void Enemy::HandleStates() {
 		HandleInFormationState();
 		break;
 
+	case Diving:
+		HandleDiveState();
+		break;
+
 	case Dead:
 		HandleDeadState();
 		break;
@@ -475,6 +479,10 @@ void Enemy::RenderStates() {
 
 	case InFormation:
 		RenderInFormationState();
+		break;
+
+	case Diving:
+		RenderDiveState();
 		break;
 
 	case Dead:

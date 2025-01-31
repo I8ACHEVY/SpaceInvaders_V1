@@ -5,8 +5,8 @@ Formation::Formation() {
 
 	mMovingRight = true;
 	mMovingSpeed = 100.0f;
-	mFormationBoundaryLeft = 100.0f;
-	mFormationBoundaryRight = Graphics::SCREEN_WIDTH - 100.0f;
+	mFormationBoundaryLeft = 300.0f;
+	mFormationBoundaryRight = Graphics::SCREEN_WIDTH - 300.0f;
 
 	mOffsetAmount = 10.0f;
 	mOffsetDelay = 0.4f;

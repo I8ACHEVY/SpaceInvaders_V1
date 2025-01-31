@@ -13,7 +13,7 @@ namespace SDL_Framework {
 
 		void UpdateTexture(int index);
 
-		//static void CreateDivePaths();
+		static void CreateDivePaths();
 
 		//void Dive(int type = 0) override;
 
@@ -38,8 +38,8 @@ namespace SDL_Framework {
 
 		Vector2 LocalFormationPosition() override;
 
-		//void HandleDiveState() override;
+		void HandleDiveState() override;
 
-		//void RenderDiveState() override;
+		void RenderDiveState() override;
 	};
 }
