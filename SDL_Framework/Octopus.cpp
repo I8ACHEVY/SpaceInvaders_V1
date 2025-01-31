@@ -23,8 +23,8 @@ void Octopus::Hit(PhysEntity* other) {
 	Enemy::Hit(other);
 }
 
-Octopus::Octopus(int index, bool challenge) :
-	Enemy(index, challenge){
+Octopus::Octopus(int path, int index, bool challenge) :
+	Enemy(path, index, challenge){
 
 	mTag = "Octopus";
 

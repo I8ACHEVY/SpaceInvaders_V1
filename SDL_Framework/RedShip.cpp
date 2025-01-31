@@ -2,7 +2,7 @@
 #include "BoxCollider.h"
 #include "AudioManager.h"
 
-std::vector<std::vector<Vector2>> RedShip::sDivePaths;
+//std::vector<std::vector<Vector2>> RedShip::sDivePaths;
 
 //void RedShip::CreateDivePaths() {
 //	int currentPath = 0;
@@ -126,8 +126,8 @@ void RedShip::Hit(PhysEntity* other) {
 //
 //}
 
-RedShip::RedShip(int index, bool challenge) :
-	Enemy(index, challenge) {
+RedShip::RedShip(int path, int index, bool challenge) :
+	Enemy(path, index, challenge) {
 
 	mTag = "RedShip";
 
@@ -160,9 +160,9 @@ RedShip::RedShip(int index, bool challenge) :
 	//mDeathAnimation->Position(Vec2_Zero);
 	//mDeathAnimation->SetWrapMode(AnimatedTexture::Once);
 
-	for (int i = 0; i < MAX_BULLETS; i++) {
-		mBullets[i] = new Bullet(true);
-	}
+	//for (int i = 0; i < MAX_BULLETS; i++) {
+	//	mBullets[i] = new Bullet(true);
+	//}
 }
 
 RedShip::~RedShip() {
@@ -176,10 +176,10 @@ RedShip::~RedShip() {
 	//	mDeathAnimation = nullptr;
 	//}
 
-	for (auto bullet : mBullets) {
-		delete bullet;
-		bullet = nullptr;
-	}
+	//for (auto bullet : mBullets) {
+	//	delete bullet;
+	//	bullet = nullptr;
+	//}
 }
 
 void RedShip::UpdateTexture(int index) {

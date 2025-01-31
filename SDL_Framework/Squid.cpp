@@ -32,8 +32,8 @@ Vector2 Squid::LocalFormationPosition() {
 	return retVal;
 }
 
-Squid::Squid(int index, bool challenge) :
-	Enemy(index, challenge){
+Squid::Squid(int path, int index, bool challenge) :
+	Enemy(path, index, challenge){
 
 	mTag = "Squid";
 

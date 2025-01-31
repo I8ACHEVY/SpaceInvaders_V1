@@ -8,7 +8,7 @@ public:
 
 	void Hit(PhysEntity* other) override;
 
-	Octopus(int index, bool challenge);
+	Octopus(int path, int index, bool challenge);
 	~Octopus();
 
 private:

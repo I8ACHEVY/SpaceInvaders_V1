@@ -20,11 +20,11 @@ namespace SDL_Framework {
 		void Hit(PhysEntity* other) override;
 		bool IgnoreCollision(PhysEntity* Entity);
 
-		RedShip(int index, bool challenge);
+		RedShip(int path, int index, bool challenge);
 		~RedShip();
 
 	private:
-		static std::vector<std::vector<Vector2>> sDivePaths;
+		//static std::vector<std::vector<Vector2>> sDivePaths;
 
 		static const int MAX_BULLETS = 2;
 		Bullet* mBullets[MAX_BULLETS];
@@ -33,8 +33,8 @@ namespace SDL_Framework {
 		PhysEntity* mCollider;
 
 		bool mVisible;
-		bool mEscort;
-		int mBossIndex;
+		//bool mEscort;
+		int mRedShipIndex;
 
 		Vector2 LocalFormationPosition() override;
 

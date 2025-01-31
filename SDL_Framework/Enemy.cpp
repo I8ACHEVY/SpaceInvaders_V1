@@ -2,8 +2,256 @@
 #include "PhysicsManager.h"
 #include "Bullet.h"
 
+std::vector<std::vector<Vector2>>Enemy::sPaths;
 Player* Enemy::sPlayer = nullptr;
 Formation* Enemy::sFormation = nullptr;
+
+void Enemy::CreatePaths() {
+	int screenXPoint = (int)(Graphics::Instance()->SCREEN_WIDTH * 0.46f);
+	int screenYPoint = (int)(Graphics::Instance()->SCREEN_HEIGHT * 0.25f);
+
+	int currentPath = 0;
+	BezierPath* path = new BezierPath();
+
+	path->AddCurve({
+		Vector2(screenXPoint + 150.0f, screenYPoint + -10.0f),
+		Vector2(screenXPoint + 150.0f, screenYPoint + -20.0f),
+		Vector2(screenXPoint + 150.0f, screenYPoint + 30.0f),
+		Vector2(screenXPoint + 150.0f, screenYPoint + 20.0f) }, 1
+		);
+
+	path->AddCurve({
+		Vector2(screenXPoint + 150.0f, screenYPoint + 20.0f),
+		Vector2(screenXPoint + 150.0f, screenYPoint + 100.0f),
+		Vector2(320.0f, screenYPoint + 140.0f),
+		Vector2(320.0f, screenYPoint + 300.0f) }, 25
+		);
+
+	path->AddCurve({
+		Vector2(320.0f, screenYPoint + 300.0f),
+		Vector2(320.0f, screenYPoint + 500.0f),
+		Vector2(580.0f, screenYPoint + 600.0f),
+		Vector2(580.0f, screenYPoint + 340.0f) }, 25
+		);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+	currentPath = 1;
+	path = new BezierPath();
+	int fullScreen = screenXPoint * 0.8;
+
+	path->AddCurve({
+		Vector2(screenXPoint - 50.0f, screenYPoint + -10.0f),
+		Vector2(screenXPoint - 50.0f, screenYPoint + -20.0f),
+		Vector2(screenXPoint - 50.0f, screenYPoint + 30.0f),
+		Vector2(screenXPoint - 50.0f, screenYPoint + 20.0f) }, 1);
+
+	path->AddCurve({
+		Vector2(screenXPoint - 50.0f, screenYPoint + 20.0f),
+		Vector2(screenXPoint - 50.0f, screenYPoint + 80.0f),
+		Vector2(1070.0f, screenYPoint + 140.0f),
+		Vector2(1070.0f, screenYPoint + 300.0f) }, 25);
+
+	path->AddCurve({
+		Vector2(1070.0f, screenYPoint + 300.0f),
+		Vector2(1070.0f, screenYPoint + 500.0f),
+		Vector2(830.0f, screenYPoint + 600.0f),
+		Vector2(830.0f, screenYPoint + 340.0f) }, 25);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+	currentPath = 2;
+	float temp = screenXPoint - 100.0f;
+
+	path = new BezierPath();
+
+	path->AddCurve({
+		Vector2(280.0f, screenYPoint + 640.0f),
+		Vector2(280.0f, screenYPoint + 640.0f),
+		Vector2(310.0f, screenYPoint + 640.0f),
+		Vector2(310.0f, screenYPoint + 640.0f) }, 1);
+
+	path->AddCurve({
+		Vector2(310.0f, screenYPoint + 640.0f),
+		Vector2(400.0f, screenYPoint + 640.0f),
+		Vector2(temp, screenYPoint + 500.0f),
+		Vector2(temp, screenYPoint + 400.0f) }, 15);
+
+	path->AddCurve({
+		Vector2(temp, screenYPoint + 400.0f),
+		Vector2(temp, screenYPoint + 200.0f),
+		Vector2(320.0f, screenYPoint + 140.0f),
+		Vector2(320.0f, screenYPoint + 300.0f) }, 15);
+
+	path->AddCurve({
+		Vector2(320.0f, screenYPoint + 300.0f),
+		Vector2(320.0f, screenYPoint + 500.0f),
+		Vector2(temp + 40.0f, screenYPoint + 600.0f),
+		Vector2(temp + 40.0f, screenYPoint + 340.0f) }, 15);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+	currentPath = 3;
+	temp = screenXPoint + 60.0f;
+	float temp2 = fullScreen - 40.0f;
+	path = new BezierPath();
+
+	path->AddCurve({
+		Vector2(temp2 + 620.0f, screenYPoint + 640.0f),
+		Vector2(temp2 + 620.0f, screenYPoint + 640.0f),
+		Vector2(temp2 + 580.0f, screenYPoint + 640.0f),
+		Vector2(temp2 + 580.0f, screenYPoint + 640.0f) }, 1);
+
+	path->AddCurve({
+		Vector2(temp2 + 580.0f, screenYPoint + 640.0f),
+		Vector2(temp2 + 510.0f, screenYPoint + 640.0f),
+		Vector2(temp + 130, screenYPoint + 500.0f),
+		Vector2(temp + 130, screenYPoint + 400.0f) }, 15);
+
+	path->AddCurve({
+		Vector2(temp + 130, screenYPoint + 400.0f),
+		Vector2(temp + 130, screenYPoint + 200.0f),
+		Vector2(temp2 + 590.0f, screenYPoint + 140.0f),
+		Vector2(temp2 + 590.0f, screenYPoint + 300.0f) }, 15);
+
+	path->AddCurve({
+		Vector2(temp2 + 590.0f, screenYPoint + 300.0f),
+		Vector2(temp2 + 590.0f, screenYPoint + 500.0f),
+		Vector2(temp + 120.0f, screenYPoint + 600.0f),
+		Vector2(temp + 120.0f, screenYPoint + 340.0f) }, 15);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+	currentPath = 4;		// side by side left bottom
+	temp = screenXPoint - 100.0f;
+	path = new BezierPath();
+
+	path->AddCurve({
+	Vector2(280.0f, screenYPoint + 600.0f),
+	Vector2(280.0f, screenYPoint + 600.0f),
+	Vector2(270.0f, screenYPoint + 600.0f),
+	Vector2(270.0f, screenYPoint + 600.0f) }, 1);
+
+	path->AddCurve({
+	Vector2(270.0f, screenYPoint + 600.0f),
+	Vector2(360.0f, screenYPoint + 600.0f),
+	Vector2(temp - 40.0f, screenYPoint + 500.0f),
+	Vector2(temp - 40.0f, screenYPoint + 440.0f) }, 15);
+
+	path->AddCurve({
+	Vector2(temp - 40.0f, screenYPoint + 440.0f),
+	Vector2(temp - 40.0f, screenYPoint + 240.0f),
+	Vector2(360.0f, screenYPoint + 180.0f),
+	Vector2(360.0f, screenYPoint + 300.0f) }, 15);
+
+	path->AddCurve({
+	Vector2(360.0f, screenYPoint + 300.0f),
+	Vector2(360.0f, screenYPoint + 500.0f),
+	Vector2(temp, screenYPoint + 500.0f),
+	Vector2(temp, screenYPoint + 340.0f) }, 15);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+
+	currentPath = 5;			//edit to be side by side right bottom
+	temp = screenXPoint + 60.0f;
+	temp2 = fullScreen - 40.0f;
+	path = new BezierPath();
+
+	path->AddCurve({
+		Vector2(temp2 + 620.0f, screenYPoint + 600.0f),
+		Vector2(temp2 + 620.0f, screenYPoint + 600.0f),
+		Vector2(temp2 + 560.0f, screenYPoint + 600.0f),
+		Vector2(temp2 + 560.0f, screenYPoint + 600.0f) }, 1);
+
+	path->AddCurve({
+		Vector2(temp2 + 560.0f, screenYPoint + 600.0f),
+		Vector2(temp2 + 560.0f, screenYPoint + 600.0f),
+		Vector2(temp + 160, screenYPoint + 500.0f),
+		Vector2(temp + 160, screenYPoint + 440.0f) }, 15);
+
+	path->AddCurve({
+		Vector2(temp + 160, screenYPoint + 440.0f),
+		Vector2(temp + 160, screenYPoint + 240.0f),
+		Vector2(temp2 + 560.0f, screenYPoint + 180.0f),
+		Vector2(temp2 + 560.0f, screenYPoint + 300.0f) }, 15);
+
+	path->AddCurve({
+		Vector2(temp2 + 560.0f, screenYPoint + 300.0f),
+		Vector2(temp2 + 560.0f, screenYPoint + 500.0f),
+		Vector2(temp + 160.0f, screenYPoint + 500.0f),
+		Vector2(temp + 160.0f, screenYPoint + 340.0f) }, 15);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+
+	currentPath = 6;			//side by side top left hook
+	path = new BezierPath();
+
+	path->AddCurve({
+		Vector2(screenXPoint + 190.0f, screenYPoint + -10.0f),
+		Vector2(screenXPoint + 190.0f, screenYPoint + -20.0f),
+		Vector2(screenXPoint + 190.0f, screenYPoint + 30.0f),
+		Vector2(screenXPoint + 190.0f, screenYPoint + 20.0f) }, 1
+		);
+
+	path->AddCurve({
+		Vector2(screenXPoint + 190.0f, screenYPoint + 20.0f),
+		Vector2(screenXPoint + 190.0f, screenYPoint + 100.0f),
+		Vector2(360.0f, screenYPoint + 140.0f),
+		Vector2(360.0f, screenYPoint + 300.0f) }, 25
+		);
+
+	path->AddCurve({
+		Vector2(360.0f, screenYPoint + 300.0f),
+		Vector2(360.0f, screenYPoint + 500.0f),
+		Vector2(540.0f, screenYPoint + 500.0f),
+		Vector2(540.0f, screenYPoint + 340.0f) }, 25
+		);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+
+	currentPath = 7;			//side by side top right hook
+	path = new BezierPath();
+
+	path->AddCurve({
+		Vector2(screenXPoint - 90.0f, screenYPoint + -10.0f),
+		Vector2(screenXPoint - 90.0f, screenYPoint + -20.0f),
+		Vector2(screenXPoint - 90.0f, screenYPoint + 30.0f),
+		Vector2(screenXPoint - 90.0f, screenYPoint + 20.0f) }, 1);
+
+	path->AddCurve({
+		Vector2(screenXPoint - 90.0f, screenYPoint + 20.0f),
+		Vector2(screenXPoint - 90.0f, screenYPoint + 80.0f),
+		Vector2(1030.0f, screenYPoint + 140.0f),
+		Vector2(1030.0f, screenYPoint + 300.0f) }, 25);
+
+	path->AddCurve({
+		Vector2(1030.0f, screenYPoint + 300.0f),
+		Vector2(1030.0f, screenYPoint + 500.0f),
+		Vector2(870.0f, screenYPoint + 500.0f),
+		Vector2(870.0f, screenYPoint + 340.0f) }, 25);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+}
 
 void Enemy::SetFormation(Formation* formation) {
 	sFormation = formation;
@@ -37,15 +285,15 @@ void Enemy::HandleFiring() {
 	}
 }
 
-Enemy::Enemy(int index, bool challenge) :
+Enemy::Enemy(int path, int index, bool challenge) :
 	mIndex(index), mChallengeStage(challenge){
 
 	mTimer = Timer::Instance();
 
-	mCurrentState = InFormation;
+	mCurrentState = FlyIn;
 
 	mCurrentWayPoint = 1;
-	// Position(sPaths[mCurrentPath][0]);
+	Position(sPaths[mCurrentPath][0]);
 
 	mTexture[0] = nullptr;		// enemy new Texture("AnimatedEnemies.png", 0, 0, 52, 40);
 	mTexture[1] = nullptr;
@@ -89,6 +337,15 @@ Vector2 Enemy::WorldFormationPosition() {
 	return sFormation->Position() + LocalFormationPosition();
 }
 
+void Enemy::FlyInComplete() {
+	if (mChallengeStage) {
+		mCurrentState = Dead;	//change dead when adding challenge stages
+	}
+	else {
+		JoinFormation();
+	}
+}
+
 void Enemy::JoinFormation() {
 	Position(WorldFormationPosition());
 	Rotation(0);
@@ -126,6 +383,35 @@ void Enemy::Render() {
 	}
 }
 
+void Enemy::HandleFlyInState() {
+	if (mCurrentWayPoint < sPaths[mCurrentPath].size()) {
+		Vector2 dist = sPaths[mCurrentPath][mCurrentWayPoint] - Position();
+
+		Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
+		Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
+
+		if ((sPaths[mCurrentPath][mCurrentWayPoint] - Position()).MagnitudeSqr()
+			< EPSILON * mSpeed / 25.0f) {
+
+			mCurrentWayPoint++;
+		}
+
+		if (mCurrentWayPoint >= sPaths[mCurrentPath].size()) {
+			PathComplete();
+		}
+	}
+	else {
+		Vector2 dist = WorldFormationPosition() - Position();
+
+		Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
+		Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
+
+		if (dist.MagnitudeSqr() < EPSILON * mSpeed / 25.0f) {
+			FlyInComplete();
+		}
+	}
+}
+
 void Enemy::HandleInFormationState() {
 	Position(LocalFormationPosition());
 
@@ -157,6 +443,14 @@ void Enemy::RenderDeadState() {
 void Enemy::HandleStates() {
 	switch (mCurrentState) {
 
+	case FlyIn:
+		HandleFlyInState();
+		break;
+
+	case InFormation:
+		HandleInFormationState();
+		break;
+
 	case Dead:
 		HandleDeadState();
 		break;
@@ -169,6 +463,10 @@ void Enemy::RenderInFormationState() {
 
 void Enemy::RenderStates() {
 	switch (mCurrentState) {
+
+	case FlyIn:
+		RenderFlyInState();
+		break;
 
 	case InFormation:
 		RenderInFormationState();

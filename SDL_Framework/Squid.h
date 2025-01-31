@@ -10,7 +10,7 @@ namespace SDL_Framework {
 
 		void Hit(PhysEntity* other) override;
 
-		Squid(int index, bool challenge);
+		Squid(int path, int index, bool challenge);
 		~Squid();
 
 	private:

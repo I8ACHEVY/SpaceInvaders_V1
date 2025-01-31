@@ -8,7 +8,7 @@ public:
 
 	void Hit(PhysEntity* other) override;
 
-	Crab(int index, bool challenge);
+	Crab(int path, int index, bool challenge);
 	~Crab();
 
 private:

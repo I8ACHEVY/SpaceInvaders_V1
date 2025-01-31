@@ -63,7 +63,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	mSquidCount = 0;
 	mShipCount = 0;
 
-	/*std::string fullPath = SDL_GetBasePath();
+	std::string fullPath = SDL_GetBasePath();
 
 	if (mStage == 1) {
 		fullPath.append("Data/Level1.xml");
@@ -89,7 +89,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 		fullPath.append("Data/Challenge.xml");
 		mSpawningPatterns.LoadFile(fullPath.c_str());
 		std::cout << mStage << std::endl;
-	}*/
+	}
 
 	mFormation = new Formation();
 	mFormation->Position(Graphics::SCREEN_WIDTH * 0.5f, 355.0f);
@@ -238,106 +238,138 @@ void Level::HandlePlayerDeath() {
 
 void Level::HandleEnemySpawning() {
 
-	if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S) &&
-		mCrabCount < MAX_CRABS && !mFormation->Locked()) {
+	//if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S) &&
+	//	mCrabCount < MAX_CRABS && !mFormation->Locked()) {
+	//
+	//	mFormationCrabs[mCrabCount] = new Crab(mCrabCount, false);
+	//	mCrabCount += 1;
+	//
+	//	//mEnemies.push_back(new Crab(mCrabCount++, false));
+	//	//mCrabCount++;
+	//}
 
-		//mFormationCrabs[mCrabCount] = new Crab(mCrabCount, false);
-		//mCrabCount++;
+	mSpawnTimer += mTimer->DeltaTime();
+	
+	if (mSpawnTimer >= mSpawnDelay) {
+		XMLElement* element = mSpawningPatterns.FirstChildElement("Level")
+			->FirstChild()->NextSiblingElement();
+		bool spawned = false;
+		bool priorityFound = false;
+	
+		while (element != nullptr) {
+			int priority = element->IntAttribute("priority");
+	
+			if (mCurrentFlyInPriority == priority) {
+				priorityFound = true;
+				int path = element->IntAttribute("path");
+				XMLElement* child = element->FirstChildElement();
+	
+				for (int i = 0; i < mCurrentFlyInIndex && child != nullptr; i++) {
+					child = child->NextSiblingElement();
+				}
+	
+				if (child != nullptr) {
+					std::string type = child->Attribute("type");
+					int index = child->IntAttribute("index");
+	
+				     if (type.compare("Crab") == 0) {
+						if (!mChallengeStage) {
+							
+							mFormationCrabs[index] = new Crab(path, index, false);
+							mCrabCount += 1;
+						}
+						else {
+							//TODO: Change the challenge boolean to true once Challenge logic is implemented
+							mEnemies.push_back(new Crab(path, index, false));
+						}
+					}
+					else if (type.compare("Octopus") == 0) {
+						if (!mChallengeStage) {
+							mFormationOctopi[index] = new Octopus(path, index, false);
+							mOctopusCount ++;
+						}
+						else {
+							mEnemies.push_back(new Octopus(path,index,false));
+						}
+					}
+					else if (type.compare("Squid") == 0) {
+						if (!mChallengeStage) {
+							mFormationSquids[index] = new Squid(path, index, false);
+							mSquidCount ++;
+						}
+						else {
+							mEnemies.push_back(new Squid(path, index, false));
+						}
+					}
+	
+					else if (type.compare("RedShip") == 0) {
+						 if (!mChallengeStage) {
+							 mFormationShip[index] = new RedShip(path, index, false);
+							 mShipCount++;
+						 }
+						 else {
+							 mEnemies.push_back(new RedShip(path, index, false));
+						 }
+					 }
+	
+					spawned = true;
+				}
+			}
+	
+			element = element->NextSiblingElement();
+		}
 
-		mEnemies.push_back(new Crab(mCrabCount++, false));
-		mCrabCount++;
+		if (!priorityFound) {
+	
+			mSpawningFinished = true;
+		}
+		else {
+			if (!spawned) {
+	
+				if (!EnemyFlyingIn()) {
+					mCurrentFlyInPriority += 1;
+					mCurrentFlyInIndex = 0;
+				}
+			}
+			else {
+				mCurrentFlyInIndex += 1;
+			}
+		}
+	
+		mSpawnTimer = 0.0f;
+	}
+}
+
+bool Level::EnemyFlyingIn() {
+	for (Crab* crab : mFormationCrabs) {
+		if (crab != nullptr &&
+			crab->CurrentState() == Enemy::FlyIn) {
+			return true;
+		}
 	}
 
-	//mSpawnTimer += mTimer->DeltaTime();
+	for (Octopus* octopi : mFormationOctopi) {
+		if (octopi != nullptr &&
+			octopi->CurrentState() == Enemy::FlyIn) {
+			return true;
+		}
+	}
 
-	//if (mSpawnTimer >= mSpawnDelay) {
-	//	XMLElement* element = mSpawningPatterns.FirstChildElement("Level")
-	//		->FirstChild()->NextSiblingElement();
-	//	bool spawned = false;
-	//	bool priorityFound = false;
+	for (Squid* squid : mFormationSquids) {
+		if (squid != nullptr &&
+			squid->CurrentState() == Enemy::FlyIn) {
+			return true;
+		}
+	}
 
-	//	while (element != nullptr) {
-	//		int priority = element->IntAttribute("priority");
+	for (RedShip* redShip : mFormationShip) {
+		if (redShip != nullptr &&
+			redShip->CurrentState() == Enemy::FlyIn) {
+			return true;
+		}
+	}
 
-	//		if (mCurrentFlyInPriority == priority) {
-	//			priorityFound = true;
-	//			int path = element->IntAttribute("path");
-	//			XMLElement* child = element->FirstChildElement();
-
-	//			for (int i = 0; i < mCurrentFlyInIndex && child != nullptr; i++) {
-	//				child = child->NextSiblingElement();
-	//			}
-
-	//			if (child != nullptr) {
-	//				std::string type = child->Attribute("type");
-	//				int index = child->IntAttribute("index");
-
-	//			     if (type.compare("Crab") == 0) {
-	//					if (!mChallengeStage) {
-	//						
-	//						mFormationCrabs[index] = new Crab(index, false);
-	//						mCrabCount += 1;
-	//					}
-	//					else {
-	//						//TODO: Change the challenge boolean to true once Challenge logic is implemented
-	//						mEnemies.push_back(new Crab(index, false));
-	//					}
-	//				}
-	//				else if (type.compare("Octopus") == 0) {
-	//					if (!mChallengeStage) {
-	//						mFormationOctopi[index] = new Octopus(index, false);
-	//						mOctopusCount ++;
-	//					}
-	//					else {
-	//						mEnemies.push_back(new Octopus(index,false));
-	//					}
-	//				}
-	//				else if (type.compare("Squid") == 0) {
-	//					if (!mChallengeStage) {
-	//						mFormationSquids[index] = new Squid(index, false);
-	//						mSquidCount ++;
-	//					}
-	//					else {
-	//						mEnemies.push_back(new Squid(index, false));
-	//					}
-	//				}
-
-	//				else if (type.compare("RedShip") == 0) {
-	//					 if (!mChallengeStage) {
-	//						 mFormationShip[index] = new RedShip(index, false);
-	//						 mShipCount++;
-	//					 }
-	//					 else {
-	//						 mEnemies.push_back(new RedShip(index, false));
-	//					 }
-	//				 }
-
-	//				spawned = true;
-	//			}
-	//		}
-
-	//		element = element->NextSiblingElement();
-	//	}
-
-	//	if (!priorityFound) {
-
-	//		mSpawningFinished = true;
-	//	}
-	//	else {
-	//		if (!spawned) {
-
-	//			if (!EnemyFlyingIn()) {
-	//				mCurrentFlyInPriority += 1;
-	//				mCurrentFlyInIndex = 0;
-	//			}
-	//		}
-	//		else {
-	//			mCurrentFlyInIndex += 1;
-	//		}
-	//	}
-
-	//	mSpawnTimer = 0.0f;
-	//}
+	return false;
 }
 
 void Level::HandleEnemyFormation() {

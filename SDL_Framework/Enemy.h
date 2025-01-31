@@ -11,10 +11,10 @@ using namespace SDL_Framework;
 
 class Enemy : public PhysEntity {
 public:
-	enum States { InFormation, Diving, Dead };
+	enum States { FlyIn, InFormation, Diving, Dead };
 	enum Types { Crab, Octopus, Squid, RedShips, Tile};
 
-	//static void CreatePaths();
+	static void CreatePaths();
 	static void SetFormation(Formation* formation);
 	static void CurrentPlayer(Player* player);
 
@@ -22,10 +22,9 @@ public:
 	Types Type();
 	int Index();
 
-	Enemy(int Index, bool Challenge);
+	Enemy(int path, int Index, bool Challenge);
 	virtual ~Enemy();
 
-	//virtual void Dive(int type = 0);
 	virtual void Hit(PhysEntity* other) override;
 	bool InDeathAnimation();
 
@@ -34,7 +33,7 @@ public:
 
 protected:
 	static Formation* sFormation;
-	//static std::vector<std::vector<Vector2>> sPaths;
+	static std::vector<std::vector<Vector2>> sPaths;
 	static Player* sPlayer;
 
 	Timer* mTimer;
@@ -51,7 +50,7 @@ protected:
 
 	bool mChallengeStage;
 
-	//unsigned mCurrentPath;
+	unsigned mCurrentPath;
 
 	unsigned mCurrentWayPoint;
 	const float EPSILON = 50.0f;
@@ -59,17 +58,20 @@ protected:
 	float mSpeed;
 
 	virtual void PathComplete();
+	virtual void FlyInComplete();
 
 	void JoinFormation();
 
 	virtual Vector2 WorldFormationPosition();
 	virtual Vector2 LocalFormationPosition() = 0;
 
+	virtual void HandleFlyInState();
 	virtual void HandleInFormationState();
 	virtual void HandleDeadState();
 
 	void HandleStates();
 
+	virtual void RenderFlyInState();
 	virtual void RenderInFormationState();
 	virtual void RenderDeadState();
 

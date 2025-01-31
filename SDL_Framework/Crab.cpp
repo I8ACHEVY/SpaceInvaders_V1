@@ -2,6 +2,8 @@
 #include "BoxCollider.h"
 #include "AudioManager.h"
 
+//std::vector<std::vector<Vector2>> Crab::sDivePaths;
+
 Vector2 Crab::LocalFormationPosition() {
 	Vector2 retVal;
 
@@ -21,8 +23,8 @@ void Crab::Hit(PhysEntity* other) {
 	Enemy::Hit(other);
 }
 
-Crab::Crab(int index, bool challenge) :
-Enemy(index, challenge) 
+Crab::Crab(int path, int index, bool challenge) :
+Enemy(path, index, challenge) 
 {
 	mTag = "Crab";
 
