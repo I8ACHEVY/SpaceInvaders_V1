@@ -24,7 +24,7 @@ namespace SDL_Framework {
 		~RedShip();
 
 	private:
-		//static std::vector<std::vector<Vector2>> sDivePaths;
+		static std::vector<std::vector<Vector2>> sDivePaths;
 
 		static const int MAX_BULLETS = 2;
 		Bullet* mBullets[MAX_BULLETS];

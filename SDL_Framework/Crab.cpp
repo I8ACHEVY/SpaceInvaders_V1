@@ -2,7 +2,7 @@
 #include "BoxCollider.h"
 #include "AudioManager.h"
 
-//std::vector<std::vector<Vector2>> Crab::sDivePaths;
+std::vector<std::vector<Vector2>> Crab::sDivePaths;
 
 Vector2 Crab::LocalFormationPosition() {
 	Vector2 retVal;

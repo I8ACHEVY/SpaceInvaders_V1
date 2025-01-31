@@ -12,7 +12,7 @@ public:
 	~Crab();
 
 private:
-	//static std::vector<std::vector<Vector2>> sDivePaths;
+	static std::vector<std::vector<Vector2>> sDivePaths;
 
 	Vector2 LocalFormationPosition() override;
 

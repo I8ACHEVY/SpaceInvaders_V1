@@ -2,7 +2,7 @@
 #include "BoxCollider.h"
 #include "AudioManager.h"
 
-//std::vector<std::vector<Vector2>> Squid::sDivePaths;
+std::vector<std::vector<Vector2>> Squid::sDivePaths;
 
 void Squid::Hit(PhysEntity* other) {
 	if (mWasHit) {

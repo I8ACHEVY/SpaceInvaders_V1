@@ -14,7 +14,7 @@ namespace SDL_Framework {
 		~Squid();
 
 	private:
-		//static std::vector<std::vector<Vector2>> sDivePaths;
+		static std::vector<std::vector<Vector2>> sDivePaths;
 
 		int mCurrentPath;
 

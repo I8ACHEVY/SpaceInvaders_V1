@@ -2,7 +2,7 @@
 #include "BoxCollider.h"
 #include "AudioManager.h"
 
-//std::vector<std::vector<Vector2>> RedShip::sDivePaths;
+std::vector<std::vector<Vector2>> RedShip::sDivePaths;
 
 //void RedShip::CreateDivePaths() {
 //	int currentPath = 0;

@@ -110,6 +110,8 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 		mFormationShip[i] = nullptr;
 	}
 	
+	mCurrentFlyInPriority = 0;
+	mCurrentFlyInIndex = 0;
 	mSpawnDelay = 0.2f;
 	mSpawnTimer = 0.0f;
 	mSpawningFinished = false;
@@ -273,43 +275,43 @@ void Level::HandleEnemySpawning() {
 					int index = child->IntAttribute("index");
 	
 				     if (type.compare("Crab") == 0) {
-						if (!mChallengeStage) {
+						//if (!mChallengeStage) {
 							
 							mFormationCrabs[index] = new Crab(path, index, false);
 							mCrabCount += 1;
-						}
-						else {
-							//TODO: Change the challenge boolean to true once Challenge logic is implemented
-							mEnemies.push_back(new Crab(path, index, false));
-						}
+						//}
+						//else {
+						//	//TODO: Change the challenge boolean to true once Challenge logic is implemented
+						//	mEnemies.push_back(new Crab(path, index, false));
+						//}
 					}
 					else if (type.compare("Octopus") == 0) {
-						if (!mChallengeStage) {
+						//if (!mChallengeStage) {
 							mFormationOctopi[index] = new Octopus(path, index, false);
 							mOctopusCount += 1;
-						}
-						else {
-							mEnemies.push_back(new Octopus(path,index,false));
-						}
+						//}
+						//else {
+						//	mEnemies.push_back(new Octopus(path,index,false));
+						//}
 					}
 					else if (type.compare("Squid") == 0) {
-						if (!mChallengeStage) {
+						//if (!mChallengeStage) {
 							mFormationSquids[index] = new Squid(path, index, false);
 							mSquidCount += 1;
-						}
-						else {
-							mEnemies.push_back(new Squid(path, index, false));
-						}
+						//}
+						//else {
+						//	mEnemies.push_back(new Squid(path, index, false));
+						//}
 					}
 	
 					else if (type.compare("RedShip") == 0) {
-						 if (!mChallengeStage) {
+						 //if (!mChallengeStage) {
 							 mFormationShip[index] = new RedShip(path, index, false);
 							 mShipCount += 1;
-						 }
-						 else {
-							 mEnemies.push_back(new RedShip(path, index, false));
-						 }
+						// }
+						 //else {
+						//	 mEnemies.push_back(new RedShip(path, index, false));
+						// }
 					 }
 	
 					spawned = true;
@@ -448,15 +450,18 @@ void Level::Update() {
 		HandleStartLabels();
 	}
 	else {
-		
 
 		if (!mSpawningFinished) {
 			HandleEnemySpawning();
 		}
 
-		if (!mChallengeStage) {
+		//if (!mChallengeStage) {
+		//	HandleEnemyFormation();
+		//}
+		if (mSpawningFinished) {
 			HandleEnemyFormation();
 		}
+		
 		else {
 			for (auto enemy : mEnemies) {
 				enemy->Update();

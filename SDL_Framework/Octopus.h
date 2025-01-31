@@ -12,7 +12,7 @@ public:
 	~Octopus();
 
 private:
-	//static std::vector<std::vector<Vector2>> sDivePaths;
+	static std::vector<std::vector<Vector2>> sDivePaths;
 
 	bool mDiver;
 	bool mWasHit;

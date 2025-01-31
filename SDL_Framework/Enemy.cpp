@@ -294,18 +294,9 @@ Enemy::Enemy(int path, int index, bool challenge) :
 
 	mCurrentWayPoint = 1;
 
-	//Position(sPaths[mCurrentPath][0]); // was 0 for mCurrentWaypoint vector out of range saying nullptr
+	Position(sPaths[mCurrentPath][0]);
 
-	if (path < sPaths.size() && !sPaths[path].empty()) {
-		Position(sPaths[mCurrentPath][0]);
-	}
-	else {
-
-		Position(Vector2(0, 0));
-	}
-	// debug sPaths above
-
-	mTexture[0] = nullptr;		// enemy new Texture("AnimatedEnemies.png", 0, 0, 52, 40);
+	mTexture[0] = nullptr;
 	mTexture[1] = nullptr;
 	
 	mSpeed = 580.0f;
@@ -348,12 +339,12 @@ Vector2 Enemy::WorldFormationPosition() {
 }
 
 void Enemy::FlyInComplete() {
-	if (mChallengeStage) {
-		mCurrentState = Dead;	//change dead when adding challenge stages
-	}
-	else {
+	//if (mChallengeStage) {
+	//	mCurrentState = Dead;	//change dead when adding challenge stages
+	//}
+	//else {
 		JoinFormation();
-	}
+	//}
 }
 
 void Enemy::JoinFormation() {
@@ -364,9 +355,9 @@ void Enemy::JoinFormation() {
 }
 
 void Enemy::PathComplete() {
-	if (mChallengeStage) {
-		mCurrentState = Dead;	//change dead when adding challenge stages
-	}
+	//if (mChallengeStage) {
+	//	mCurrentState = Dead;	//change dead when adding challenge stages
+	//}
 }
 
 Enemy::Types Enemy::Type() {
