@@ -116,6 +116,22 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	mSpawnTimer = 0.0f;
 	mSpawningFinished = false;
 
+	mDivingCrab = nullptr;
+	mCrabDiveDelay = 1.0f;
+	mCrabDiveTimer = 0.0f;
+
+	mDivingOctopus = nullptr;
+	mOctopusDiveDelay = 3.0f;
+	mOctopusDiveTimer = 0.0f;
+
+	mDivingSquid = nullptr;
+	mSquidDiveDelay = 5.0f;
+	mSquidDiveTimer = 0.0f;
+
+	mDivingShip = nullptr;
+	mShipDiveDelay = 6.0f;
+	mShipDiveTimer = 0.0f;
+
 	Enemy::CurrentPlayer(mPlayer);
 }
 
@@ -440,6 +456,7 @@ void Level::HandleEnemyFormation() {
 	}
 }
 
+
 void Level::Update() {
 	mBarrack1->Update();
 	mBarrack2->Update();
@@ -527,8 +544,9 @@ void Level::Render() {
 			}
 		}
 
-			//for (auto enemy : mEnemies) {
-			//	enemy->Render();
+		//for (auto enemy : mEnemies) {
+		//	enemy->Render();
+		//}
 
 		if (mPlayerHit) {
 			if (mRespawnTimer >= mRespawnLabelOnScreen) {
