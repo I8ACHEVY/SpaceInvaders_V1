@@ -12,9 +12,27 @@ void Crab::RenderDiveState() {
 
 	mTexture[0]->Render();
 
+	for (int i = 0; i < sDivePaths[currentPath].size() - 1; i++) {		// Dive path debugging sPath
+		Graphics::Instance()->DrawLine(
+			mDiveStartPosition.x + sDivePaths[currentPath][i].x,
+			mDiveStartPosition.y + sDivePaths[currentPath][i].y,
+			mDiveStartPosition.x + sDivePaths[currentPath][i + 1].x,
+			mDiveStartPosition.y + sDivePaths[currentPath][i + 1].y
+		);
+	}
+
 	Vector2 finalPos = WorldFormationPosition();
 	auto currentDivePath = sDivePaths[currentPath];
 	Vector2 pathEndPos = mDiveStartPosition + currentDivePath[currentDivePath.size() - 1];
+
+	for (int i = 0; i < sPaths[mCurrentPath].size() - 1; i++) {		// debug bezier paths even after called sDivePaths
+		Graphics::Instance()->DrawLine(
+			sPaths[mCurrentPath][i].x,
+			sPaths[mCurrentPath][i].y,
+			sPaths[mCurrentPath][i + 1].x,
+			sPaths[mCurrentPath][i + 1].y
+		);
+	}
 }
 
 
@@ -88,7 +106,7 @@ Enemy(path, index, challenge)
 	
 	mType = Enemy::Crab;
 
-	//AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
+	AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
 }
 
 Crab::~Crab() {}

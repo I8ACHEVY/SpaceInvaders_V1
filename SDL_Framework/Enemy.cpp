@@ -13,6 +13,9 @@ void Enemy::CreatePaths() {
 	int currentPath = 0;
 	BezierPath* path = new BezierPath();
 
+	//path->AddCurve({ Vector2(500.0f, 10.0f), Vector2(500.0f, 0.0f),	//strait line
+//	Vector2(500.0f, 310.0f), Vector2(500.f, 300.0f) }, 1);
+
 	path->AddCurve({
 		Vector2(screenXPoint + 150.0f, screenYPoint + -10.0f),
 		Vector2(screenXPoint + 150.0f, screenYPoint + -20.0f),
@@ -464,10 +467,28 @@ void Enemy::HandleStates() {
 
 void Enemy::RenderFlyInState() {
 	mTexture[0]->Render();
+
+	for (int i = 0; i < sPaths[mCurrentPath].size() - 1; i++) {		// debug paths as they are called sPaths
+		Graphics::Instance()->DrawLine(
+			sPaths[mCurrentPath][i].x,
+			sPaths[mCurrentPath][i].y,
+			sPaths[mCurrentPath][i + 1].x,
+			sPaths[mCurrentPath][i + 1].y
+		);
+	}
 }
 
 void Enemy::RenderInFormationState() {
 	mTexture[sFormation->GetTick() % 2]->Render();
+
+	for (int i = 0; i < sPaths[mCurrentPath].size() - 1; i++) {		// debug bezier paths even after called sDivePaths
+		Graphics::Instance()->DrawLine(
+			sPaths[mCurrentPath][i].x,
+			sPaths[mCurrentPath][i].y,
+			sPaths[mCurrentPath][i + 1].x,
+			sPaths[mCurrentPath][i + 1].y
+		);
+	}
 }
 
 void Enemy::RenderStates() {
