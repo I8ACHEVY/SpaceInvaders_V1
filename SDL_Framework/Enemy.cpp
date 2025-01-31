@@ -261,39 +261,39 @@ void Enemy::CurrentPlayer(Player* player) {
 	sPlayer = player;
 }
 
-void Enemy::HandleFiring() {
-	if (sPlayer == nullptr) return;
-
-	Vector2 playerPosition = sPlayer->Position();
-	Vector2 direction = (playerPosition - Position()).Normalized();
-
-	int numBullets = (rand() % 2) + 1;
-
-	for (int i = 0; i < MAX_BULLETS; i++) {
-		float spreadAngle = (rand() % 20 - 10) * DEG_TO_RAD;
-		Vector2 bulletDirection = (spreadAngle);
-
-		Bullet* bullet = new Bullet(false);
-		bullet->Fire(Position());
-		PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
-
-		if (!mBullets[i]->Active()) {
-			mBullets[i]->Fire(Position());
-			//mAudio->PlaySFX("Fire.wav");
-			break;
-		}
-	}
-}
+//void Enemy::HandleFiring() {
+//	if (sPlayer == nullptr) return;
+//
+//	Vector2 playerPosition = sPlayer->Position();
+//	Vector2 direction = (playerPosition - Position()).Normalized();
+//
+//	int numBullets = (rand() % 2) + 1;
+//
+//	for (int i = 0; i < MAX_BULLETS; i++) {
+//		float spreadAngle = (rand() % 20 - 10) * DEG_TO_RAD;
+//		Vector2 bulletDirection = (spreadAngle);
+//
+//		Bullet* bullet = new Bullet(false);
+//		bullet->Fire(Position());
+//		PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
+//
+//		if (!mBullets[i]->Active()) {
+//			mBullets[i]->Fire(Position());
+//			//mAudio->PlaySFX("Fire.wav");
+//			break;
+//		}
+//	}
+//}
 
 Enemy::Enemy(int path, int index, bool challenge) :
-	mIndex(index), mChallengeStage(challenge){
+	mCurrentPath(path),mIndex(index), mChallengeStage(challenge){
 
 	mTimer = Timer::Instance();
 
 	mCurrentState = FlyIn;
 
 	mCurrentWayPoint = 1;
-	Position(sPaths[mCurrentPath][0]);
+	Position(sPaths[mCurrentPath][0]); // was 0 for mCurrentWaypoint
 
 	mTexture[0] = nullptr;		// enemy new Texture("AnimatedEnemies.png", 0, 0, 52, 40);
 	mTexture[1] = nullptr;
@@ -307,9 +307,9 @@ Enemy::Enemy(int path, int index, bool challenge) :
 	mDeathAnimation->Position(Vec2_Zero);
 	mDeathAnimation->SetWrapMode(Animation::WrapModes::Once);
 
-	for (int i = 0; i < MAX_BULLETS; i++) {
-		mBullets[i] = new Bullet(true);
-	}
+	//for (int i = 0; i < MAX_BULLETS; i++) {
+	//	mBullets[i] = new Bullet(true);
+	//}
 }
 
 Enemy::~Enemy() {
@@ -323,10 +323,10 @@ Enemy::~Enemy() {
 	delete mDeathAnimation;
 	mDeathAnimation = nullptr;
 
-	for (auto bullet : mBullets) {
-		delete bullet;
-		bullet = nullptr;
-	}
+	//for (auto bullet : mBullets) {
+	//	delete bullet;
+	//	bullet = nullptr;
+	//}
 }
 
 Enemy::States Enemy::CurrentState() {
@@ -378,9 +378,9 @@ void Enemy::Render() {
 		RenderStates();
 	}
 
-	for (int i = 0; i < MAX_BULLETS; i++) {
-		mBullets[i]->Render();
-	}
+	//for (int i = 0; i < MAX_BULLETS; i++) {
+	//	mBullets[i]->Render();
+	//}
 }
 
 void Enemy::HandleFlyInState() {
@@ -455,6 +455,10 @@ void Enemy::HandleStates() {
 		HandleDeadState();
 		break;
 	}
+}
+
+void Enemy::RenderFlyInState() {
+	mTexture[0]->Render();
 }
 
 void Enemy::RenderInFormationState() {

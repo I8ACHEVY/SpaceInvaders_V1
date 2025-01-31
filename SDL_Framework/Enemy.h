@@ -11,8 +11,8 @@ using namespace SDL_Framework;
 
 class Enemy : public PhysEntity {
 public:
-	enum States { FlyIn, InFormation, Diving, Dead };
-	enum Types { Crab, Octopus, Squid, RedShips, Tile};
+	enum States { FlyIn, InFormation, Dead };
+	enum Types { Crab, Octopus, Squid, RedShips};
 
 	static void CreatePaths();
 	static void SetFormation(Formation* formation);
@@ -79,9 +79,9 @@ protected:
 
 	bool IgnoreCollision() override;
 
-	void HandleFiring();
-	void FireBullet(Vector2 position, Vector2 direction);
-	static const int MAX_BULLETS = 2;
-	Bullet* mBullets[MAX_BULLETS];
-	AudioManager* mAudio;
+	//void HandleFiring();
+	//void FireBullet(Vector2 position, Vector2 direction);
+	//static const int MAX_BULLETS = 2;
+	//Bullet* mBullets[MAX_BULLETS];
+	//AudioManager* mAudio;
 };

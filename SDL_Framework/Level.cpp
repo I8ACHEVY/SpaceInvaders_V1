@@ -427,8 +427,9 @@ void Level::HandleEnemyFormation() {
 			mSquidCount == MAX_SQUIDS && 
 			mShipCount == MAX_SHIPS){
 
-			mFormation->Lock();
-			
+			if (!EnemyFlyingIn()) {
+				mFormation->Lock();
+			}
 		}
 	}
 

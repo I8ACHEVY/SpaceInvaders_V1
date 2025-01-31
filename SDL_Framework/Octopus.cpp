@@ -2,6 +2,8 @@
 #include "BoxCollider.h"
 #include "AudioManager.h"
 
+//std::vector<std::vector<Vector2>> Octopus::sDivePaths;
+
 Vector2 Octopus::LocalFormationPosition() {
 	Vector2 retVal;
 
