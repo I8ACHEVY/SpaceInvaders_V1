@@ -286,7 +286,7 @@ void Level::HandleEnemySpawning() {
 					else if (type.compare("Octopus") == 0) {
 						if (!mChallengeStage) {
 							mFormationOctopi[index] = new Octopus(path, index, false);
-							mOctopusCount ++;
+							mOctopusCount += 1;
 						}
 						else {
 							mEnemies.push_back(new Octopus(path,index,false));
@@ -295,7 +295,7 @@ void Level::HandleEnemySpawning() {
 					else if (type.compare("Squid") == 0) {
 						if (!mChallengeStage) {
 							mFormationSquids[index] = new Squid(path, index, false);
-							mSquidCount ++;
+							mSquidCount += 1;
 						}
 						else {
 							mEnemies.push_back(new Squid(path, index, false));
@@ -305,7 +305,7 @@ void Level::HandleEnemySpawning() {
 					else if (type.compare("RedShip") == 0) {
 						 if (!mChallengeStage) {
 							 mFormationShip[index] = new RedShip(path, index, false);
-							 mShipCount++;
+							 mShipCount += 1;
 						 }
 						 else {
 							 mEnemies.push_back(new RedShip(path, index, false));

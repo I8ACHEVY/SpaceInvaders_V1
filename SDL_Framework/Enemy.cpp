@@ -293,7 +293,17 @@ Enemy::Enemy(int path, int index, bool challenge) :
 	mCurrentState = FlyIn;
 
 	mCurrentWayPoint = 1;
-	Position(sPaths[mCurrentPath][0]); // was 0 for mCurrentWaypoint
+
+	//Position(sPaths[mCurrentPath][0]); // was 0 for mCurrentWaypoint vector out of range saying nullptr
+
+	if (path < sPaths.size() && !sPaths[path].empty()) {
+		Position(sPaths[mCurrentPath][0]);
+	}
+	else {
+
+		Position(Vector2(0, 0));
+	}
+	// debug sPaths above
 
 	mTexture[0] = nullptr;		// enemy new Texture("AnimatedEnemies.png", 0, 0, 52, 40);
 	mTexture[1] = nullptr;

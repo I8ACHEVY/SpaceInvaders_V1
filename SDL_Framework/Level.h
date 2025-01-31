@@ -35,10 +35,10 @@ private:
 	TileLayer* mBarrack3;
 	TileLayer* mBarrack4;
 
-	static const int MAX_CRABS = 22;
-	static const int MAX_OCTOPI = 22;
-	static const int MAX_SQUIDS = 11;
-	static const int MAX_SHIPS = 4;
+	static const int MAX_CRABS = 16;	//22
+	static const int MAX_OCTOPI = 20;	//22
+	static const int MAX_SQUIDS = 4;	//11
+	static const int MAX_SHIPS = 4;		//1
 
 	int mCrabCount;
 	int mOctopusCount;
