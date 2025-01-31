@@ -5,6 +5,7 @@
 std::vector<std::vector<Vector2>> Crab::sDivePaths;
 
 void Crab::CreateDivePaths() {
+
 }
 
 void Crab::RenderDiveState() {
@@ -106,7 +107,7 @@ Enemy(path, index, challenge)
 	
 	mType = Enemy::Crab;
 
-	AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
+	//AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
 }
 
 Crab::~Crab() {}
