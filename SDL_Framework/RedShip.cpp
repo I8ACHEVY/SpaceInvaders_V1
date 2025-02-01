@@ -18,7 +18,7 @@ Vector2 RedShip::LocalFormationPosition() {
 	retVal.x =
 		(sFormation->GridSize().x + sFormation->GridSize().x *
 			2 * (mIndex / 2)) * (float)dir;
-	retVal.y = -sFormation->GridSize().y * 2.2;
+	retVal.y = -sFormation->GridSize().y * 3.4;
 
 	return retVal;
 }
@@ -93,9 +93,9 @@ RedShip::RedShip(int path, int index, bool challenge) :
 	mType = Enemy::RedShips;
 
 
-		AddCollider(new BoxCollider(Vector2(10.0f, 45.0f)));
-		AddCollider(new BoxCollider(Vector2(18.0f, 32.0f)), Vector2(12.0f, 5.0f));
-		AddCollider(new BoxCollider(Vector2(18.0f, 32.0f)), Vector2(-12.0f, 5.0f));
+		//AddCollider(new BoxCollider(Vector2(10.0f, 45.0f)));
+		//AddCollider(new BoxCollider(Vector2(18.0f, 32.0f)), Vector2(12.0f, 5.0f));
+		//AddCollider(new BoxCollider(Vector2(18.0f, 32.0f)), Vector2(-12.0f, 5.0f));
 
 
 	//mId = PhysicsManager::Instance()->RegisterEntity(this,

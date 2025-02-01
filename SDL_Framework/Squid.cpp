@@ -74,10 +74,11 @@ Vector2 Squid::LocalFormationPosition() {
 	Vector2 retVal;
 	int dir = mIndex % 2 == 0 ? -1 : 1;
 
-	retVal.x =
-		(sFormation->GridSize().x + sFormation->GridSize().x *
-			2 * (mIndex / 2)) * (float)dir;
-	retVal.y = -sFormation->GridSize().y;
+	retVal.x = (sFormation->GridSize().x + sFormation->GridSize().x *
+			2 * (mIndex / 4)) * (float)dir;
+	
+	retVal.y = -sFormation->GridSize().y *
+		((mIndex % 4)/2);
 
 	return retVal;
 }
@@ -100,7 +101,7 @@ Squid::Squid(int path, int index, bool challenge) :
 
 	mCurrentPath = 0;
 
-	AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
+	//AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
 
 	mWasHit = false;
 }

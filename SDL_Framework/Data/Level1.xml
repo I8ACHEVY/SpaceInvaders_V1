@@ -29,7 +29,6 @@
 		<Enemy type="Octopus" index="19"/>
 		<Enemy type="Octopus" index="20"/>
 		<Enemy type="Octopus" index="21"/>
-		<Enemy type="Octopus" index="22"/>
 	</Spawn>
 
 	<Spawn path="2" priority="1">
@@ -58,7 +57,6 @@
 		<Enemy type="Crab" index="19"/>
 		<Enemy type="Crab" index="20"/>
 		<Enemy type="Crab" index="21"/>
-		<Enemy type="Crab" index="22"/>
 	</Spawn>
 
 	<Spawn path="0" priority="3">
@@ -87,7 +85,6 @@
 		<Enemy type="Squid" index="19"/>
 		<Enemy type="Squid" index="20"/>
 		<Enemy type="Squid" index="21"/>
-		<Enemy type="Squid" index="22"/>
 	
 	</Spawn>
 

@@ -472,18 +472,13 @@ void Level::Update() {
 			HandleEnemySpawning();
 		}
 
-		//if (!mChallengeStage) {
-		//	HandleEnemyFormation();
-		//}
-		if (mSpawningFinished) {
-			HandleEnemyFormation();
-		}
-		
-		else {
+		HandleEnemyFormation();
+
+
 			for (auto enemy : mEnemies) {
-				enemy->Update();
+			enemy->Update();
 			}
-		}
+		//}
 
 		HandleCollisions();
 
