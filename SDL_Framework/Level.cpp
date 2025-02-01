@@ -92,7 +92,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	}
 
 	mFormation = new Formation();
-	mFormation->Position(Graphics::SCREEN_WIDTH * 0.5f, 355.0f);
+	mFormation->Position(Graphics::SCREEN_WIDTH * 0.5f, 560.0f);
 	Enemy::SetFormation(mFormation);
 	
 	for (int i = 0; i < MAX_CRABS; i++) {

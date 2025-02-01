@@ -40,12 +40,11 @@ void Crab::RenderDiveState() {
 Vector2 Crab::LocalFormationPosition() {
 	Vector2 retVal;
 
-	int dir = mIndex % 2 == 0 ? -1 : 1;
-
-	retVal.x = (sFormation->GridSize().x + sFormation->GridSize().x * 
-		2 * (mIndex / 4)) * (float)dir;
-
-	retVal.y = sFormation->GridSize().y * ((mIndex % 4) / 2);
+	int enemiesPerRow = 11;
+	int middle = enemiesPerRow / 2;
+	retVal.x = (mIndex % enemiesPerRow - middle) * sFormation->GridSize().x * 1.2f;
+	retVal.y = -sFormation->GridSize().y + sFormation->GridSize().y * 0.5f *
+		((mIndex / enemiesPerRow));
 
 	return retVal;
 }

@@ -12,7 +12,7 @@ namespace SDL_Framework {
 
                 float xPos = xPositions[i % xPositions.size()] + offsetX;
 
-				float yPos = j * (tile->GetScaledDimensions().y + spacing) + 760 + offsetY;
+				float yPos = j * (tile->GetScaledDimensions().y + spacing) + 790 + offsetY;
 
 				if (j == 0 || (j == 1 && (i == 0 || i == numTilesPerRow - 1))) {
 					tile->Position(Vector2(xPos, yPos));

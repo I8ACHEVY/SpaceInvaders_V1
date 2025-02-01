@@ -18,7 +18,7 @@ Vector2 RedShip::LocalFormationPosition() {
 	retVal.x =
 		(sFormation->GridSize().x + sFormation->GridSize().x *
 			2 * (mIndex / 2)) * (float)dir;
-	retVal.y = -sFormation->GridSize().y * 3.4;
+	retVal.y = -sFormation->GridSize().y * 2.8;
 
 	return retVal;
 }
