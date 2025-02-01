@@ -49,7 +49,7 @@ void Formation::Update() {
 			}
 		}
 
-		mMovingSpeed += 10.0f * mTimer->DeltaTime(); // adjust for gradually increase speed of formation side to side
+		mMovingSpeed += 10.0f * mTimer->DeltaTime(); // adjust to gradually increase speed of formation side to side
 
 		mOffsetTimer += mTimer->DeltaTime();
 
@@ -109,6 +109,43 @@ void Formation::Update() {
 		}
 	}
 }
+
+// //Original
+//void Formation::Update() {
+//	if (!mLocked || mOffsetCounter != 4) {
+//		mOffsetTimer += mTimer->DeltaTime();
+//
+//		if (mOffsetTimer >= mOffsetDelay) {
+//			mOffsetCounter++;
+//
+//			Translate(Vec2_Right * (float)mOffsetDirection *
+//				mOffsetAmount, World);
+//
+//			if (mOffsetCounter == 8) {
+//				mOffsetCounter = 0;
+//				mOffsetDirection *= -1;
+//			}
+//
+//			mOffsetTimer = 0.0f;
+//		}
+//	}
+//	else {
+//		mPulseTimer += mTimer->DeltaTime();
+//
+//		if (mPulseTimer >= mPulseDelay) {
+//			mPulseCounter += mPulseDirection;
+//
+//			mGridSize.x += (mPulseDirection * ((mPulseCounter % 2) ? 1 : 2));
+//
+//			if (mPulseCounter == 4 || mPulseCounter == 0) {
+//				mPulseDirection *= -1;
+//			}
+//
+//			mPulseTimer = 0.0f;
+//		}
+//	}
+//}
+
 
 int Formation::GetTick() {
 	if (!mLocked || mOffsetCounter != 4) {

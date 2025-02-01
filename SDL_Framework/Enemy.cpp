@@ -289,7 +289,7 @@ void Enemy::CurrentPlayer(Player* player) {
 //}
 
 Enemy::Enemy(int path, int index, bool challenge) :
-	mCurrentPath(path),mIndex(index), mChallengeStage(challenge){
+	mCurrentPath(path),mIndex(index){
 
 	mTimer = Timer::Instance();
 

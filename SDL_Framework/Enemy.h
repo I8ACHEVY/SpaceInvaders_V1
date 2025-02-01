@@ -48,7 +48,7 @@ protected:
 
 	int mIndex;
 
-	bool mChallengeStage;
+	//bool mChallengeStage;
 
 	unsigned mCurrentPath;
 	Vector2 mDiveStartPosition;
