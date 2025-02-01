@@ -116,21 +116,21 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	mSpawnTimer = 0.0f;
 	mSpawningFinished = false;
 
-	mDivingCrab = nullptr;
-	mCrabDiveDelay = 1.0f;
-	mCrabDiveTimer = 0.0f;
+	//mDivingCrab = nullptr;
+	//mCrabDiveDelay = 1.0f;
+	//mCrabDiveTimer = 0.0f;
 
-	mDivingOctopus = nullptr;
-	mOctopusDiveDelay = 3.0f;
-	mOctopusDiveTimer = 0.0f;
+	//mDivingOctopus = nullptr;
+	//mOctopusDiveDelay = 3.0f;
+	//mOctopusDiveTimer = 0.0f;
 
-	mDivingSquid = nullptr;
-	mSquidDiveDelay = 5.0f;
-	mSquidDiveTimer = 0.0f;
+	//mDivingSquid = nullptr;
+	//mSquidDiveDelay = 5.0f;
+	//mSquidDiveTimer = 0.0f;
 
-	mDivingShip = nullptr;
-	mShipDiveDelay = 6.0f;
-	mShipDiveTimer = 0.0f;
+	//mDivingShip = nullptr;
+	//mShipDiveDelay = 6.0f;
+	//mShipDiveTimer = 0.0f;
 
 	Enemy::CurrentPlayer(mPlayer);
 }

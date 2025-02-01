@@ -18,16 +18,6 @@ PlayScreen::PlayScreen() {
 	mScoreMap->Scale(Vector2(2.0f, 2.0f));
 	mScoreMap->SetWrapMode(Animation::WrapModes::Loop);
 
-	//mTexture[0] = new GLTexture("InvaderSprites.png", 0, 313, 150, 85);
-	//mTexture[1] = new GLTexture("InvaderSprites.png", 155, 313, 150, 85);
-
-	//for (auto texture : mTexture) {
-	//	texture->Parent(this);
-	//	texture->Position(Vec2_Zero);
-	//	//texture->Scale(Vector2(1.7f, 1.7f));
-
-	//}
-
 	mLevel = nullptr;
 	mLevelStartDelay = 2.0f;
 	mLevelStarted = false;

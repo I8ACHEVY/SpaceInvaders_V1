@@ -15,6 +15,7 @@ public:
 	enum Types { Crab, Octopus, Squid, RedShips};
 
 	static void CreatePaths();
+	virtual void Dive(int type = 0);
 	static void SetFormation(Formation* formation);
 	static void CurrentPlayer(Player* player);
 

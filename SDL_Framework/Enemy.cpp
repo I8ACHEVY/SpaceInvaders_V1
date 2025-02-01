@@ -371,6 +371,13 @@ int Enemy::Index() {
 	return mIndex;
 }
 
+void Enemy::Dive(int type) {
+	Parent(nullptr);
+	mCurrentState = Diving;
+	mDiveStartPosition = Position();
+	mCurrentWayPoint = 1;
+}
+
 void Enemy::Update() {
 	if (Active()) {
 		HandleStates();

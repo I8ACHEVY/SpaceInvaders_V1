@@ -50,27 +50,26 @@ private:
 	Squid* mFormationSquids[MAX_SQUIDS];
 	RedShip* mFormationShip[MAX_SHIPS];
 
-	Crab* mDivingCrab;
-	bool mSkipFirstCrab;
-	float mCrabDiveDelay;
-	float mCrabDiveTimer;
+	//Crab* mDivingCrab;
+	//bool mSkipFirstCrab;
+	//float mCrabDiveDelay;
+	//float mCrabDiveTimer;
 
-	Octopus* mDivingOctopus;
-	Octopus* mDivingOctopus2;
-	float mOctopusDiveDelay;
-	float mOctopusDiveTimer;
+	//Octopus* mDivingOctopus;
+	//float mOctopusDiveDelay;
+	//float mOctopusDiveTimer;
 
-	Squid* mDivingSquid;
-	bool mCaptureDive;
-	bool mSkipFirstSquid;
-	float mSquidDiveDelay;
-	float mSquidDiveTimer;
+	//Squid* mDivingSquid;
+	//bool mCaptureDive;
+	//bool mSkipFirstSquid;
+	//float mSquidDiveDelay;
+	//float mSquidDiveTimer;
 
-	RedShip* mDivingShip;
-	bool mSkipFirstShip;
-	float mShipDiveDelay;
-	float mShipDiveTimer;
-	bool mShipSpawn;
+	//RedShip* mDivingShip;
+	//bool mSkipFirstShip;
+	//float mShipDiveDelay;
+	//float mShipDiveTimer;
+	//bool mShipSpawn;
 
 	std::vector<Enemy*> mEnemies;	//debug testing
 
