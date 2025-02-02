@@ -213,21 +213,17 @@ void Enemy::CurrentPlayer(Player* player) {
 void Enemy::HandleFiring() {
 	if (sPlayer == nullptr) return;
 
-	Vector2 playerPosition = sPlayer->Position();
-	Vector2 direction = (playerPosition - Position()).Normalized();
-
 	int numBullets = (rand() % 2) + 1;
 
 	for (int i = 0; i < MAX_BULLETS; i++) {
-		float spreadAngle = (rand() % 20 - 10) * DEG_TO_RAD;
-		Vector2 bulletDirection = (spreadAngle);
+		Vector2 bulletDirection = Vector2(0, 1);
 
 		Bullet* bullet = new Bullet(false);
-		bullet->Fire(Position());
+		bullet->Fire(Position() + bulletDirection);
 		PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
 
 		if (!mBullets[i]->Active()) {
-			mBullets[i]->Fire(Position());
+			mBullets[i]->Fire(Position() + bulletDirection);
 			//mAudio->PlaySFX("Fire.wav");
 			break;
 		}

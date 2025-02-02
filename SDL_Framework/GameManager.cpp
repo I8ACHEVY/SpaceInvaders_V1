@@ -74,12 +74,12 @@ namespace SDL_Framework {
 
 		mScreenManager->Render();
 
-		//if (mBorderTexture) {
-		//
-		//	mBorderTexture->Render(); //(0, 0, 1070, 1040);
-		//	mBorderTexture->Position(530,520);
-		//	mBorderTexture->Scale(Vector2(1.35f, 1.35f));
-		//}
+		if (mBorderTexture) {
+		
+			mBorderTexture->Render(); //(0, 0, 1070, 1040);
+			mBorderTexture->Position(530,520);
+			mBorderTexture->Scale(Vector2(1.35f, 1.35f));
+		}
 
 		mGraphics->Render();
 	}
