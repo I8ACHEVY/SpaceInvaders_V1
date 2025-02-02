@@ -77,8 +77,8 @@ Vector2 Squid::LocalFormationPosition() {
 	int enemiesPerRow = 11;
 	int middle = enemiesPerRow / 2;
 	retVal.x = (mIndex % enemiesPerRow - middle) * sFormation->GridSize().x * 1.2f;
-	retVal.y = -sFormation->GridSize().y * 2.2 + sFormation->GridSize().y * 0.5f *
-		((mIndex / enemiesPerRow));
+	retVal.y = -sFormation->GridSize().y * 2.2 + sFormation->GridSize().y * 0.5f * 
+	((mIndex / enemiesPerRow));
 
 	return retVal;
 }
@@ -101,7 +101,7 @@ Squid::Squid(int path, int index, bool challenge) :
 
 	mCurrentPath = 0;
 
-	//AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
+	AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
 
 	mWasHit = false;
 }

@@ -86,9 +86,9 @@ Octopus::Octopus(int path, int index, bool challenge) :
 
 	}
 
-		mType = Enemy::Octopus;
+	mType = Enemy::Octopus;
 
-		//AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
+	AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
 }
 
 Octopus::~Octopus() {

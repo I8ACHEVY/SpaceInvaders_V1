@@ -14,22 +14,25 @@ void Enemy::CreatePaths() {
 	BezierPath* path = new BezierPath();
 
 	path->AddCurve({
-		Vector2(800.0f, 450.0f),
-		Vector2(800.0f, 600.0f),
-		Vector2(300.0f, 600.0f),
-		Vector2(300.0f, 450.0f) }, 15);
+		Vector2(screenXPoint - 350.0f, screenYPoint + -10.0f),
+		Vector2(screenXPoint - 350.0f, screenYPoint + -20.0f),
+		Vector2(screenXPoint - 350.0f, screenYPoint + 30.0f),
+		Vector2(screenXPoint - 350.0f, screenYPoint + 20.0f) }, 1
+		);
 
 	path->AddCurve({
-		Vector2(800.0f, 450.0f),
-		Vector2(800.0f, 600.0f),
-		Vector2(300.0f, 600.0f),
-		Vector2(300.0f, 450.0f) }, 15);
+		Vector2(screenXPoint - 350.0f, screenYPoint + 20.0f),
+		Vector2(screenXPoint - 350.0f, screenYPoint + 100.0f),
+		Vector2(320.0f, screenYPoint + 140.0f),
+		Vector2(320.0f, screenYPoint + 300.0f) }, 25
+		);
 
 	path->AddCurve({
-		Vector2(800.0f, 450.0f),
-		Vector2(800.0f, 600.0f),
-		Vector2(300.0f, 600.0f),
-		Vector2(300.0f, 450.0f) }, 15);
+		Vector2(320.0f, screenYPoint + 300.0f),
+		Vector2(320.0f, screenYPoint + 500.0f),
+		Vector2(580.0f, screenYPoint + 600.0f),
+		Vector2(580.0f, screenYPoint + 340.0f) }, 25
+		);
 
 	sPaths.push_back(std::vector<Vector2>());
 	path->Sample(&sPaths[currentPath]);
@@ -241,8 +244,8 @@ void Enemy::CreatePaths() {
 	path->AddCurve({
 		Vector2(780.0f, 450.0f),
 		Vector2(780.0f, 600.0f),
-		Vector2(150.0f, 600.0f),
-		Vector2(150.0f, 450.0f) }, 1);
+		Vector2(50.0f, 600.0f),
+		Vector2(50.0f, 450.0f) }, 1);
 
 	sPaths.push_back(std::vector<Vector2>());
 	path->Sample(&sPaths[currentPath]);
@@ -258,29 +261,29 @@ void Enemy::CurrentPlayer(Player* player) {
 	sPlayer = player;
 }
 
-//void Enemy::HandleFiring() {
-//	if (sPlayer == nullptr) return;
-//
-//	Vector2 playerPosition = sPlayer->Position();
-//	Vector2 direction = (playerPosition - Position()).Normalized();
-//
-//	int numBullets = (rand() % 2) + 1;
-//
-//	for (int i = 0; i < MAX_BULLETS; i++) {
-//		float spreadAngle = (rand() % 20 - 10) * DEG_TO_RAD;
-//		Vector2 bulletDirection = (spreadAngle);
-//
-//		Bullet* bullet = new Bullet(false);
-//		bullet->Fire(Position());
-//		PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
-//
-//		if (!mBullets[i]->Active()) {
-//			mBullets[i]->Fire(Position());
-//			//mAudio->PlaySFX("Fire.wav");
-//			break;
-//		}
-//	}
-//}
+void Enemy::HandleFiring() {
+	if (sPlayer == nullptr) return;
+
+	Vector2 playerPosition = sPlayer->Position();
+	Vector2 direction = (playerPosition - Position()).Normalized();
+
+	int numBullets = (rand() % 2) + 1;
+
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		float spreadAngle = (rand() % 20 - 10) * DEG_TO_RAD;
+		Vector2 bulletDirection = (spreadAngle);
+
+		Bullet* bullet = new Bullet(false);
+		bullet->Fire(Position());
+		PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
+
+		if (!mBullets[i]->Active()) {
+			mBullets[i]->Fire(Position());
+			//mAudio->PlaySFX("Fire.wav");
+			break;
+		}
+	}
+}
 
 Enemy::Enemy(int path, int index, bool challenge) :
 	mCurrentPath(path),mIndex(index){
@@ -305,9 +308,9 @@ Enemy::Enemy(int path, int index, bool challenge) :
 	mDeathAnimation->Position(Vec2_Zero);
 	mDeathAnimation->SetWrapMode(Animation::WrapModes::Once);
 
-	//for (int i = 0; i < MAX_BULLETS; i++) {
-	//	mBullets[i] = new Bullet(true);
-	//}
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		mBullets[i] = new Bullet(true);
+	}
 }
 
 Enemy::~Enemy() {
@@ -321,10 +324,10 @@ Enemy::~Enemy() {
 	delete mDeathAnimation;
 	mDeathAnimation = nullptr;
 
-	//for (auto bullet : mBullets) {
-	//	delete bullet;
-	//	bullet = nullptr;
-	//}
+	for (auto bullet : mBullets) {
+		delete bullet;
+		bullet = nullptr;
+	}
 }
 
 Enemy::States Enemy::CurrentState() {
@@ -336,12 +339,8 @@ Vector2 Enemy::WorldFormationPosition() {
 }
 
 void Enemy::FlyInComplete() {
-	//if (mChallengeStage) {
-	//	mCurrentState = Dead;	//change dead when adding challenge stages
-	//}
-	//else {
-		JoinFormation();
-	//}
+
+	JoinFormation();
 }
 
 void Enemy::JoinFormation() {
@@ -352,9 +351,7 @@ void Enemy::JoinFormation() {
 }
 
 void Enemy::PathComplete() {
-	//if (mChallengeStage) {
-	//	mCurrentState = Dead;	//change dead when adding challenge stages
-	//}
+
 }
 
 Enemy::Types Enemy::Type() {
@@ -383,9 +380,9 @@ void Enemy::Render() {
 		RenderStates();
 	}
 
-	//for (int i = 0; i < MAX_BULLETS; i++) {
-	//	mBullets[i]->Render();
-	//}
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		mBullets[i]->Render();
+	}
 }
 
 void Enemy::HandleFlyInState() {

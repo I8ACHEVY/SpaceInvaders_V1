@@ -106,7 +106,7 @@ Enemy(path, index, challenge)
 	
 	mType = Enemy::Crab;
 
-	//AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
+	AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
 }
 
 Crab::~Crab() {}

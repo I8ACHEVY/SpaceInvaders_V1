@@ -116,22 +116,6 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	mSpawnTimer = 0.0f;
 	mSpawningFinished = false;
 
-	//mDivingCrab = nullptr;
-	//mCrabDiveDelay = 1.0f;
-	//mCrabDiveTimer = 0.0f;
-
-	//mDivingOctopus = nullptr;
-	//mOctopusDiveDelay = 3.0f;
-	//mOctopusDiveTimer = 0.0f;
-
-	//mDivingSquid = nullptr;
-	//mSquidDiveDelay = 5.0f;
-	//mSquidDiveTimer = 0.0f;
-
-	//mDivingShip = nullptr;
-	//mShipDiveDelay = 6.0f;
-	//mShipDiveTimer = 0.0f;
-
 	Enemy::CurrentPlayer(mPlayer);
 }
 
@@ -256,16 +240,6 @@ void Level::HandlePlayerDeath() {
 
 void Level::HandleEnemySpawning() {
 
-	//if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_S) &&
-	//	mCrabCount < MAX_CRABS && !mFormation->Locked()) {
-	//
-	//	mFormationCrabs[mCrabCount] = new Crab(mCrabCount, false);
-	//	mCrabCount += 1;
-	//
-	//	//mEnemies.push_back(new Crab(mCrabCount++, false));
-	//	//mCrabCount++;
-	//}
-
 	mSpawnTimer += mTimer->DeltaTime();
 	
 	if (mSpawnTimer >= mSpawnDelay) {
@@ -291,43 +265,28 @@ void Level::HandleEnemySpawning() {
 					int index = child->IntAttribute("index");
 	
 				     if (type.compare("Crab") == 0) {
-						//if (!mChallengeStage) {
 							
 							mFormationCrabs[index] = new Crab(path, index, false);
 							mCrabCount += 1;
-						//}
-						//else {
-						//	//TODO: Change the challenge boolean to true once Challenge logic is implemented
-						//	mEnemies.push_back(new Crab(path, index, false));
-						//}
 					}
 					else if (type.compare("Octopus") == 0) {
-						//if (!mChallengeStage) {
+
 							mFormationOctopi[index] = new Octopus(path, index, false);
 							mOctopusCount += 1;
-						//}
-						//else {
-						//	mEnemies.push_back(new Octopus(path,index,false));
-						//}
+
 					}
 					else if (type.compare("Squid") == 0) {
-						//if (!mChallengeStage) {
+
 							mFormationSquids[index] = new Squid(path, index, false);
 							mSquidCount += 1;
-						//}
-						//else {
-						//	mEnemies.push_back(new Squid(path, index, false));
-						//}
+
 					}
 	
 					else if (type.compare("RedShip") == 0) {
-						 //if (!mChallengeStage) {
+
 							 mFormationShip[index] = new RedShip(path, index, false);
 							 mShipCount += 1;
-						// }
-						 //else {
-						//	 mEnemies.push_back(new RedShip(path, index, false));
-						// }
+
 					 }
 	
 					spawned = true;
@@ -478,7 +437,6 @@ void Level::Update() {
 			for (auto enemy : mEnemies) {
 			enemy->Update();
 			}
-		//}
 
 		HandleCollisions();
 
@@ -538,10 +496,6 @@ void Level::Render() {
 				squid->Render();
 			}
 		}
-
-		//for (auto enemy : mEnemies) {
-		//	enemy->Render();
-		//}
 
 		if (mPlayerHit) {
 			if (mRespawnTimer >= mRespawnLabelOnScreen) {

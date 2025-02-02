@@ -33,7 +33,7 @@ namespace SDL_Framework {
 		PhysEntity* mCollider;
 
 		bool mVisible;
-		//bool mEscort;
+
 		int mRedShipIndex;
 
 		Vector2 LocalFormationPosition() override;
