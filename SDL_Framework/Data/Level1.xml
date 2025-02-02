@@ -31,7 +31,7 @@
 		<Enemy type="Octopus" index="21"/>
 	</Spawn>
 
-	<Spawn path="2" priority="1">
+	<Spawn path="2" priority="0">
 		<Enemy type="Crab" index="0"/>
 		<Enemy type="Crab" index="1"/>
 		<Enemy type="Crab" index="2"/>
@@ -45,7 +45,7 @@
 		<Enemy type="Crab" index="10"/>
 	</Spawn>
 
-	<Spawn path="3" priority="2">
+	<Spawn path="3" priority="0">
 		<Enemy type="Crab" index="11"/>
 		<Enemy type="Crab" index="12"/>
 		<Enemy type="Crab" index="13"/>
@@ -59,7 +59,7 @@
 		<Enemy type="Crab" index="21"/>
 	</Spawn>
 
-	<Spawn path="0" priority="3">
+	<Spawn path="4" priority="0">
 		<Enemy type="Squid" index="0"/>
 		<Enemy type="Squid" index="1"/>
 		<Enemy type="Squid" index="2"/>
@@ -73,7 +73,7 @@
 		<Enemy type="Squid" index="10"/>
 	</Spawn>
 
-	<Spawn path="1" priority="4">
+	<Spawn path="5" priority="0">
 		<Enemy type="Squid" index="11"/>
 		<Enemy type="Squid" index="12"/>
 		<Enemy type="Squid" index="13"/>
@@ -88,19 +88,19 @@
 	
 	</Spawn>
 
-	<Spawn path="0" priority="5">
+	<Spawn path="7" priority="0">
 		<Enemy type="RedShip" index="0"/>
 	</Spawn>
 
-	<Spawn path="1" priority="5">
+	<Spawn path="7" priority="0">
 		<Enemy type="RedShip" index="1"/>
 	</Spawn>
 
-	<Spawn path="2" priority="5">
+	<Spawn path="7" priority="0">
 		<Enemy type="RedShip" index="2"/>
 	</Spawn>
 
-	<Spawn path="3" priority="5">
+	<Spawn path="7" priority="0">
 		<Enemy type="RedShip" index="3"/>
 	</Spawn>
 
