@@ -18,21 +18,10 @@ void Squid::RenderDiveState() {
 }
 
 void Squid::Hit(PhysEntity* other) {
-	if (mWasHit) {
-		Enemy::Hit(other);
-		AudioManager::Instance()->PlaySFX("BossDestroyed.wav", 0, 2);
-		sPlayer->AddScore(30);
-		Enemy::Hit(other);
-	}
-	else {
-		mWasHit = true;
-		SDL_Rect temp = { 0, 64, 60, 64 };
-		mTexture[0]->SetSourceRect(&temp);
-		temp.x = 66;
-		temp.y = 68;
-		mTexture[1]->SetSourceRect(&temp);
-		AudioManager::Instance()->PlaySFX("BossInjured.wav", 0, -1);
-	}
+	AudioManager::Instance()->PlaySFX("ButterflyDestroyed.wav", 0, -1);
+	sPlayer->AddScore(20);
+	Enemy::Hit(other);
+	
 }
 
 void Squid::HandleDiveState() {
