@@ -14,24 +14,17 @@ void Enemy::CreatePaths() {
 	BezierPath* path = new BezierPath();
 
 	path->AddCurve({
-		Vector2(screenXPoint - 350.0f, screenYPoint + -10.0f),
-		Vector2(screenXPoint - 350.0f, screenYPoint + -20.0f),
-		Vector2(screenXPoint - 350.0f, screenYPoint + 30.0f),
-		Vector2(screenXPoint - 350.0f, screenYPoint + 20.0f) }, 1
+		Vector2(screenXPoint - 350.0f, screenYPoint + -30.0f),
+		Vector2(screenXPoint - 350.0f, screenYPoint + -50.0f),
+		Vector2(120.0f, screenYPoint + 100.0f),
+		Vector2(120.0f, screenYPoint + 100.0f) }, 1
 		);
 
 	path->AddCurve({
-		Vector2(screenXPoint - 350.0f, screenYPoint + 20.0f),
-		Vector2(screenXPoint - 350.0f, screenYPoint + 100.0f),
-		Vector2(320.0f, screenYPoint + 140.0f),
-		Vector2(320.0f, screenYPoint + 300.0f) }, 25
-		);
-
-	path->AddCurve({
-		Vector2(320.0f, screenYPoint + 300.0f),
-		Vector2(320.0f, screenYPoint + 500.0f),
-		Vector2(580.0f, screenYPoint + 600.0f),
-		Vector2(580.0f, screenYPoint + 340.0f) }, 25
+		Vector2(120.0f, screenYPoint + 100.0f),
+		Vector2(120.0f, screenYPoint + 200.0f),
+		Vector2(200.0f, screenYPoint + 340.0f),
+		Vector2(300.0f, screenYPoint + 340.0f) }, 25
 		);
 
 	sPaths.push_back(std::vector<Vector2>());
@@ -43,22 +36,18 @@ void Enemy::CreatePaths() {
 	int fullScreen = screenXPoint * 0.8;
 
 	path->AddCurve({
-		Vector2(screenXPoint - 50.0f, screenYPoint + -10.0f),
-		Vector2(screenXPoint - 50.0f, screenYPoint + -20.0f),
-		Vector2(screenXPoint - 50.0f, screenYPoint + 30.0f),
-		Vector2(screenXPoint - 50.0f, screenYPoint + 20.0f) }, 1);
+		Vector2(screenXPoint + 400.0f, screenYPoint + -30.0f),
+		Vector2(screenXPoint + 400.0f, screenYPoint + -50.0f),
+		Vector2(900.0f, screenYPoint + 100.0f),
+		Vector2(900.0f, screenYPoint + 100.0f) }, 1
+	);
 
 	path->AddCurve({
-		Vector2(screenXPoint - 50.0f, screenYPoint + 20.0f),
-		Vector2(screenXPoint - 50.0f, screenYPoint + 80.0f),
-		Vector2(1070.0f, screenYPoint + 140.0f),
-		Vector2(1070.0f, screenYPoint + 300.0f) }, 25);
-
-	path->AddCurve({
-		Vector2(1070.0f, screenYPoint + 300.0f),
-		Vector2(1070.0f, screenYPoint + 500.0f),
-		Vector2(830.0f, screenYPoint + 600.0f),
-		Vector2(830.0f, screenYPoint + 340.0f) }, 25);
+		Vector2(900.0f, screenYPoint + 100.0f),
+		Vector2(900.0f, screenYPoint + 200.0f),
+		Vector2(800.0f, screenYPoint + 340.0f),
+		Vector2(700.0f, screenYPoint + 340.0f) }, 25
+		);
 
 	sPaths.push_back(std::vector<Vector2>());
 	path->Sample(&sPaths[currentPath]);
@@ -70,28 +59,18 @@ void Enemy::CreatePaths() {
 	path = new BezierPath();
 
 	path->AddCurve({
-		Vector2(280.0f, screenYPoint + 640.0f),
-		Vector2(280.0f, screenYPoint + 640.0f),
-		Vector2(310.0f, screenYPoint + 640.0f),
-		Vector2(310.0f, screenYPoint + 640.0f) }, 1);
+	Vector2(screenXPoint - 350.0f, screenYPoint + -30.0f),
+	Vector2(screenXPoint - 350.0f, screenYPoint + -50.0f),
+	Vector2(120.0f, screenYPoint + 100.0f),
+	Vector2(120.0f, screenYPoint + 100.0f) }, 1
+	);
 
 	path->AddCurve({
-		Vector2(310.0f, screenYPoint + 640.0f),
-		Vector2(400.0f, screenYPoint + 640.0f),
-		Vector2(temp, screenYPoint + 500.0f),
-		Vector2(temp, screenYPoint + 400.0f) }, 15);
-
-	path->AddCurve({
-		Vector2(temp, screenYPoint + 400.0f),
-		Vector2(temp, screenYPoint + 200.0f),
-		Vector2(320.0f, screenYPoint + 140.0f),
-		Vector2(320.0f, screenYPoint + 300.0f) }, 15);
-
-	path->AddCurve({
-		Vector2(320.0f, screenYPoint + 300.0f),
-		Vector2(320.0f, screenYPoint + 500.0f),
-		Vector2(temp + 40.0f, screenYPoint + 600.0f),
-		Vector2(temp + 40.0f, screenYPoint + 340.0f) }, 15);
+		Vector2(120.0f, screenYPoint + 100.0f),
+		Vector2(120.0f, screenYPoint + 150.0f),
+		Vector2(200.0f, screenYPoint + 300.0f),
+		Vector2(300.0f, screenYPoint + 300.0f) }, 25
+		);
 
 	sPaths.push_back(std::vector<Vector2>());
 	path->Sample(&sPaths[currentPath]);
@@ -103,28 +82,18 @@ void Enemy::CreatePaths() {
 	path = new BezierPath();
 
 	path->AddCurve({
-		Vector2(temp2 + 620.0f, screenYPoint + 640.0f),
-		Vector2(temp2 + 620.0f, screenYPoint + 640.0f),
-		Vector2(temp2 + 580.0f, screenYPoint + 640.0f),
-		Vector2(temp2 + 580.0f, screenYPoint + 640.0f) }, 1);
+		Vector2(screenXPoint + 400.0f, screenYPoint + -30.0f),
+		Vector2(screenXPoint + 400.0f, screenYPoint + -50.0f),
+		Vector2(900.0f, screenYPoint + 100.0f),
+		Vector2(900.0f, screenYPoint + 100.0f) }, 1
+		);
 
 	path->AddCurve({
-		Vector2(temp2 + 580.0f, screenYPoint + 640.0f),
-		Vector2(temp2 + 510.0f, screenYPoint + 640.0f),
-		Vector2(temp + 130, screenYPoint + 500.0f),
-		Vector2(temp + 130, screenYPoint + 400.0f) }, 15);
-
-	path->AddCurve({
-		Vector2(temp + 130, screenYPoint + 400.0f),
-		Vector2(temp + 130, screenYPoint + 200.0f),
-		Vector2(temp2 + 590.0f, screenYPoint + 140.0f),
-		Vector2(temp2 + 590.0f, screenYPoint + 300.0f) }, 15);
-
-	path->AddCurve({
-		Vector2(temp2 + 590.0f, screenYPoint + 300.0f),
-		Vector2(temp2 + 590.0f, screenYPoint + 500.0f),
-		Vector2(temp + 120.0f, screenYPoint + 600.0f),
-		Vector2(temp + 120.0f, screenYPoint + 340.0f) }, 15);
+		Vector2(900.0f, screenYPoint + 100.0f),
+		Vector2(900.0f, screenYPoint + 150.0f),
+		Vector2(800.0f, screenYPoint + 300.0f),
+		Vector2(700.0f, screenYPoint + 300.0f) }, 25
+		);
 
 	sPaths.push_back(std::vector<Vector2>());
 	path->Sample(&sPaths[currentPath]);
@@ -135,28 +104,18 @@ void Enemy::CreatePaths() {
 	path = new BezierPath();
 
 	path->AddCurve({
-	Vector2(280.0f, screenYPoint + 600.0f),
-	Vector2(280.0f, screenYPoint + 600.0f),
-	Vector2(270.0f, screenYPoint + 600.0f),
-	Vector2(270.0f, screenYPoint + 600.0f) }, 1);
+		Vector2(screenXPoint - 350.0f, screenYPoint + -30.0f),
+		Vector2(screenXPoint - 350.0f, screenYPoint + -50.0f),
+		Vector2(120.0f, screenYPoint + 100.0f),
+		Vector2(120.0f, screenYPoint + 100.0f) }, 1
+		);
 
 	path->AddCurve({
-	Vector2(270.0f, screenYPoint + 600.0f),
-	Vector2(360.0f, screenYPoint + 600.0f),
-	Vector2(temp - 40.0f, screenYPoint + 500.0f),
-	Vector2(temp - 40.0f, screenYPoint + 440.0f) }, 15);
-
-	path->AddCurve({
-	Vector2(temp - 40.0f, screenYPoint + 440.0f),
-	Vector2(temp - 40.0f, screenYPoint + 240.0f),
-	Vector2(360.0f, screenYPoint + 180.0f),
-	Vector2(360.0f, screenYPoint + 300.0f) }, 15);
-
-	path->AddCurve({
-	Vector2(360.0f, screenYPoint + 300.0f),
-	Vector2(360.0f, screenYPoint + 500.0f),
-	Vector2(temp, screenYPoint + 500.0f),
-	Vector2(temp, screenYPoint + 340.0f) }, 15);
+		Vector2(120.0f, screenYPoint + 100.0f),
+		Vector2(120.0f, screenYPoint + 120.0f),
+		Vector2(200.0f, screenYPoint + 280.0f),
+		Vector2(300.0f, screenYPoint + 280.0f) }, 25
+		);
 
 	sPaths.push_back(std::vector<Vector2>());
 	path->Sample(&sPaths[currentPath]);
@@ -169,28 +128,18 @@ void Enemy::CreatePaths() {
 	path = new BezierPath();
 
 	path->AddCurve({
-		Vector2(temp2 + 620.0f, screenYPoint + 600.0f),
-		Vector2(temp2 + 620.0f, screenYPoint + 600.0f),
-		Vector2(temp2 + 560.0f, screenYPoint + 600.0f),
-		Vector2(temp2 + 560.0f, screenYPoint + 600.0f) }, 1);
+		Vector2(screenXPoint + 400.0f, screenYPoint + -30.0f),
+		Vector2(screenXPoint + 400.0f, screenYPoint + -50.0f),
+		Vector2(900.0f, screenYPoint + 100.0f),
+		Vector2(900.0f, screenYPoint + 100.0f) }, 1
+		);
 
 	path->AddCurve({
-		Vector2(temp2 + 560.0f, screenYPoint + 600.0f),
-		Vector2(temp2 + 560.0f, screenYPoint + 600.0f),
-		Vector2(temp + 160, screenYPoint + 500.0f),
-		Vector2(temp + 160, screenYPoint + 440.0f) }, 15);
-
-	path->AddCurve({
-		Vector2(temp + 160, screenYPoint + 440.0f),
-		Vector2(temp + 160, screenYPoint + 240.0f),
-		Vector2(temp2 + 560.0f, screenYPoint + 180.0f),
-		Vector2(temp2 + 560.0f, screenYPoint + 300.0f) }, 15);
-
-	path->AddCurve({
-		Vector2(temp2 + 560.0f, screenYPoint + 300.0f),
-		Vector2(temp2 + 560.0f, screenYPoint + 500.0f),
-		Vector2(temp + 160.0f, screenYPoint + 500.0f),
-		Vector2(temp + 160.0f, screenYPoint + 340.0f) }, 15);
+		Vector2(900.0f, screenYPoint + 100.0f),
+		Vector2(900.0f, screenYPoint + 120.0f),
+		Vector2(800.0f, screenYPoint + 280.0f),
+		Vector2(700.0f, screenYPoint + 280.0f) }, 25
+		);
 
 	sPaths.push_back(std::vector<Vector2>());
 	path->Sample(&sPaths[currentPath]);
