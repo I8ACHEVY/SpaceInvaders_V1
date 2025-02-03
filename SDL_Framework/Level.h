@@ -38,7 +38,7 @@ private:
 	static const int MAX_CRABS = 22;
 	static const int MAX_OCTOPI = 22;	
 	static const int MAX_SQUIDS = 22;	
-	static const int MAX_SHIPS = 4;		//1
+	static const int MAX_SHIPS = 1;		//1
 
 	int mCrabCount;
 	int mOctopusCount;
