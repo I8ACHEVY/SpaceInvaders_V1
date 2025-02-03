@@ -39,7 +39,7 @@ namespace SDL_Framework {
 		Vector2 LocalFormationPosition() override;
 
 		void HandleDiveState() override;
-
+		void HandleFlyInState() override;
 		void RenderDiveState() override;
 	};
 }

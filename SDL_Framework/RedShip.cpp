@@ -7,9 +7,31 @@ std::vector<std::vector<Vector2>> RedShip::sDivePaths;
 void RedShip::CreateDivePaths() {
 }
 
-//void RedShip::Dive(int type) {
-//
-//}
+void RedShip::HandleFlyInState() {
+
+	if (mCurrentWayPoint < sPaths[mCurrentPath].size()) {
+		Vector2 dist = sPaths[mCurrentPath][mCurrentWayPoint] - Position();
+
+		Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
+
+		if ((sPaths[mCurrentPath][mCurrentWayPoint] - Position()).MagnitudeSqr() < EPSILON * mSpeed / 25.0f) {
+			mCurrentWayPoint++;
+		}
+
+		if (mCurrentWayPoint >= sPaths[mCurrentPath].size()) {
+			PathComplete();
+		}
+	}
+	else {
+		Vector2 dist = WorldFormationPosition() - Position();
+
+		Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
+
+		if (dist.MagnitudeSqr() < EPSILON * mSpeed / 25.0f) {
+			FlyInComplete();
+		}
+	}
+}
 
 Vector2 RedShip::LocalFormationPosition() {
 	Vector2 retVal;
