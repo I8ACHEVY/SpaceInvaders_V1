@@ -5,12 +5,16 @@
 #include "PhysicsEntity.h"
 #include "Player.h"
 #include "Formation.h"
-#include "Bullet.h"
+#include "EBullet.h"
 
 using namespace SDL_Framework;
 
 class Enemy : public PhysEntity {
 public:
+	static int sActiveBullets;
+	float mFireCoolDown;
+	float mFireCoolDownTimer;
+
 	enum States { FlyIn, Diving, InFormation, Dead };
 	enum Types { Crab, Octopus, Squid, RedShips};
 
@@ -84,6 +88,6 @@ protected:
 	void HandleFiring();
 	void FireBullet(Vector2 position, Vector2 direction);
 	static const int MAX_BULLETS = 2;
-	Bullet* mBullets[MAX_BULLETS];
+	EBullet* mBullets[MAX_BULLETS];
 	AudioManager* mAudio;
 };

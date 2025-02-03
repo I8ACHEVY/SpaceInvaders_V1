@@ -1,10 +1,11 @@
 #include "Enemy.h"
 #include "PhysicsManager.h"
-#include "Bullet.h"
+#include "EBullet.h"
 
 std::vector<std::vector<Vector2>>Enemy::sPaths;
 Player* Enemy::sPlayer = nullptr;
 Formation* Enemy::sFormation = nullptr;
+int Enemy::sActiveBullets = 0;
 
 void Enemy::CreatePaths() {
 	int screenXPoint = (int)(Graphics::Instance()->SCREEN_WIDTH * 0.46f);
@@ -211,21 +212,26 @@ void Enemy::CurrentPlayer(Player* player) {
 }
 
 void Enemy::HandleFiring() {
-	if (sPlayer == nullptr) return;
+	if (mCurrentState != InFormation || sPlayer == nullptr) return;
 
-	int numBullets = (rand() % 2) + 1;
+	if (sActiveBullets >= 2) return;
+
+	if (mFireCoolDownTimer > 0.0f) return;
 
 	for (int i = 0; i < MAX_BULLETS; i++) {
-		Vector2 bulletDirection = Vector2(0, 1);
-
-		Bullet* bullet = new Bullet(false);
-		bullet->Fire(Position() + bulletDirection);
-		PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
-
+	
 		if (!mBullets[i]->Active()) {
+			Vector2 bulletDirection = Vector2(0, -1);
 			mBullets[i]->Fire(Position() + bulletDirection);
-			//mAudio->PlaySFX("Fire.wav");
+			
+			EBullet* bullet = new EBullet();
+			bullet->Fire(Position() + bulletDirection);
+			PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
+
+			sActiveBullets++;
+			mFireCoolDownTimer = mFireCoolDown;
 			break;
+
 		}
 	}
 }
@@ -254,7 +260,7 @@ Enemy::Enemy(int path, int index, bool challenge) :
 	mDeathAnimation->SetWrapMode(Animation::WrapModes::Once);
 
 	for (int i = 0; i < MAX_BULLETS; i++) {
-		mBullets[i] = new Bullet(true);
+		mBullets[i] = new EBullet();
 	}
 }
 
@@ -317,6 +323,14 @@ void Enemy::Dive(int type) {
 void Enemy::Update() {
 	if (Active()) {
 		HandleStates();
+	}
+
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		mBullets[i]->Update();
+	}
+
+	if (mFireCoolDownTimer > 0.0f) {
+		mFireCoolDownTimer -= mTimer->DeltaTime();
 	}
 }
 
@@ -396,6 +410,7 @@ void Enemy::HandleStates() {
 
 	case InFormation:
 		HandleInFormationState();
+		HandleFiring();
 		break;
 
 	case Diving:
@@ -411,27 +426,11 @@ void Enemy::HandleStates() {
 void Enemy::RenderFlyInState() {
 	mTexture[0]->Render();
 
-	for (int i = 0; i < sPaths[mCurrentPath].size() - 1; i++) {		// debug paths as they are called sPaths
-		Graphics::Instance()->DrawLine(
-			sPaths[mCurrentPath][i].x,
-			sPaths[mCurrentPath][i].y,
-			sPaths[mCurrentPath][i + 1].x,
-			sPaths[mCurrentPath][i + 1].y
-		);
-	}
 }
 
 void Enemy::RenderInFormationState() {
 	mTexture[sFormation->GetTick() % 2]->Render();
 
-	for (int i = 0; i < sPaths[mCurrentPath].size() - 1; i++) {		// debug bezier paths even after called sDivePaths
-		Graphics::Instance()->DrawLine(
-			sPaths[mCurrentPath][i].x,
-			sPaths[mCurrentPath][i].y,
-			sPaths[mCurrentPath][i + 1].x,
-			sPaths[mCurrentPath][i + 1].y
-		);
-	}
 }
 
 void Enemy::RenderStates() {
@@ -443,6 +442,7 @@ void Enemy::RenderStates() {
 
 	case InFormation:
 		RenderInFormationState();
+		
 		break;
 
 	case Diving:

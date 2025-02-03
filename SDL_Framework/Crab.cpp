@@ -119,7 +119,7 @@ Enemy(path, index, challenge), mFireTimer(0.0f)
 
 	AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
 
-	mFireInterval = (rand() % 3) + 2.0f;
+	//mFireInterval = (rand() % 3) + 2.0f;
 }
 
 Crab::~Crab() {}

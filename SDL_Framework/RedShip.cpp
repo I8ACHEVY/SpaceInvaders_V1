@@ -129,9 +129,9 @@ RedShip::RedShip(int path, int index, bool challenge) :
 	mDeathAnimation->Position(Vec2_Zero);
 	mDeathAnimation->SetWrapMode(Animation::WrapModes::Once);
 
-	for (int i = 0; i < MAX_BULLETS; i++) {
-		mBullets[i] = new Bullet(true);
-	}
+	//for (int i = 0; i < MAX_BULLETS; i++) {
+	//	mBullets[i] = new Bullet(false);
+	//}
 }
 
 RedShip::~RedShip() {
@@ -145,10 +145,10 @@ RedShip::~RedShip() {
 		mDeathAnimation = nullptr;
 	}
 
-	for (auto bullet : mBullets) {
-		delete bullet;
-		bullet = nullptr;
-	}
+	//for (auto bullet : mBullets) {
+	//	delete bullet;
+	//	bullet = nullptr;
+	//}
 }
 
 void RedShip::UpdateTexture(int index) {

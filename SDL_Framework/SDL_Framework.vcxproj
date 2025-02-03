@@ -164,6 +164,7 @@ xcopy "$(ProjectDir)\Data\*" "$(OutDir)Data\" /y /s
     <ClCompile Include="BackgroundStar.cpp" />
     <ClCompile Include="BezierPath.cpp" />
     <ClCompile Include="CreditScreen.cpp" />
+    <ClCompile Include="EBullet.cpp" />
     <ClCompile Include="GLAnimatedTexture.cpp" />
     <ClCompile Include="GLGraphics.cpp" />
     <ClCompile Include="GLTexture.cpp" />
@@ -210,6 +211,7 @@ xcopy "$(ProjectDir)\Data\*" "$(OutDir)Data\" /y /s
     <ClInclude Include="BackgroundStar.h" />
     <ClInclude Include="BezierPath.h" />
     <ClInclude Include="CreditScreen.h" />
+    <ClInclude Include="EBullet.h" />
     <ClInclude Include="GLAnimatedTexture.h" />
     <ClInclude Include="GLGraphics.h" />
     <ClInclude Include="GLTexture.h" />
