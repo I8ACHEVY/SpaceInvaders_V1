@@ -216,10 +216,12 @@ void Enemy::HandleFiring() {
 
 	if (sActiveBullets >= 2) return;
 
-	if (mFireCoolDownTimer > 0.0f) return;
+	if (mFireCoolDownTimer > 0.0f) {
+		mFireCoolDownTimer -= mTimer->DeltaTime();
+		return;
+	}
 
 	for (int i = 0; i < MAX_BULLETS; i++) {
-	
 		if (!mBullets[i]->Active()) {
 			Vector2 bulletDirection = Vector2(0, -1);
 			mBullets[i]->Fire(Position() + bulletDirection);
@@ -229,9 +231,8 @@ void Enemy::HandleFiring() {
 			PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
 
 			sActiveBullets++;
-			mFireCoolDownTimer = mFireCoolDown;
+			mFireCoolDownTimer = 3.0f;
 			break;
-
 		}
 	}
 }
