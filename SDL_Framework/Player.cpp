@@ -48,7 +48,7 @@ Player::Player() {
 	mWasHit = false;
 
 	mScore = 0;
-	mLives = 20;
+	mLives = 3;
 
 	mMoveSpeed = 250.0f;
 	mMoveBounds = Vector2(300.0f, 780.0f);
@@ -128,9 +128,12 @@ void Player::Hit(PhysEntity* other) {
 
 	std::cout << "Player Hit by Tag" << other->GetTag() << std::endl;
 
-	if (other->GetTag() == "Capture") {
-		mAnimating = false;
-		mWasHit = false;
+	if (other->GetTag() == "EBullet") {
+		mLives -= 1;
+		mAnimating = true;
+		mDeathAnimation->ResetAnimation();
+		mAudio->PlaySFX("PlayerExplosion.wav", 0, -1);
+		mWasHit = true;
 	
 	}
 	else if (other->GetTag() == "Crab" || 
@@ -138,7 +141,7 @@ void Player::Hit(PhysEntity* other) {
 		other->GetTag() == "Squid" ||
 		other->GetTag() == "RedShip") {
 
-			mLives -= 1;
+			mLives -= 100;
 			mAnimating = true;
 			mDeathAnimation->ResetAnimation();
 			mAudio->PlaySFX("PlayerExplosion.wav", 0, -1);

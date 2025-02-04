@@ -182,29 +182,27 @@ void Enemy::CurrentPlayer(Player* player) {
 }
 
 void Enemy::HandleFiring() {
-	if (mCurrentState != InFormation || sPlayer == nullptr) return;
+	mFireCoolDownTimer -= mTimer->DeltaTime();
+	
+	if (sPlayer == nullptr) return;
+	//if (sActiveBullets >= 2) return;
 
-	if (sActiveBullets >= 2) return;
+	//if (mFireCoolDownTimer <= 0.0f) {
+		for (int i = 0; i < MAX_BULLETS; i++) {
+			if (!mBullets[i]->Active()) {
+				Vector2 bulletDirection = Vector2(0, -1);
+				mBullets[i]->Fire(Position() + bulletDirection);
 
-	if (mFireCoolDownTimer > 0.0f) {
-		mFireCoolDownTimer -= mTimer->DeltaTime();
-		return;
-	}
+				EBullet* bullet = new EBullet();
+				bullet->Fire(Position() + bulletDirection);
+				PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
 
-	for (int i = 0; i < MAX_BULLETS; i++) {
-		if (!mBullets[i]->Active()) {
-			Vector2 bulletDirection = Vector2(0, -1);
-			mBullets[i]->Fire(Position() + bulletDirection);
-			
-			EBullet* bullet = new EBullet();
-			bullet->Fire(Position() + bulletDirection);
-			PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
-
-			sActiveBullets++;
-			mFireCoolDownTimer = 3.0f;
-			break;
+				//sActiveBullets += 2;
+				//mFireCoolDownTimer = 3.0f;
+				break;
+			}
 		}
-	}
+	//}
 }
 
 Enemy::Enemy(int path, int index, bool challenge) :

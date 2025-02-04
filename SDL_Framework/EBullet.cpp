@@ -9,10 +9,7 @@ bool EBullet::IgnoreCollision() {
 EBullet::EBullet() {
 	mTimer = Timer::Instance();
 
-	//mTexture = new GLTexture("alienBullet.png");
-	//mTexture->Parent(this);
-	//mTexture->Position(Vec2_Zero);
-	//mTexture->Scale(Vector2(0.7f, 0.7f));
+	mTag = "EBullet";
 
 	mAlienBullet = new GLAnimatedTexture("alienBullet.png", 1, 2, 8, 21, 2, 1.0f, Animation::Layouts::Horizontal);
 	mAlienBullet->Parent(this);
