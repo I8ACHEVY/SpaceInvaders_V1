@@ -3,11 +3,6 @@
 Formation::Formation() {
 	mTimer = Timer::Instance();
 
-	mMovingRight = true;
-	mMovingSpeed = 5.0f;
-	mFormationBoundaryLeft = 430.0f;
-	mFormationBoundaryRight = Graphics::SCREEN_WIDTH - 430.0f;
-
 	mOffsetAmount = 10.0f;
 	mOffsetDelay = 0.4f;
 	mOffsetTimer = 0.0f;
@@ -47,32 +42,10 @@ void Formation::Update() {
 		}
 	}
 
-	if (mLocked) {
-		float movementDelta = mMovingSpeed * mTimer->DeltaTime();
-
-		if (mMovingRight) {
-			Translate(Vec2_Right * movementDelta, World);
-			if (Position().x > mFormationBoundaryRight) {
-				mMovingRight = false;
-			}
-		}
-		else {
-			Translate(-Vec2_Right * movementDelta, World);
-			if (Position().x < mFormationBoundaryLeft) {
-				mMovingRight = true;
-			}
-		}
-
-		mMovingSpeed += 10.0f * mTimer->DeltaTime(); // adjust to gradually increase speed of formation side to side
-
-
 		mOffsetTimer += mTimer->DeltaTime();
 
 		if (mOffsetTimer >= mOffsetDelay) {
 			mOffsetCounter++;
-
-			Translate(Vec2_Right * (float)mOffsetDirection *
-			mOffsetAmount, World);
 
 			if (mOffsetCounter == 8) {
 				mOffsetCounter = 0;
@@ -81,51 +54,7 @@ void Formation::Update() {
 
 			mOffsetTimer = 0.0f;
 		}
-
-		mDropTimer += mTimer->DeltaTime();
-		if (mDropTimer >= mDropDelay) {
-			Translate(Vec2_Up * mDropAmount, World);
-			mDropTimer = 0.0f;
-		}
-	}
 }
-
-// //Original
-//void Formation::Update() {
-//	if (!mLocked || mOffsetCounter != 4) {
-//		mOffsetTimer += mTimer->DeltaTime();
-//
-//		if (mOffsetTimer >= mOffsetDelay) {
-//			mOffsetCounter++;
-//
-//			Translate(Vec2_Right * (float)mOffsetDirection *
-//				mOffsetAmount, World);
-//
-//			if (mOffsetCounter == 8) {
-//				mOffsetCounter = 0;
-//				mOffsetDirection *= -1;
-//			}
-//
-//			mOffsetTimer = 0.0f;
-//		}
-//	}
-//	else {
-//		mPulseTimer += mTimer->DeltaTime();
-//
-//		if (mPulseTimer >= mPulseDelay) {
-//			mPulseCounter += mPulseDirection;
-//
-//			mGridSize.x += (mPulseDirection * ((mPulseCounter % 2) ? 1 : 2));
-//
-//			if (mPulseCounter == 4 || mPulseCounter == 0) {
-//				mPulseDirection *= -1;
-//			}
-//
-//			mPulseTimer = 0.0f;
-//		}
-//	}
-//}
-
 
 int Formation::GetTick() {
 	if (!mLocked || mOffsetCounter != 4) {

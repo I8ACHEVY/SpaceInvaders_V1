@@ -88,7 +88,7 @@
 	
 	</Spawn>
 
-	<Spawn path="7" priority="0">
+	<Spawn path="6" priority="0">
 		<Enemy type="RedShip" index="0"/>
 	</Spawn>
 

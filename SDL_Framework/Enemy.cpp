@@ -100,7 +100,7 @@ void Enemy::CreatePaths() {
 	path->Sample(&sPaths[currentPath]);
 	delete path;
 
-	currentPath = 4;		// side by side left bottom
+	currentPath = 4;		
 	temp = screenXPoint - 100.0f;
 	path = new BezierPath();
 
@@ -123,7 +123,7 @@ void Enemy::CreatePaths() {
 	delete path;
 
 
-	currentPath = 5;			//edit to be side by side right bottom
+	currentPath = 5;			
 	temp = screenXPoint + 60.0f;
 	temp2 = fullScreen - 40.0f;
 	path = new BezierPath();
@@ -146,37 +146,7 @@ void Enemy::CreatePaths() {
 	path->Sample(&sPaths[currentPath]);
 	delete path;
 
-
-	currentPath = 6;			//side by side top left hook
-	path = new BezierPath();
-
-	path->AddCurve({
-		Vector2(screenXPoint + 190.0f, screenYPoint + -10.0f),
-		Vector2(screenXPoint + 190.0f, screenYPoint + -20.0f),
-		Vector2(screenXPoint + 190.0f, screenYPoint + 30.0f),
-		Vector2(screenXPoint + 190.0f, screenYPoint + 20.0f) }, 1
-		);
-
-	path->AddCurve({
-		Vector2(screenXPoint + 190.0f, screenYPoint + 20.0f),
-		Vector2(screenXPoint + 190.0f, screenYPoint + 100.0f),
-		Vector2(360.0f, screenYPoint + 140.0f),
-		Vector2(360.0f, screenYPoint + 300.0f) }, 25
-		);
-
-	path->AddCurve({
-		Vector2(360.0f, screenYPoint + 300.0f),
-		Vector2(360.0f, screenYPoint + 500.0f),
-		Vector2(540.0f, screenYPoint + 500.0f),
-		Vector2(540.0f, screenYPoint + 340.0f) }, 25
-		);
-
-	sPaths.push_back(std::vector<Vector2>());
-	path->Sample(&sPaths[currentPath]);
-	delete path;
-
-
-	currentPath = 7;			//side by side top right hook
+	currentPath = 6;		
 	path = new BezierPath();
 
 	path->AddCurve({ 

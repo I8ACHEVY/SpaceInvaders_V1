@@ -28,7 +28,13 @@ private:
 	Timer* mTimer;
 	PlaySideBar* mSideBar;
 	Player* mPlayer;
+
 	Formation* mFormation;
+	bool mMovingRight;
+	float mSpeed;
+	float mDropAmount;
+	float mRightBoundary;
+	float mLeftBoundary;
 
 	TileLayer* mBarrack1;
 	TileLayer* mBarrack2;
@@ -38,7 +44,7 @@ private:
 	static const int MAX_CRABS = 22;
 	static const int MAX_OCTOPI = 22;	
 	static const int MAX_SQUIDS = 22;	
-	static const int MAX_SHIPS = 1;		//1
+	static const int MAX_SHIPS = 1;	
 
 	int mCrabCount;
 	int mOctopusCount;
@@ -49,21 +55,6 @@ private:
 	Octopus* mFormationOctopi[MAX_OCTOPI];
 	Squid* mFormationSquids[MAX_SQUIDS];
 	RedShip* mFormationShip[MAX_SHIPS];
-
-	//Crab* mDivingCrab;
-	//bool mSkipFirstCrab;
-	//float mCrabDiveDelay;
-	//float mCrabDiveTimer;
-
-	//Octopus* mDivingOctopus;
-	//float mOctopusDiveDelay;
-	//float mOctopusDiveTimer;
-
-	//Squid* mDivingSquid;
-	//bool mCaptureDive;
-	//bool mSkipFirstSquid;
-	//float mSquidDiveDelay;
-	//float mSquidDiveTimer;
 
 	//RedShip* mDivingShip;
 	//bool mSkipFirstShip;
@@ -82,7 +73,6 @@ private:
 	bool mSpawningFinished;
 
 	int mStage; 
-	//bool mChallengeStage;
 	bool mStageStarted;
 
 	Texture* mReadyLabel;

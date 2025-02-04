@@ -35,6 +35,8 @@ namespace SDL_Framework {
 		bool mVisible;
 
 		int mRedShipIndex;
+	/*	unsigned mCurrentPath;
+		Vector2 mDiveStartPosition;*/
 
 		Vector2 LocalFormationPosition() override;
 

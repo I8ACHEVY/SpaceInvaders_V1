@@ -24,17 +24,6 @@ public:
 private:
 	Timer* mTimer;
 
-	//side to side
-	bool mMovingRight;
-	float mMovingSpeed;
-	float mFormationBoundaryLeft;
-	float mFormationBoundaryRight;
-
-	//Drop
-	float mDropAmount;
-	float mDropTimer;
-	float mDropDelay;
-
 	//Offset
 	float mOffsetAmount;
 	float mOffsetTimer;

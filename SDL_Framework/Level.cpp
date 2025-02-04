@@ -107,8 +107,16 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 		mFormationSquids[i] = nullptr;
 	}
 	for (int i = 0; i < MAX_SHIPS; i++) {
-		mFormationShip[i] = nullptr;
+		if (mFormationShip[i] = nullptr) {
+			mFormationShip[i]->Position(Graphics::SCREEN_WIDTH * 0.9f, 560.0f);
+		}
 	}
+
+	mMovingRight = true;
+	mSpeed = 100.0f;
+	mDropAmount = 5.0f;
+	mRightBoundary = Graphics::SCREEN_WIDTH - 480.0f;
+	mLeftBoundary = 480.0f;
 	
 	mCurrentFlyInPriority = 0;
 	mCurrentFlyInIndex = 0;
@@ -421,6 +429,28 @@ void Level::Update() {
 	mBarrack2->Update();
 	mBarrack3->Update();
 	mBarrack4->Update();
+
+	if (mFormation->Locked()) {
+
+		float deltaTime = mTimer->DeltaTime();
+
+		if (mMovingRight) {
+			mFormation->Translate(Vector2(mSpeed * deltaTime, 0.0f));
+
+			if (mFormation->Position().x >= mRightBoundary) {
+				mMovingRight = false;
+				mFormation->Translate(Vector2(0.0f, mDropAmount));
+			}
+		}
+		else {
+			mFormation->Translate(Vector2(-mSpeed * deltaTime, 0.0f));
+
+			if (mFormation->Position().x <= mLeftBoundary) {
+				mMovingRight = true;
+				mFormation->Translate(Vector2(0.0f, mDropAmount));
+			}
+		}
+	}
 
 	if (!mStageStarted) {
 		HandleStartLabels();

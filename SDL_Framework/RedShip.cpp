@@ -5,6 +5,31 @@
 std::vector<std::vector<Vector2>> RedShip::sDivePaths;
 
 void RedShip::CreateDivePaths() {
+
+	/*int currentPath = 0;
+	BezierPath* path = new BezierPath();
+
+	path->AddCurve({
+		Vector2(1000.0f, 450.0f),
+		Vector2(1000.0f, 600.0f),
+		Vector2(300.0f, 600.0f),
+		Vector2(300.0f, 450.0f) }, 1);
+
+	path->AddCurve({
+		Vector2(780.0f, 450.0f),
+		Vector2(780.0f, 600.0f),
+		Vector2(300.0f, 600.0f),
+		Vector2(300.0f, 450.0f) }, 1);
+
+	path->AddCurve({
+		Vector2(780.0f, 450.0f),
+		Vector2(780.0f, 600.0f),
+		Vector2(50.0f, 600.0f),
+		Vector2(50.0f, 450.0f) }, 1);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;*/
 }
 
 void RedShip::HandleFlyInState() {
