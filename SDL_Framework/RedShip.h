@@ -15,7 +15,7 @@ namespace SDL_Framework {
 
 		static void CreateDivePaths();
 
-		//void Dive(int type = 0) override;
+		void Dive(int type = 0) override;
 
 		void Hit(PhysEntity* other) override;
 		bool IgnoreCollision(PhysEntity* Entity);

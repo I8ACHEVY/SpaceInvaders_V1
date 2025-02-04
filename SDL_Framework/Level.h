@@ -56,10 +56,10 @@ private:
 	Squid* mFormationSquids[MAX_SQUIDS];
 	RedShip* mFormationShip[MAX_SHIPS];
 
-	//RedShip* mDivingShip;
+	RedShip* mDivingShip;
 	//bool mSkipFirstShip;
-	//float mShipDiveDelay;
-	//float mShipDiveTimer;
+	float mShipDiveDelay;
+	float mShipDiveTimer;
 	//bool mShipSpawn;
 
 	std::vector<Enemy*> mEnemies;	//debug testing
@@ -108,4 +108,5 @@ private:
 
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();
+	void HandleEnemyDiving();
 };

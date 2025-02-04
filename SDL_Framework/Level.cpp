@@ -124,6 +124,10 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	mSpawnTimer = 0.0f;
 	mSpawningFinished = false;
 
+	mDivingShip = nullptr;
+	mShipDiveDelay = 5.0f;
+	mShipDiveTimer = 0.0f;
+
 	Enemy::CurrentPlayer(mPlayer);
 }
 
@@ -409,8 +413,7 @@ void Level::HandleEnemyFormation() {
 	if (!mFormation->Locked()) {
 		if (mCrabCount == MAX_CRABS &&
 			mOctopusCount == MAX_OCTOPI &&
-			mSquidCount == MAX_SQUIDS && 
-			mShipCount == MAX_SHIPS){
+			mSquidCount == MAX_SQUIDS){		//&& mShipCount == MAX_SHIPS
 
 			if (!EnemyFlyingIn()) {
 				mFormation->Lock();
@@ -418,11 +421,43 @@ void Level::HandleEnemyFormation() {
 		}
 	}
 
+	else {
+		HandleEnemyDiving();
+	}
+
 	if (levelCleared) {
 		mCurrentState = Finished;
 	}
 }
 
+void Level::HandleEnemyDiving() {
+
+	if (mDivingShip == nullptr) {
+		mShipDiveTimer += mTimer->DeltaTime();
+
+		if (mShipDiveTimer >= mShipDiveDelay) {
+
+			for (int i = MAX_SHIPS - 1; i >= 0; i--) {
+
+				if (mFormationShip[i] != nullptr &&
+					mFormationShip[i]->CurrentState() == Enemy::InFormation) {
+
+					mDivingShip = mFormationShip[i];
+					mDivingShip->Dive();
+					//int index = mDivingShip->Index();
+					break;
+				}
+			}
+			mShipDiveTimer = 0.0f;
+		}
+	}
+	else {
+		if (mDivingShip->CurrentState() != Enemy::Diving) {
+			mDivingShip = nullptr;
+		}
+	}
+
+}
 
 void Level::Update() {
 	mBarrack1->Update();

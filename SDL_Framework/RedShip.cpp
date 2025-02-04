@@ -6,7 +6,7 @@ std::vector<std::vector<Vector2>> RedShip::sDivePaths;
 
 void RedShip::CreateDivePaths() {
 
-	/*int currentPath = 0;
+	int currentPath = 0;
 	BezierPath* path = new BezierPath();
 
 	path->AddCurve({
@@ -28,8 +28,8 @@ void RedShip::CreateDivePaths() {
 		Vector2(50.0f, 450.0f) }, 1);
 
 	sPaths.push_back(std::vector<Vector2>());
-	path->Sample(&sPaths[currentPath]);
-	delete path;*/
+	path->Sample(&sDivePaths[currentPath]);
+	delete path;
 }
 
 void RedShip::HandleFlyInState() {
@@ -62,9 +62,8 @@ Vector2 RedShip::LocalFormationPosition() {
 	Vector2 retVal;
 	int dir = mIndex % 2 == 0 ? -1 : 1;
 
-	retVal.x =
-		(sFormation->GridSize().x + sFormation->GridSize().x *
-			2 * (mIndex / 2)) * (float)dir;
+	retVal.x = 500.0f;
+
 	retVal.y = -sFormation->GridSize().y * 2.8;
 
 	return retVal;
@@ -91,6 +90,10 @@ void RedShip::HandleDiveState() {
 		if ((waypointPos - Position()).MagnitudeSqr() < EPSILON * mSpeed / 25) {
 			mCurrentWayPoint++;
 		}
+
+		if (mCurrentWayPoint == sDivePaths[mCurrentPath].size()) {
+			Position(Vector2(WorldFormationPosition().x, 20.0f));
+		}
 	}
 	else {
 		Vector2 dist = WorldFormationPosition() - Position();
@@ -105,6 +108,12 @@ void RedShip::HandleDiveState() {
 
 }
 
+void RedShip::Dive(int type) {
+
+	Enemy::Dive();
+	mCurrentPath = 0;
+}
+
 void RedShip::Hit(PhysEntity* other) {
 	AudioManager::Instance()->PlaySFX("PlayerExplosion.wav", 0, -1);
 	sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 80 : 160);
@@ -112,7 +121,7 @@ void RedShip::Hit(PhysEntity* other) {
 }
 
 void RedShip::RenderDiveState() {
-	int currentPath = mIndex % 2;
+	int currentPath = 0;
 
 	mTexture[0]->Render();
 

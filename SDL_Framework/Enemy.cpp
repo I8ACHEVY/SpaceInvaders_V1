@@ -146,27 +146,40 @@ void Enemy::CreatePaths() {
 	path->Sample(&sPaths[currentPath]);
 	delete path;
 
-	currentPath = 6;		
-	path = new BezierPath();
+	//currentPath = 6;		
+	//path = new BezierPath();
 
+	//path->AddCurve({ 
+	//	Vector2(1000.0f, 450.0f), 
+	//	Vector2(1000.0f, 600.0f),
+	//	Vector2(300.0f, 600.0f), 
+	//	Vector2(300.0f, 450.0f) }, 1);
+
+	//path->AddCurve({
+	//	Vector2(780.0f, 450.0f),
+	//	Vector2(780.0f, 600.0f),
+	//	Vector2(300.0f, 600.0f),
+	//	Vector2(300.0f, 450.0f) }, 1);
+
+	//path->AddCurve({
+	//	Vector2(780.0f, 450.0f),
+	//	Vector2(780.0f, 600.0f),
+	//	Vector2(50.0f, 600.0f),
+	//	Vector2(50.0f, 450.0f) }, 1);
+
+	//sPaths.push_back(std::vector<Vector2>());
+	//path->Sample(&sPaths[currentPath]);
+	//delete path;
+
+		currentPath = 6;		
+	path = new BezierPath();
+	
 	path->AddCurve({ 
 		Vector2(1000.0f, 450.0f), 
 		Vector2(1000.0f, 600.0f),
-		Vector2(300.0f, 600.0f), 
-		Vector2(300.0f, 450.0f) }, 1);
-
-	path->AddCurve({
-		Vector2(780.0f, 450.0f),
-		Vector2(780.0f, 600.0f),
-		Vector2(300.0f, 600.0f),
-		Vector2(300.0f, 450.0f) }, 1);
-
-	path->AddCurve({
-		Vector2(780.0f, 450.0f),
-		Vector2(780.0f, 600.0f),
-		Vector2(50.0f, 600.0f),
-		Vector2(50.0f, 450.0f) }, 1);
-
+		Vector2(980.0f, 600.0f), 
+		Vector2(980.0f, 450.0f) }, 1);
+	
 	sPaths.push_back(std::vector<Vector2>());
 	path->Sample(&sPaths[currentPath]);
 	delete path;
