@@ -12,7 +12,6 @@ using namespace SDL_Framework;
 class Enemy : public PhysEntity {
 public:
 	static int sActiveBullets;
-	float mFireCoolDown;
 	float mFireCoolDownTimer;
 
 	enum States { FlyIn, Diving, InFormation, Dead };
@@ -44,6 +43,8 @@ protected:
 	Timer* mTimer;
 
 	Texture* mTexture[2];
+
+	Formation* mFormation;
 
 	GLAnimatedTexture* mDeathAnimation;
 
