@@ -4,53 +4,21 @@
 	<ChallengingStage value="false"/>
 	
 	<Spawn path="0" priority="0">
-		<Enemy type="Octopus" index="0"/>
-		<Enemy type="Octopus" index="1"/>
-		<Enemy type="Octopus" index="2"/>
+		<Enemy type="Octopus" index="10"/>
+		<Enemy type="Octopus" index="9"/>
+		<Enemy type="Octopus" index="8"/>
+		<Enemy type="Octopus" index="7"/>
+		<Enemy type="Octopus" index="6"/>
+		<Enemy type="Octopus" index="5"/>
+		<Enemy type="Octopus" index="4"/>
 		<Enemy type="Octopus" index="3"/>
+		<Enemy type="Octopus" index="2"/>
+		<Enemy type="Octopus" index="1"/>
+		<Enemy type="Octopus" index="0"/>
 	</Spawn>
 	
 	<Spawn path="1" priority="0">
-		<Enemy type="Crab" index="0"/>
-		<Enemy type="Crab" index="1"/>
-		<Enemy type="Crab" index="2"/>
-		<Enemy type="Crab" index="3"/>
-	</Spawn>
-
-	<Spawn path="2" priority="1">
-		<Enemy type="Squid" index="2"/>
-		<Enemy type="Crab" index="4"/>
-		<Enemy type="Squid" index="0"/>
-		<Enemy type="Crab" index="5"/>
-		<Enemy type="Squid" index="1"/>
-		<Enemy type="Crab" index="6"/>
-		<Enemy type="Squid" index="3"/>
-		<Enemy type="Crab" index="7"/>
-	</Spawn>
-
-	<Spawn path="3" priority="2">
-		<Enemy type="Crab" index="8"/>
-		<Enemy type="Crab" index="9"/>
-		<Enemy type="Crab" index="10"/>
-		<Enemy type="Crab" index="11"/>
-		<Enemy type="Crab" index="12"/>
-		<Enemy type="Crab" index="13"/>
-		<Enemy type="Crab" index="14"/>
-		<Enemy type="Crab" index="15"/>
-	</Spawn>
-
-	<Spawn path="0" priority="3">
-		<Enemy type="Octopus" index="4"/>
-		<Enemy type="Octopus" index="5"/>
-		<Enemy type="Octopus" index="6"/>
-		<Enemy type="Octopus" index="7"/>
-		<Enemy type="Octopus" index="8"/>
-		<Enemy type="Octopus" index="9"/>
-		<Enemy type="Octopus" index="10"/>
 		<Enemy type="Octopus" index="11"/>
-	</Spawn>
-
-	<Spawn path="1" priority="4">
 		<Enemy type="Octopus" index="12"/>
 		<Enemy type="Octopus" index="13"/>
 		<Enemy type="Octopus" index="14"/>
@@ -59,22 +27,69 @@
 		<Enemy type="Octopus" index="17"/>
 		<Enemy type="Octopus" index="18"/>
 		<Enemy type="Octopus" index="19"/>
+		<Enemy type="Octopus" index="20"/>
+		<Enemy type="Octopus" index="21"/>
 	</Spawn>
 
-	<Spawn path="0" priority="5">
+	<Spawn path="2" priority="0">
+		<Enemy type="Crab" index="10"/>
+		<Enemy type="Crab" index="9"/>
+		<Enemy type="Crab" index="8"/>
+		<Enemy type="Crab" index="7"/>
+		<Enemy type="Crab" index="6"/>
+		<Enemy type="Crab" index="5"/>
+		<Enemy type="Crab" index="4"/>
+		<Enemy type="Crab" index="3"/>
+		<Enemy type="Crab" index="2"/>
+		<Enemy type="Crab" index="1"/>
+		<Enemy type="Crab" index="0"/>
+	</Spawn>
+
+	<Spawn path="3" priority="0">
+		<Enemy type="Crab" index="11"/>
+		<Enemy type="Crab" index="12"/>
+		<Enemy type="Crab" index="13"/>
+		<Enemy type="Crab" index="14"/>
+		<Enemy type="Crab" index="15"/>
+		<Enemy type="Crab" index="16"/>
+		<Enemy type="Crab" index="17"/>
+		<Enemy type="Crab" index="18"/>
+		<Enemy type="Crab" index="19"/>
+		<Enemy type="Crab" index="20"/>
+		<Enemy type="Crab" index="21"/>
+	</Spawn>
+
+	<Spawn path="4" priority="0">
+		<Enemy type="Squid" index="10"/>
+		<Enemy type="Squid" index="9"/>
+		<Enemy type="Squid" index="8"/>
+		<Enemy type="Squid" index="7"/>
+		<Enemy type="Squid" index="6"/>
+		<Enemy type="Squid" index="5"/>
+		<Enemy type="Squid" index="4"/>
+		<Enemy type="Squid" index="3"/>
+		<Enemy type="Squid" index="2"/>
+		<Enemy type="Squid" index="1"/>
+		<Enemy type="Squid" index="0"/>
+	</Spawn>
+
+	<Spawn path="5" priority="0">
+		<Enemy type="Squid" index="11"/>
+		<Enemy type="Squid" index="12"/>
+		<Enemy type="Squid" index="13"/>
+		<Enemy type="Squid" index="14"/>
+		<Enemy type="Squid" index="15"/>
+		<Enemy type="Squid" index="16"/>
+		<Enemy type="Squid" index="17"/>
+		<Enemy type="Squid" index="18"/>
+		<Enemy type="Squid" index="19"/>
+		<Enemy type="Squid" index="20"/>
+		<Enemy type="Squid" index="21"/>
+	
+	</Spawn>
+
+	<Spawn path="6" priority="0">
 		<Enemy type="RedShip" index="0"/>
-	</Spawn>
-
-	<Spawn path="1" priority="5">
-		<Enemy type="RedShip" index="1"/>
-	</Spawn>
-
-	<Spawn path="2" priority="5">
-		<Enemy type="RedShip" index="2"/>
-	</Spawn>
-
-	<Spawn path="3" priority="5">
-		<Enemy type="RedShip" index="3"/>
 	</Spawn>
 
 </Level>

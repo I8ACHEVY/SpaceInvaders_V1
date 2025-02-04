@@ -5,16 +5,21 @@
 #include "PhysicsEntity.h"
 #include "Player.h"
 #include "Formation.h"
-#include "Bullet.h"
+#include "EBullet.h"
 
 using namespace SDL_Framework;
 
 class Enemy : public PhysEntity {
 public:
-	enum States { FlyIn, InFormation, Diving, Dead };
+	static int sActiveBullets;
+	float mFireCoolDown;
+	float mFireCoolDownTimer;
+
+	enum States { FlyIn, Diving, InFormation, Dead };
 	enum Types { Crab, Octopus, Squid, RedShips};
 
-	//static void CreatePaths();
+	static void CreatePaths();
+	virtual void Dive(int type = 0);
 	static void SetFormation(Formation* formation);
 	static void CurrentPlayer(Player* player);
 
@@ -22,10 +27,9 @@ public:
 	Types Type();
 	int Index();
 
-	Enemy(int Index, bool Challenge);
+	Enemy(int path, int Index, bool Challenge);
 	virtual ~Enemy();
 
-	//virtual void Dive(int type = 0);
 	virtual void Hit(PhysEntity* other) override;
 	bool InDeathAnimation();
 
@@ -49,11 +53,8 @@ protected:
 
 	int mIndex;
 
-	bool mChallengeStage;
-
-	//Vector2 mDiveStartPosition;
-
 	unsigned mCurrentPath;
+	Vector2 mDiveStartPosition;
 
 	unsigned mCurrentWayPoint;
 	const float EPSILON = 50.0f;
@@ -70,14 +71,14 @@ protected:
 
 	virtual void HandleFlyInState();
 	virtual void HandleInFormationState();
-	//virtual void HandleDiveState() = 0;
+	virtual void HandleDiveState() = 0;
 	virtual void HandleDeadState();
 
 	void HandleStates();
 
 	virtual void RenderFlyInState();
 	virtual void RenderInFormationState();
-	//virtual void RenderDiveState() = 0;
+	virtual void RenderDiveState() = 0;
 	virtual void RenderDeadState();
 
 	void RenderStates();
@@ -86,7 +87,7 @@ protected:
 
 	void HandleFiring();
 	void FireBullet(Vector2 position, Vector2 direction);
-	static const int MAX_BULLETS = 2;
-	Bullet* mBullets[MAX_BULLETS];
-	//AudioManager* mAudio;
+	static const int MAX_BULLETS = 1;
+	EBullet* mBullets[MAX_BULLETS];
+	AudioManager* mAudio;
 };

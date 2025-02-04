@@ -8,17 +8,23 @@ PlayScreen::PlayScreen() {
 	mSideBar->Parent(this);
 	mSideBar->Position(Graphics::SCREEN_WIDTH * 0.87f, Graphics::SCREEN_HEIGHT * 0.05f);
 
-	mStartLabel = new GLTexture("START", "ARCADE.ttf", 32, { 0, 255, 0 });
+	mStartLabel = new GLTexture("START", "ARCADE.ttf", 40, { 0, 255, 0 });
 	mStartLabel->Parent(this);
-	mStartLabel->Position(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.6f);
+	mStartLabel->Position(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.48f);
+
+	mScoreMap = new GLAnimatedTexture("InvaderSprites.png", 1, 313, 150, 85, 2, 1.0f, Animation::Layouts::Horizontal);
+	mScoreMap->Parent(this);
+	mScoreMap->Position(520, 640);
+	mScoreMap->Scale(Vector2(2.0f, 2.0f));
+	mScoreMap->SetWrapMode(Animation::WrapModes::Loop);
 
 	mLevel = nullptr;
-	mLevelStartDelay = 6.0f;
+	mLevelStartDelay = 2.0f;
 	mLevelStarted = false;
 
 	mPlayer = nullptr;
 
-	//Enemy::CreatePaths();
+	Enemy::CreatePaths();
 	//Octopus::CreateDivePaths();
 	//Crab::CreateDivePaths();
 	//RedShip::CreateDivePaths();
@@ -34,6 +40,9 @@ PlayScreen::~PlayScreen() {
 
 	delete mStartLabel;
 	mStartLabel = nullptr;
+
+	delete mScoreMap;
+	mScoreMap = nullptr;
 
 	delete mLevel;
 	mLevel = nullptr;
@@ -77,6 +86,8 @@ bool PlayScreen::GameOver() {
 }
 
 void PlayScreen::Update() {
+	mScoreMap->Update();
+
 	if (mGameStarted) {
 		if (!mLevelStarted) {
 			mLevelStartTimer += mTimer->DeltaTime();
@@ -109,6 +120,7 @@ void PlayScreen::Update() {
 void PlayScreen::Render() {
 	if (!mGameStarted) {
 		mStartLabel->Render();
+		mScoreMap->Render();
 	}
 
 	if (mGameStarted) {

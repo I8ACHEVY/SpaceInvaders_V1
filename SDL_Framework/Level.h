@@ -5,6 +5,7 @@
 #include "Octopus.h"
 #include "Squid.h"
 #include "RedShip.h"
+#include "TileLayer.h"
 #include "Tinyxml2.h"
 
 using namespace SDL_Framework;
@@ -27,44 +28,39 @@ private:
 	Timer* mTimer;
 	PlaySideBar* mSideBar;
 	Player* mPlayer;
+
 	Formation* mFormation;
+	bool mMovingRight;
+	float mSpeed;
+	float mDropAmount;
+	float mRightBoundary;
+	float mLeftBoundary;
+
+	TileLayer* mBarrack1;
+	TileLayer* mBarrack2;
+	TileLayer* mBarrack3;
+	TileLayer* mBarrack4;
 
 	static const int MAX_CRABS = 22;
-	static const int MAX_OCTOPI = 22;
-	static const int MAX_SQUIDS = 11;
-	static const int MAX_SHIPS = 4;
+	static const int MAX_OCTOPI = 22;	
+	static const int MAX_SQUIDS = 22;	
+	static const int MAX_SHIPS = 1;	
 
 	int mCrabCount;
 	int mOctopusCount;
 	int mSquidCount;
 	int mShipCount;
-
+	
 	Crab* mFormationCrabs[MAX_CRABS];
 	Octopus* mFormationOctopi[MAX_OCTOPI];
 	Squid* mFormationSquids[MAX_SQUIDS];
 	RedShip* mFormationShip[MAX_SHIPS];
 
-	Crab* mDivingCrab;
-	bool mSkipFirstCrab;
-	float mCrabDiveDelay;
-	float mCrabDiveTimer;
-
-	Octopus* mDivingOctopus;
-	Octopus* mDivingOctopus2;
-	float mOctopusDiveDelay;
-	float mOctopusDiveTimer;
-
-	Squid* mDivingSquid;
-	bool mCaptureDive;
-	bool mSkipFirstSquid;
-	float mSquidDiveDelay;
-	float mSquidDiveTimer;
-
-	RedShip* mDivingShip;
-	bool mSkipFirstShip;
-	float mShipDiveDelay;
-	float mShipDiveTimer;
-	bool mShipSpawn;
+	//RedShip* mDivingShip;
+	//bool mSkipFirstShip;
+	//float mShipDiveDelay;
+	//float mShipDiveTimer;
+	//bool mShipSpawn;
 
 	std::vector<Enemy*> mEnemies;	//debug testing
 
@@ -77,7 +73,6 @@ private:
 	bool mSpawningFinished;
 
 	int mStage; 
-	bool mChallengeStage;
 	bool mStageStarted;
 
 	Texture* mReadyLabel;
@@ -113,5 +108,4 @@ private:
 
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();
-	//void HandleEnemyDiving();
 };

@@ -1,45 +1,177 @@
 #include "Enemy.h"
 #include "PhysicsManager.h"
-#include "Bullet.h"
+#include "EBullet.h"
 
 std::vector<std::vector<Vector2>>Enemy::sPaths;
 Player* Enemy::sPlayer = nullptr;
 Formation* Enemy::sFormation = nullptr;
+int Enemy::sActiveBullets = 0;
 
-//void Enemy::CreatePaths() {
-//	int screenXPoint = (int)(Graphics::Instance()->SCREEN_WIDTH * 0.46f);
-//	int screenYPoint = (int)(Graphics::Instance()->SCREEN_HEIGHT * 0.25f);
-//
-//	int currentPath = 0;
-//	BezierPath* path = new BezierPath();
-//
-//	path->AddCurve({
-//		Vector2(screenXPoint + 150.0f, screenYPoint + -10.0f),
-//		Vector2(screenXPoint + 150.0f, screenYPoint + -20.0f),
-//		Vector2(screenXPoint + 150.0f, screenYPoint + 30.0f),
-//		Vector2(screenXPoint + 150.0f, screenYPoint + 20.0f) }, 1
-//	);
-//
-//	path->AddCurve({
-//		Vector2(screenXPoint + 150.0f, screenYPoint + 20.0f),
-//		Vector2(screenXPoint + 150.0f, screenYPoint + 100.0f),
-//		Vector2( 320.0f, screenYPoint + 140.0f),
-//		Vector2( 320.0f, screenYPoint + 300.0f) }, 25
-//	);
-//
-//	path->AddCurve({
-//		Vector2( 320.0f, screenYPoint + 300.0f),
-//		Vector2( 320.0f, screenYPoint + 500.0f),
-//		Vector2( 580.0f, screenYPoint + 600.0f),
-//		Vector2( 580.0f, screenYPoint + 340.0f) }, 25
-//	);
-//
-//	sPaths.push_back(std::vector<Vector2>());
-//	path->Sample(&sPaths[currentPath]);
-//	delete path;
-//
-//	
-//}
+void Enemy::CreatePaths() {
+	int screenXPoint = (int)(Graphics::Instance()->SCREEN_WIDTH * 0.46f);
+	int screenYPoint = (int)(Graphics::Instance()->SCREEN_HEIGHT * 0.25f);
+
+	int currentPath = 0;
+	BezierPath* path = new BezierPath();
+
+	path->AddCurve({
+		Vector2(screenXPoint - 350.0f, screenYPoint + -30.0f),
+		Vector2(screenXPoint - 350.0f, screenYPoint + -50.0f),
+		Vector2(120.0f, screenYPoint + 100.0f),
+		Vector2(120.0f, screenYPoint + 100.0f) }, 1
+		);
+
+	path->AddCurve({
+		Vector2(120.0f, screenYPoint + 100.0f),
+		Vector2(120.0f, screenYPoint + 200.0f),
+		Vector2(200.0f, screenYPoint + 340.0f),
+		Vector2(300.0f, screenYPoint + 340.0f) }, 25
+		);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+	currentPath = 1;
+	path = new BezierPath();
+	int fullScreen = screenXPoint * 0.8;
+
+	path->AddCurve({
+		Vector2(screenXPoint + 400.0f, screenYPoint + -30.0f),
+		Vector2(screenXPoint + 400.0f, screenYPoint + -50.0f),
+		Vector2(900.0f, screenYPoint + 100.0f),
+		Vector2(900.0f, screenYPoint + 100.0f) }, 1
+	);
+
+	path->AddCurve({
+		Vector2(900.0f, screenYPoint + 100.0f),
+		Vector2(900.0f, screenYPoint + 200.0f),
+		Vector2(800.0f, screenYPoint + 340.0f),
+		Vector2(700.0f, screenYPoint + 340.0f) }, 25
+		);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+	currentPath = 2;
+	float temp = screenXPoint - 100.0f;
+
+	path = new BezierPath();
+
+	path->AddCurve({
+	Vector2(screenXPoint - 350.0f, screenYPoint + -30.0f),
+	Vector2(screenXPoint - 350.0f, screenYPoint + -50.0f),
+	Vector2(120.0f, screenYPoint + 100.0f),
+	Vector2(120.0f, screenYPoint + 100.0f) }, 1
+	);
+
+	path->AddCurve({
+		Vector2(120.0f, screenYPoint + 100.0f),
+		Vector2(120.0f, screenYPoint + 150.0f),
+		Vector2(200.0f, screenYPoint + 300.0f),
+		Vector2(300.0f, screenYPoint + 300.0f) }, 25
+		);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+	currentPath = 3;
+	temp = screenXPoint + 60.0f;
+	float temp2 = fullScreen - 40.0f;
+	path = new BezierPath();
+
+	path->AddCurve({
+		Vector2(screenXPoint + 400.0f, screenYPoint + -30.0f),
+		Vector2(screenXPoint + 400.0f, screenYPoint + -50.0f),
+		Vector2(900.0f, screenYPoint + 100.0f),
+		Vector2(900.0f, screenYPoint + 100.0f) }, 1
+		);
+
+	path->AddCurve({
+		Vector2(900.0f, screenYPoint + 100.0f),
+		Vector2(900.0f, screenYPoint + 150.0f),
+		Vector2(800.0f, screenYPoint + 300.0f),
+		Vector2(700.0f, screenYPoint + 300.0f) }, 25
+		);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+	currentPath = 4;		
+	temp = screenXPoint - 100.0f;
+	path = new BezierPath();
+
+	path->AddCurve({
+		Vector2(screenXPoint - 350.0f, screenYPoint + -30.0f),
+		Vector2(screenXPoint - 350.0f, screenYPoint + -50.0f),
+		Vector2(120.0f, screenYPoint + 100.0f),
+		Vector2(120.0f, screenYPoint + 100.0f) }, 1
+		);
+
+	path->AddCurve({
+		Vector2(120.0f, screenYPoint + 100.0f),
+		Vector2(120.0f, screenYPoint + 120.0f),
+		Vector2(200.0f, screenYPoint + 280.0f),
+		Vector2(300.0f, screenYPoint + 280.0f) }, 25
+		);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+
+	currentPath = 5;			
+	temp = screenXPoint + 60.0f;
+	temp2 = fullScreen - 40.0f;
+	path = new BezierPath();
+
+	path->AddCurve({
+		Vector2(screenXPoint + 400.0f, screenYPoint + -30.0f),
+		Vector2(screenXPoint + 400.0f, screenYPoint + -50.0f),
+		Vector2(900.0f, screenYPoint + 100.0f),
+		Vector2(900.0f, screenYPoint + 100.0f) }, 1
+		);
+
+	path->AddCurve({
+		Vector2(900.0f, screenYPoint + 100.0f),
+		Vector2(900.0f, screenYPoint + 120.0f),
+		Vector2(800.0f, screenYPoint + 280.0f),
+		Vector2(700.0f, screenYPoint + 280.0f) }, 25
+		);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+	currentPath = 6;		
+	path = new BezierPath();
+
+	path->AddCurve({ 
+		Vector2(1000.0f, 450.0f), 
+		Vector2(1000.0f, 600.0f),
+		Vector2(300.0f, 600.0f), 
+		Vector2(300.0f, 450.0f) }, 1);
+
+	path->AddCurve({
+		Vector2(780.0f, 450.0f),
+		Vector2(780.0f, 600.0f),
+		Vector2(300.0f, 600.0f),
+		Vector2(300.0f, 450.0f) }, 1);
+
+	path->AddCurve({
+		Vector2(780.0f, 450.0f),
+		Vector2(780.0f, 600.0f),
+		Vector2(50.0f, 600.0f),
+		Vector2(50.0f, 450.0f) }, 1);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path->Sample(&sPaths[currentPath]);
+	delete path;
+
+}
 
 void Enemy::SetFormation(Formation* formation) {
 	sFormation = formation;
@@ -50,43 +182,46 @@ void Enemy::CurrentPlayer(Player* player) {
 }
 
 void Enemy::HandleFiring() {
-	if (sPlayer == nullptr) return;
+	if (mCurrentState != InFormation || sPlayer == nullptr) return;
 
-	Vector2 playerPosition = sPlayer->Position();
-	Vector2 direction = (playerPosition - Position()).Normalized();
+	if (sActiveBullets >= 2) return;
 
-	int numBullets = (rand() % 2) + 1;
+	if (mFireCoolDownTimer > 0.0f) {
+		mFireCoolDownTimer -= mTimer->DeltaTime();
+		return;
+	}
 
 	for (int i = 0; i < MAX_BULLETS; i++) {
-		float spreadAngle = (rand() % 20 - 10) * DEG_TO_RAD;
-		Vector2 bulletDirection = (spreadAngle);
-
-		Bullet* bullet = new Bullet(false);
-		bullet->Fire(Position());
-		//PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
-
 		if (!mBullets[i]->Active()) {
-			mBullets[i]->Fire(Position());
-			//mAudio->PlaySFX("Fire.wav");
+			Vector2 bulletDirection = Vector2(0, -1);
+			mBullets[i]->Fire(Position() + bulletDirection);
+			
+			EBullet* bullet = new EBullet();
+			bullet->Fire(Position() + bulletDirection);
+			PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
+
+			sActiveBullets++;
+			mFireCoolDownTimer = 3.0f;
 			break;
 		}
 	}
 }
 
-Enemy::Enemy(int index, bool challenge) :
-	mIndex(index), mChallengeStage(challenge){
+Enemy::Enemy(int path, int index, bool challenge) :
+	mCurrentPath(path),mIndex(index){
 
 	mTimer = Timer::Instance();
 
 	mCurrentState = FlyIn;
 
 	mCurrentWayPoint = 1;
-	// Position(sPaths[mCurrentPath][0]);
 
-	mTexture[0] = nullptr;		// enemy new Texture("AnimatedEnemies.png", 0, 0, 52, 40);
+	Position(sPaths[mCurrentPath][0]);
+
+	mTexture[0] = nullptr;
 	mTexture[1] = nullptr;
 	
-	mSpeed = 580.0f;
+	mSpeed = 100.0f; //580
 
 	mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Hostile);
 
@@ -95,9 +230,9 @@ Enemy::Enemy(int index, bool challenge) :
 	mDeathAnimation->Position(Vec2_Zero);
 	mDeathAnimation->SetWrapMode(Animation::WrapModes::Once);
 
-	//for (int i = 0; i < MAX_BULLETS; i++) {
-	//	mBullets[i] = new Bullet(true);
-	//}
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		mBullets[i] = new EBullet();
+	}
 }
 
 Enemy::~Enemy() {
@@ -111,10 +246,10 @@ Enemy::~Enemy() {
 	delete mDeathAnimation;
 	mDeathAnimation = nullptr;
 
-	//for (auto bullet : mBullets) {
-	//	delete bullet;
-	//	bullet = nullptr;
-	//}
+	for (auto bullet : mBullets) {
+		delete bullet;
+		bullet = nullptr;
+	}
 }
 
 Enemy::States Enemy::CurrentState() {
@@ -126,12 +261,8 @@ Vector2 Enemy::WorldFormationPosition() {
 }
 
 void Enemy::FlyInComplete() {
-	if (mChallengeStage) {
-		mCurrentState = Dead;	//change dead when adding challenge stages
-	}
-	else {
-		JoinFormation();
-	}
+
+	JoinFormation();
 }
 
 void Enemy::JoinFormation() {
@@ -142,9 +273,7 @@ void Enemy::JoinFormation() {
 }
 
 void Enemy::PathComplete() {
-	if (mChallengeStage) {
-		mCurrentState = Dead;	//change dead when adding challenge stages
-	}
+
 }
 
 Enemy::Types Enemy::Type() {
@@ -155,28 +284,24 @@ int Enemy::Index() {
 	return mIndex;
 }
 
-//void Enemy::Dive(int type) {
-//	Parent(nullptr);
-//	mCurrentState = Diving;
-//	mDiveStartPosition = Position();
-//	mCurrentWayPoint = 1;
-//}
+void Enemy::Dive(int type) {
+	Parent(nullptr);
+	mCurrentState = Diving;
+	mDiveStartPosition = Position();
+	mCurrentWayPoint = 1;
+}
 
 void Enemy::Update() {
 	if (Active()) {
 		HandleStates();
+	}
 
-		//if (mCurrentState == Diving) {
-		//	static float shootInterval = 0.5f;
-		//	static float FinalFireTime = 0.6f;
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		mBullets[i]->Update();
+	}
 
-		//	FinalFireTime += mTimer->DeltaTime();
-
-		//	if (FinalFireTime >= shootInterval) {
-		//		HandleFiring();
-		//		FinalFireTime = 0.0f;
-		//	}
-		//}
+	if (mFireCoolDownTimer > 0.0f) {
+		mFireCoolDownTimer -= mTimer->DeltaTime();
 	}
 }
 
@@ -185,9 +310,9 @@ void Enemy::Render() {
 		RenderStates();
 	}
 
-	//	for (int i = 0; i < MAX_BULLETS; i++) {
-	//	mBullets[i]->Render();
-	//}
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		mBullets[i]->Render();
+	}
 }
 
 void Enemy::HandleFlyInState() {
@@ -256,11 +381,12 @@ void Enemy::HandleStates() {
 
 	case InFormation:
 		HandleInFormationState();
+		HandleFiring();
 		break;
 
-	//case Diving: 
-	//	/*HandleDiveState();*/
-	//	break;
+	case Diving:
+		HandleDiveState();
+		break;
 
 	case Dead:
 		HandleDeadState();
@@ -270,10 +396,12 @@ void Enemy::HandleStates() {
 
 void Enemy::RenderFlyInState() {
 	mTexture[0]->Render();
+
 }
 
 void Enemy::RenderInFormationState() {
 	mTexture[sFormation->GetTick() % 2]->Render();
+
 }
 
 void Enemy::RenderStates() {
@@ -285,11 +413,12 @@ void Enemy::RenderStates() {
 
 	case InFormation:
 		RenderInFormationState();
+		
 		break;
 
-	//case Diving:
-	//	RenderDiveState();
-	//	break;
+	case Diving:
+		RenderDiveState();
+		break;
 
 	case Dead:
 		RenderDeadState();

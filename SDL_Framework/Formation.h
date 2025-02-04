@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameEntity.h"
+#include "GLGraphics.h"
 #include "Timer.h"
 
 using namespace SDL_Framework;
@@ -23,7 +24,7 @@ public:
 private:
 	Timer* mTimer;
 
-	//side to side
+	//Offset
 	float mOffsetAmount;
 	float mOffsetTimer;
 	float mOffsetDelay;

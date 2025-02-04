@@ -1,10 +1,11 @@
 #pragma once
 #include "Collider.h"
+#include "GLTexture.h"
 #include <vector>
 
 namespace SDL_Framework{
 	
-	class PhysEntity : public GameEntity {
+	class PhysEntity : public GameEntity{
 	public:
 		PhysEntity();
 		virtual ~PhysEntity();

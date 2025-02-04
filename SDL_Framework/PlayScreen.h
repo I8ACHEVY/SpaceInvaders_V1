@@ -28,6 +28,7 @@ private:
 	Player* mPlayer;
 
 	Texture* mStartLabel;
+	GLAnimatedTexture* mScoreMap;
 
 	Level* mLevel;
 

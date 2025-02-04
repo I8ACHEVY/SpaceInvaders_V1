@@ -112,7 +112,8 @@ namespace SDL_Framework {
 		
 		mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::FriendlyProjectile,
 			PhysicsManager::CollisionFlags::Hostile |
-			PhysicsManager::CollisionFlags::HostileProjectile);
+			PhysicsManager::CollisionFlags::HostileProjectile |
+			PhysicsManager::CollisionFlags::Barracks);
 		
 		mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::Hostile,
 			PhysicsManager::CollisionFlags::Friendly |
@@ -120,6 +121,11 @@ namespace SDL_Framework {
 		
 		mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::HostileProjectile,
 			PhysicsManager::CollisionFlags::Friendly |
+			PhysicsManager::CollisionFlags::FriendlyProjectile |
+			PhysicsManager::CollisionFlags::Barracks);
+
+		mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::Barracks,
+			PhysicsManager::CollisionFlags::HostileProjectile|
 			PhysicsManager::CollisionFlags::FriendlyProjectile);
 
 	}

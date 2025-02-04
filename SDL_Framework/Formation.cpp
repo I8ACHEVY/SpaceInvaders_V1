@@ -25,24 +25,8 @@ Formation::~Formation() {
 }
 
 void Formation::Update() {
-	if (!mLocked || mOffsetCounter != 4) {
-		mOffsetTimer += mTimer->DeltaTime();
+	if (!mLocked) {
 
-		if (mOffsetTimer >= mOffsetDelay) {
-			mOffsetCounter++;
-
-			Translate(Vec2_Right * (float)mOffsetDirection *
-			mOffsetAmount, World);
-
-			if (mOffsetCounter == 8) {
-				mOffsetCounter = 0;
-				mOffsetDirection *= -1;
-			}
-
-			mOffsetTimer = 0.0f;
-		}
-	}
-	else {
 		mPulseTimer += mTimer->DeltaTime();
 
 		if (mPulseTimer >= mPulseDelay) {
@@ -57,6 +41,19 @@ void Formation::Update() {
 			mPulseTimer = 0.0f;
 		}
 	}
+
+		mOffsetTimer += mTimer->DeltaTime();
+
+		if (mOffsetTimer >= mOffsetDelay) {
+			mOffsetCounter++;
+
+			if (mOffsetCounter == 8) {
+				mOffsetCounter = 0;
+				mOffsetDirection *= -1;
+			}
+
+			mOffsetTimer = 0.0f;
+		}
 }
 
 int Formation::GetTick() {

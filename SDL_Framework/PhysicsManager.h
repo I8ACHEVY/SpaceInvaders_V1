@@ -11,6 +11,7 @@ namespace SDL_Framework {
 			FriendlyProjectile,
 			Hostile,
 			HostileProjectile,
+			Barracks,
 			MaxLayers
 		};
 
@@ -20,6 +21,7 @@ namespace SDL_Framework {
 			FriendlyProjectile = 0x02,
 			Hostile = 0x04,
 			HostileProjectile = 0x08,
+			Barracks = 0x10,
 		};
 
 		static PhysicsManager* Instance();

@@ -7,10 +7,11 @@ namespace SDL_Framework {
 
 	class Squid : public Enemy {
 	public:
+		static void CreateDivePaths();
 
 		void Hit(PhysEntity* other) override;
 
-		Squid(int index, bool challenge);
+		Squid(int path, int index, bool challenge);
 		~Squid();
 
 	private:
@@ -21,6 +22,10 @@ namespace SDL_Framework {
 		bool mWasHit;
 
 		Vector2 LocalFormationPosition() override;
+
+		void HandleDiveState() override;
+
+		void RenderDiveState() override;
 
 	};
 }
