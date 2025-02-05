@@ -195,27 +195,30 @@ void Enemy::CurrentPlayer(Player* player) {
 }
 
 void Enemy::HandleFiring() {
-	mFireCoolDownTimer -= mTimer->DeltaTime();
+	mFireRate -= mTimer->DeltaTime();
 	
 	if (sPlayer == nullptr) return;
-	//if (sActiveBullets >= 2) return;
 
-	//if (mFireCoolDownTimer <= 0.0f) {
-		for (int i = 0; i < MAX_BULLETS; i++) {
-			if (!mBullets[i]->Active()) {
-				Vector2 bulletDirection = Vector2(0, -1);
-				mBullets[i]->Fire(Position() + bulletDirection);
+	for (int i = 0; i < MAX_EBULLETS; i++) {
+		if (!mEBullets[i]->Active()) {
+			Vector2 bulletDirection = Vector2(0, -1);
+			mEBullets[i]->Fire(Position() + bulletDirection);
 
-				EBullet* bullet = new EBullet();
-				bullet->Fire(Position() + bulletDirection);
-				PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
+			EBullet* bullet = new EBullet();
+			bullet->Fire(Position() + bulletDirection);
+			PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
 
-				//sActiveBullets += 2;
-				//mFireCoolDownTimer = 3.0f;
-				break;
-			}
+			break;
 		}
-	//}
+	}
+}
+
+void Enemy::FireCoolDown() {
+	mFireRate = 3.0f;
+}
+
+bool Enemy::Fire() {
+	return (mFireRate <= 0.0f && !mEBullets[MAX_EBULLETS - 1]->Active());
 }
 
 Enemy::Enemy(int path, int index, bool challenge) :
@@ -241,8 +244,8 @@ Enemy::Enemy(int path, int index, bool challenge) :
 	mDeathAnimation->Position(Vec2_Zero);
 	mDeathAnimation->SetWrapMode(Animation::WrapModes::Once);
 
-	for (int i = 0; i < MAX_BULLETS; i++) {
-		mBullets[i] = new EBullet();
+	for (int i = 0; i < MAX_EBULLETS; i++) {
+		mEBullets[i] = new EBullet();
 	}
 }
 
@@ -257,7 +260,7 @@ Enemy::~Enemy() {
 	delete mDeathAnimation;
 	mDeathAnimation = nullptr;
 
-	for (auto bullet : mBullets) {
+	for (auto bullet : mEBullets) {
 		delete bullet;
 		bullet = nullptr;
 	}
@@ -303,16 +306,17 @@ void Enemy::Dive(int type) {
 }
 
 void Enemy::Update() {
+
 	if (Active()) {
 		HandleStates();
 	}
 
-	for (int i = 0; i < MAX_BULLETS; i++) {
-		mBullets[i]->Update();
+	for (int i = 0; i < MAX_EBULLETS; i++) {
+		mEBullets[i]->Update();
 	}
 
-	if (mFireCoolDownTimer > 0.0f) {
-		mFireCoolDownTimer -= mTimer->DeltaTime();
+	if (mFireRate > 0.0f) {
+		mFireRate -= mTimer->DeltaTime();
 	}
 }
 
@@ -321,8 +325,8 @@ void Enemy::Render() {
 		RenderStates();
 	}
 
-	for (int i = 0; i < MAX_BULLETS; i++) {
-		mBullets[i]->Render();
+	for (int i = 0; i < MAX_EBULLETS; i++) {
+		mEBullets[i]->Render();
 	}
 }
 
@@ -392,7 +396,6 @@ void Enemy::HandleStates() {
 
 	case InFormation:
 		HandleInFormationState();
-		HandleFiring();
 		break;
 
 	case Diving:

@@ -459,6 +459,15 @@ void Level::HandleEnemyDiving() {
 
 }
 
+void Level::HandleEnemyFiring() {
+	for (Enemy* enemy : mEnemies) {
+		if (enemy->Fire()) {
+			enemy->HandleFiring();
+			enemy->FireCoolDown();
+		}
+	}
+}
+
 void Level::Update() {
 	mBarrack1->Update();
 	mBarrack2->Update();
@@ -466,6 +475,7 @@ void Level::Update() {
 	mBarrack4->Update();
 
 	if (mFormation->Locked()) {
+		HandleEnemyFiring();
 
 		float deltaTime = mTimer->DeltaTime();
 

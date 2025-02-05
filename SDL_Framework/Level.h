@@ -7,6 +7,7 @@
 #include "RedShip.h"
 #include "TileLayer.h"
 #include "Tinyxml2.h"
+#include "Enemy.h"
 
 using namespace SDL_Framework;
 using namespace tinyxml2;
@@ -63,6 +64,7 @@ private:
 	//bool mShipSpawn;
 
 	std::vector<Enemy*> mEnemies;	//debug testing
+	Enemy* mEnemy;
 
 	XMLDocument mSpawningPatterns;
 	int mCurrentFlyInPriority;
@@ -106,6 +108,7 @@ private:
 
 	bool EnemyFlyingIn();
 
+	void HandleEnemyFiring();
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();
 	void HandleEnemyDiving();
