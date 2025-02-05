@@ -21,11 +21,17 @@ public:
 	~Level();
 
 	LevelStates State();
+	
+	bool CanFire(Enemy* enemy);
+	void FireEBullet(Enemy* enemy);
 
 	void Update() override;
 	void Render() override;
 
 private:
+	float fireCoolDown;
+	EBullet* mEBullet;
+
 	Timer* mTimer;
 	PlaySideBar* mSideBar;
 	Player* mPlayer;
@@ -112,7 +118,7 @@ private:
 
 	bool EnemyFlyingIn();
 
-	void HandleEnemyFiring();
+	void HandleEnemyFiring(Enemy* enemy);
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();
 	void HandleEnemyDiving();
