@@ -5,7 +5,7 @@
 std::vector<std::vector<Vector2>>Enemy::sPaths;
 Player* Enemy::sPlayer = nullptr;
 Formation* Enemy::sFormation = nullptr;
-int Enemy::sActiveBullets = 0;
+//int Enemy::sActiveBullets = 0;
 
 void Enemy::CreatePaths() {
 	int screenXPoint = (int)(Graphics::Instance()->SCREEN_WIDTH * 0.46f);
@@ -194,32 +194,32 @@ void Enemy::CurrentPlayer(Player* player) {
 	sPlayer = player;
 }
 
-void Enemy::HandleFiring() {
-	mFireRate -= mTimer->DeltaTime();
-	
-	if (sPlayer == nullptr) return;
+//void Enemy::HandleFiring() {
+//	mFireRate -= mTimer->DeltaTime();
+//	
+//	if (sPlayer == nullptr) return;
+//
+//	for (int i = 0; i < MAX_EBULLETS; i++) {
+//		if (!mEBullets[i]->Active()) {
+//			Vector2 bulletDirection = Vector2(0, -1);
+//			mEBullets[i]->Fire(Position() + bulletDirection);
+//
+//			EBullet* bullet = new EBullet();
+//			bullet->Fire(Position() + bulletDirection);
+//			PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
+//
+//			break;
+//		}
+//	}
+//}
 
-	for (int i = 0; i < MAX_EBULLETS; i++) {
-		if (!mEBullets[i]->Active()) {
-			Vector2 bulletDirection = Vector2(0, -1);
-			mEBullets[i]->Fire(Position() + bulletDirection);
-
-			EBullet* bullet = new EBullet();
-			bullet->Fire(Position() + bulletDirection);
-			PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
-
-			break;
-		}
-	}
-}
-
-void Enemy::FireCoolDown() {
-	mFireRate = 3.0f;
-}
-
-bool Enemy::Fire() {
-	return (mFireRate <= 0.0f && !mEBullets[MAX_EBULLETS - 1]->Active());
-}
+//void Enemy::FireCoolDown() {
+//	mFireRate = 3.0f;
+//}
+//
+//bool Enemy::Fire() {
+//	return (mFireRate <= 0.0f && !mEBullets[MAX_EBULLETS - 1]->Active());
+//}
 
 Enemy::Enemy(int path, int index, bool challenge) :
 	mCurrentPath(path),mIndex(index){
@@ -244,9 +244,9 @@ Enemy::Enemy(int path, int index, bool challenge) :
 	mDeathAnimation->Position(Vec2_Zero);
 	mDeathAnimation->SetWrapMode(Animation::WrapModes::Once);
 
-	for (int i = 0; i < MAX_EBULLETS; i++) {
-		mEBullets[i] = new EBullet();
-	}
+	//for (int i = 0; i < MAX_EBULLETS; i++) {
+	//	mEBullets[i] = new EBullet();
+	//}
 }
 
 Enemy::~Enemy() {
@@ -260,10 +260,10 @@ Enemy::~Enemy() {
 	delete mDeathAnimation;
 	mDeathAnimation = nullptr;
 
-	for (auto bullet : mEBullets) {
-		delete bullet;
-		bullet = nullptr;
-	}
+	//for (auto bullet : mEBullets) {
+	//	delete bullet;
+	//	bullet = nullptr;
+	//}
 }
 
 Enemy::States Enemy::CurrentState() {
@@ -311,13 +311,13 @@ void Enemy::Update() {
 		HandleStates();
 	}
 
-	for (int i = 0; i < MAX_EBULLETS; i++) {
-		mEBullets[i]->Update();
-	}
+	//for (int i = 0; i < MAX_EBULLETS; i++) {
+	//	mEBullets[i]->Update();
+	//}
 
-	if (mFireRate > 0.0f) {
-		mFireRate -= mTimer->DeltaTime();
-	}
+	//if (mFireRate > 0.0f) {
+	//	mFireRate -= mTimer->DeltaTime();
+	//}
 }
 
 void Enemy::Render() {
@@ -325,9 +325,9 @@ void Enemy::Render() {
 		RenderStates();
 	}
 
-	for (int i = 0; i < MAX_EBULLETS; i++) {
-		mEBullets[i]->Render();
-	}
+	//for (int i = 0; i < MAX_EBULLETS; i++) {
+	//	mEBullets[i]->Render();
+	//}
 }
 
 void Enemy::HandleFlyInState() {

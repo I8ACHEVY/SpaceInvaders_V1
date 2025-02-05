@@ -188,6 +188,11 @@ Level::~Level() {
 		enemy = nullptr;
 	}
 
+	for (auto bullet : mEBullets) {
+		delete bullet;
+		bullet = nullptr;
+	}
+
 	mEnemies.clear();
 }
 
@@ -460,10 +465,20 @@ void Level::HandleEnemyDiving() {
 }
 
 void Level::HandleEnemyFiring() {
-	for (Enemy* enemy : mEnemies) {
-		if (enemy->Fire()) {
-			enemy->HandleFiring();
-			enemy->FireCoolDown();
+	if (Enemy::InFormation && mFireTimer <= 0) {
+		for (Enemy* enemy : mEnemies) {
+			for (int i = 0; i < MAX_EBULLETS; i++) {
+				if (!mEBullets[i]->Active()) {
+					Vector2 bulletDirection = Vector2(0, -1);
+					mEBullets[i]->Fire(Position() + bulletDirection);
+
+					EBullet* bullet = new EBullet();
+					bullet->Fire(Position() + bulletDirection);
+					PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
+
+					break;
+				}
+			}
 		}
 	}
 }

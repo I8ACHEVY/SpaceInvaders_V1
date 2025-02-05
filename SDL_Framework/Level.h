@@ -7,7 +7,7 @@
 #include "RedShip.h"
 #include "TileLayer.h"
 #include "Tinyxml2.h"
-#include "Enemy.h"
+#include "EBullet.h"
 
 using namespace SDL_Framework;
 using namespace tinyxml2;
@@ -56,6 +56,10 @@ private:
 	Octopus* mFormationOctopi[MAX_OCTOPI];
 	Squid* mFormationSquids[MAX_SQUIDS];
 	RedShip* mFormationShip[MAX_SHIPS];
+
+	static const int MAX_EBULLETS = 2;
+	EBullet* mEBullets[MAX_EBULLETS];
+	int mFireTimer;
 
 	RedShip* mDivingShip;
 	//bool mSkipFirstShip;
