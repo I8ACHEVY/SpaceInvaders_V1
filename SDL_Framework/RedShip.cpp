@@ -70,7 +70,7 @@ Vector2 RedShip::LocalFormationPosition() {
 }
 
 void RedShip::HandleDiveState() {
-	int currentPath = mIndex % 2;
+	int currentPath = 0;
 
 	if (mCurrentWayPoint < sDivePaths[currentPath].size() &&
 		!sPlayer->IsAnimating() && sPlayer->IsVisible()) {
@@ -111,12 +111,11 @@ void RedShip::HandleDiveState() {
 void RedShip::Dive(int type) {
 
 	Enemy::Dive();
-	mCurrentPath = 0;
 }
 
 void RedShip::Hit(PhysEntity* other) {
 	AudioManager::Instance()->PlaySFX("PlayerExplosion.wav", 0, -1);
-	sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 80 : 160);
+	sPlayer->AddScore(60 + rand() % (300 - 60 + 1));
 	Enemy::Hit(other);
 }
 
