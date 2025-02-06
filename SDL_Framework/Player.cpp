@@ -1,7 +1,6 @@
 #include "Player.h"
 #include "PhysicsManager.h"
 
-
 void Player::HandleMovement() {
 
 	if (mInput->KeyDown(SDL_SCANCODE_A) || mInput->KeyDown(SDL_SCANCODE_LEFT)) {

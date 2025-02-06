@@ -39,13 +39,13 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	mRespawnDelay = 3.0f;
 	mRespawnLabelOnScreen = 2.0f;
 
-	mGameOverLabel = new GLTexture("GAME OVER!!", "ARCADE.ttf", 40, { 150, 0, 0 });
+	mGameOverLabel = new GLTexture("gameOverSprite.png", 0, 0, 300, 300);
 	mGameOverLabel->Parent(this);
 	mGameOverLabel->Position(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f);
 
-	mGameOverDelay = 6.0f;
+	mGameOverDelay = 8.0f;
 	mGameOverTimer = 0.0f;
-	mGameOverLabelOnScreen = 1.0f;
+	mGameOverLabelOnScreen = 6.0f;
 
 	mCurrentState = Running;
 
@@ -117,6 +117,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	mDropAmount = 5.0f;
 	mRightBoundary = Graphics::SCREEN_WIDTH - 480.0f;
 	mLeftBoundary = 480.0f;
+	mSpeedTimer = 0.0f;
 	
 	mCurrentFlyInPriority = 0;
 	mCurrentFlyInIndex = 0;
@@ -378,9 +379,22 @@ void Level::HandleEnemyFormation() {
 
 	bool levelCleared = mSpawningFinished;
 
+	float playerY = mPlayer->Position().y;
+
 	for (Crab* crab : mFormationCrabs) {
 		if (crab != nullptr) {
 			crab->Update();
+
+			if (crab->Position().y >= playerY) {
+				if (mGameOverTimer == 0.0f) {
+					mPlayer->SetVisible(false);
+				}
+				mGameOverTimer += mTimer->DeltaTime();
+				if (mGameOverTimer >= mGameOverDelay) {
+					mCurrentState = GameOver;
+				}
+
+			}
 
 			if (crab->CurrentState() != Enemy::Dead ||
 				crab->InDeathAnimation()) {
@@ -395,6 +409,16 @@ void Level::HandleEnemyFormation() {
 		if (octopus != nullptr) {
 			octopus->Update();
 
+			if (octopus->Position().y >= playerY) {
+				if (mGameOverTimer == 0.0f) {
+					mPlayer->SetVisible(false);
+				}
+				mGameOverTimer += mTimer->DeltaTime();
+				if (mGameOverTimer >= mGameOverDelay) {
+					mCurrentState = GameOver;
+				}
+			}
+
 			if (octopus->CurrentState() != Enemy::Dead ||
 				octopus->InDeathAnimation()) {
 				levelCleared = false;
@@ -408,6 +432,16 @@ void Level::HandleEnemyFormation() {
 		if (redShip != nullptr) {
 			redShip->Update();
 
+			if (redShip->Position().y >= playerY) {
+				if (mGameOverTimer == 0.0f) {
+					mPlayer->SetVisible(false);
+				}
+				mGameOverTimer += mTimer->DeltaTime();
+				if (mGameOverTimer >= mGameOverDelay) {
+					mCurrentState = GameOver;
+				}
+			}
+
 			if (redShip->CurrentState() != Enemy::Dead ||
 				redShip->InDeathAnimation()) {
 				levelCleared = false;
@@ -418,6 +452,16 @@ void Level::HandleEnemyFormation() {
 	for (Squid* squid : mFormationSquids) {
 		if (squid != nullptr) {
 			squid->Update();
+
+			if (squid->Position().y >= playerY) {
+				if (mGameOverTimer == 0.0f) {
+					mPlayer->SetVisible(false);
+				}
+				mGameOverTimer += mTimer->DeltaTime();
+				if (mGameOverTimer >= mGameOverDelay) {
+					mCurrentState = GameOver;
+				}
+			}
 
 			if (squid->CurrentState() != Enemy::Dead ||
 				squid->InDeathAnimation()) {
@@ -618,6 +662,35 @@ void Level::Update() {
 					mFormation->Translate(Vector2(0.0f, mDropAmount));
 					mLeftBoundaryHits = 0;
 				}
+			}
+		}
+
+		mSpeedTimer += mTimer->DeltaTime();
+		if (mStage == 1) {
+			if (mSpeedTimer >= 5.0f) {
+				mSpeed += 10.0f;
+				mSpeedTimer = 0.0f;
+			}
+		}
+
+		if (mStage == 2) {
+			if (mSpeedTimer >= 5.0f) {
+				mSpeed += 15.0f;
+				mSpeedTimer = 0.0f;
+			}
+		}
+
+		if (mStage == 3) {
+			if (mSpeedTimer >= 5.0f) {
+				mSpeed += 20.0f;
+				mSpeedTimer = 0.0f;
+			}
+		}
+
+		if (mStage == 4) {
+			if (mSpeedTimer >= 5.0f) {
+				mSpeed += 25.0f;
+				mSpeedTimer = 0.0f;
 			}
 		}
 	}

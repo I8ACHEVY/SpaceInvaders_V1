@@ -40,6 +40,7 @@ private:
 	float mLeftBoundary;
 	int mRightBoundaryHits = 0;
 	int mLeftBoundaryHits = 0;
+	float mSpeedTimer;
 
 	TileLayer* mBarrack1;
 	TileLayer* mBarrack2;
