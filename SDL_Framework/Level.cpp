@@ -214,6 +214,7 @@ void Level::HandleStartLabels() {
 	if (mLabelTimer >= mStageLabelOffScreen) {
 		mPlayer->Active(true);
 		mPlayer->SetVisible(true);
+		mPlayer->StartTimer();
 
 		if (mStage > 1) {
 			StartStage();

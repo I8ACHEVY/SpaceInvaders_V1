@@ -31,8 +31,9 @@ private:
 	Timer* mTimer;
 	PlaySideBar* mSideBar;
 	Player* mPlayer;
-
+	Player* mStartTimer;
 	Formation* mFormation;
+	
 	bool mMovingRight;
 	float mSpeed;
 	float mDropAmount;
@@ -112,6 +113,7 @@ private:
 	void HandleStartLabels();
 	void HandleCollisions();
 	void HandlePlayerDeath();
+	//void HandlePlayerFiring();
 	
 	void StartStage();
 

@@ -95,6 +95,10 @@ void Player::SetVisible(bool visible) {
 	mVisible = visible;
 }
 
+void Player::StartTimer() {
+	mStartTimer = 0.0f;
+}
+
 bool Player::IsVisible() {
 	return mVisible;
 }
@@ -150,6 +154,8 @@ void Player::Hit(PhysEntity* other) {
 }
 
 void Player::Update() {
+	mStartTimer += mTimer->DeltaTime();
+
 	if (mAnimating){
 		mDeathAnimation->Update();
 		mAnimating = mDeathAnimation->IsAnimating();
@@ -161,7 +167,9 @@ void Player::Update() {
 	else {
 		if (Active()) {
 			HandleMovement();
-			HandleFiring();
+			if (mStartTimer >= 10.0f) {
+				HandleFiring();
+			}
 		}
 	}
 

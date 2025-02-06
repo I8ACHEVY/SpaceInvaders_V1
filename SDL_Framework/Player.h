@@ -27,6 +27,8 @@ public:
 	void AddScore(int change);
 
 	bool WasHit();
+	void HandleFiring();
+	void StartTimer();
 
 	bool IgnoreCollision() override;
 	void Hit(PhysEntity* other) override;
@@ -34,6 +36,7 @@ public:
 private:
 	static const int MAX_BULLETS = 1;
 	Bullet* mBullets[MAX_BULLETS];
+	float mStartTimer;
 
 	bool mWasHit;
 
@@ -54,5 +57,5 @@ private:
 	Vector2 mMoveBounds;
 
 	void HandleMovement();
-	void HandleFiring();
+	
 };
