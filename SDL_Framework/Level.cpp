@@ -658,8 +658,10 @@ void Level::Render() {
 	mBarrack3->Render();
 	mBarrack4->Render();
 
-	for (auto bullet : mEBullets) {
-		bullet->Render();
+	for (int i = 0; i < MAX_EBULLETS; i++) {
+		if (mEBullets[i]->Active()) {
+			mEBullets[i]->Render();
+		}
 	}
 
 	if (!mStageStarted) {

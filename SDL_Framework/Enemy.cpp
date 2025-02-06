@@ -55,7 +55,6 @@ void Enemy::CreatePaths() {
 
 	currentPath = 2;
 	float temp = screenXPoint - 100.0f;
-
 	path = new BezierPath();
 
 	path->AddCurve({
@@ -167,25 +166,6 @@ void Enemy::SetFormation(Formation* formation) {
 void Enemy::CurrentPlayer(Player* player) {
 	sPlayer = player;
 }
-
-//void Enemy::HandleFiring() {
-//	mFireRate -= mTimer->DeltaTime();
-//	
-//	if (sPlayer == nullptr) return;
-//
-//	for (int i = 0; i < MAX_EBULLETS; i++) {
-//		if (!mEBullets[i]->Active()) {
-//			Vector2 bulletDirection = Vector2(0, -1);
-//			mEBullets[i]->Fire(Position() + bulletDirection);
-//
-//			EBullet* bullet = new EBullet();
-//			bullet->Fire(Position() + bulletDirection);
-//			PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
-//
-//			break;
-//		}
-//	}
-//}
 
 Enemy::Enemy(int path, int index, bool challenge) :
 	mCurrentPath(path),mIndex(index){
