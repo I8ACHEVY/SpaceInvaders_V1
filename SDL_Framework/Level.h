@@ -38,6 +38,8 @@ private:
 	float mDropAmount;
 	float mRightBoundary;
 	float mLeftBoundary;
+	int mRightBoundaryHits = 0;
+	int mLeftBoundaryHits = 0;
 
 	TileLayer* mBarrack1;
 	TileLayer* mBarrack2;

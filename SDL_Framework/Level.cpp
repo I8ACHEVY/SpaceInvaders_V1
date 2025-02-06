@@ -462,7 +462,6 @@ void Level::HandleEnemyDiving() {
 
 					mDivingShip = mFormationShip[i];
 					mDivingShip->Dive();
-					//int index = mDivingShip->Index();
 					break;
 				}
 			}
@@ -600,7 +599,12 @@ void Level::Update() {
 
 			if (mFormation->Position().x >= mRightBoundary) {
 				mMovingRight = false;
-				mFormation->Translate(Vector2(0.0f, mDropAmount));
+				mRightBoundaryHits++;
+
+				if (mRightBoundaryHits >= 3) {
+					mFormation->Translate(Vector2(0.0f, mDropAmount));
+					mRightBoundaryHits = 0;
+				}
 			}
 		}
 		else {
@@ -608,7 +612,12 @@ void Level::Update() {
 
 			if (mFormation->Position().x <= mLeftBoundary) {
 				mMovingRight = true;
-				mFormation->Translate(Vector2(0.0f, mDropAmount));
+				mLeftBoundaryHits++;
+
+				if (mLeftBoundaryHits >= 3) {
+					mFormation->Translate(Vector2(0.0f, mDropAmount));
+					mLeftBoundaryHits = 0;
+				}
 			}
 		}
 	}

@@ -26,8 +26,8 @@ namespace SDL_Framework {
 	private:
 		static std::vector<std::vector<Vector2>> sDivePaths;
 
-		static const int MAX_BULLETS = 2;
-		Bullet* mBullets[MAX_BULLETS];
+		//static const int MAX_BULLETS = 2;
+		//Bullet* mBullets[MAX_BULLETS];
 
 		GLTexture* mRedShip;
 		PhysEntity* mCollider;
@@ -35,8 +35,8 @@ namespace SDL_Framework {
 		bool mVisible;
 
 		int mRedShipIndex;
-		//unsigned mCurrentPath;
-		//Vector2 mDiveStartPosition;
+		unsigned mCurrentPath;
+		Vector2 mDiveStartPosition;
 
 		Vector2 LocalFormationPosition() override;
 

@@ -25,10 +25,7 @@ PlayScreen::PlayScreen() {
 	mPlayer = nullptr;
 
 	Enemy::CreatePaths();
-	//Octopus::CreateDivePaths();
-	//Crab::CreateDivePaths();
-	//RedShip::CreateDivePaths();
-	//Squid::CreateDivePaths();
+	RedShip::CreateDivePaths();
 }
 
 PlayScreen::~PlayScreen() {

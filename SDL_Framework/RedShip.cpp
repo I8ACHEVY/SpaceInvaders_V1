@@ -10,6 +10,12 @@ void RedShip::CreateDivePaths() {
 	BezierPath* path = new BezierPath();
 
 	path->AddCurve({
+		Vector2(1000.0f, 700.0f),
+		Vector2(1000.0f, 600.0f),
+		Vector2(1000.0f, 600.0f),
+		Vector2(1000.0f, 450.0f) }, 1);
+
+	path->AddCurve({
 		Vector2(1000.0f, 450.0f),
 		Vector2(1000.0f, 600.0f),
 		Vector2(300.0f, 600.0f),
@@ -27,7 +33,7 @@ void RedShip::CreateDivePaths() {
 		Vector2(50.0f, 600.0f),
 		Vector2(50.0f, 450.0f) }, 1);
 
-	sPaths.push_back(std::vector<Vector2>());
+	sDivePaths.push_back(std::vector<Vector2>());
 	path->Sample(&sDivePaths[currentPath]);
 	delete path;
 }
@@ -84,7 +90,7 @@ void RedShip::HandleDiveState() {
 
 		if (sPlayer->IsVisible()) {
 
-			Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
+			//Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 180.0f);
 		}
 
 		if ((waypointPos - Position()).MagnitudeSqr() < EPSILON * mSpeed / 25) {
@@ -99,7 +105,7 @@ void RedShip::HandleDiveState() {
 		Vector2 dist = WorldFormationPosition() - Position();
 
 		Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
-		Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
+		//Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
 
 		if (dist.MagnitudeSqr() < EPSILON * mSpeed / 25.0f) {
 			JoinFormation();
@@ -120,9 +126,9 @@ void RedShip::Hit(PhysEntity* other) {
 }
 
 void RedShip::RenderDiveState() {
-	int currentPath = 0;
-
 	mTexture[0]->Render();
+
+	int currentPath = 0;
 
 	Vector2 finalPos = WorldFormationPosition();
 	auto currentDivePath = sDivePaths[currentPath];
@@ -161,10 +167,6 @@ RedShip::RedShip(int path, int index, bool challenge) :
 	mDeathAnimation->Parent();
 	mDeathAnimation->Position(Vec2_Zero);
 	mDeathAnimation->SetWrapMode(Animation::WrapModes::Once);
-
-	//for (int i = 0; i < MAX_BULLETS; i++) {
-	//	mBullets[i] = new Bullet(false);
-	//}
 }
 
 RedShip::~RedShip() {
@@ -177,11 +179,6 @@ RedShip::~RedShip() {
 		delete mDeathAnimation;
 		mDeathAnimation = nullptr;
 	}
-
-	//for (auto bullet : mBullets) {
-	//	delete bullet;
-	//	bullet = nullptr;
-	//}
 }
 
 void RedShip::UpdateTexture(int index) {
