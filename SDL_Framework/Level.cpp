@@ -128,6 +128,13 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	mShipDiveDelay = 5.0f;
 	mShipDiveTimer = 0.0f;
 
+	mFireCoolDown = 2.0f;
+	mFireRate = 0.0f;
+
+	for (int i = 0; i < MAX_EBULLETS; i++) {
+		mEBullets[i] = new EBullet();
+	}
+
 	Enemy::CurrentPlayer(mPlayer);
 }
 
@@ -379,7 +386,7 @@ void Level::HandleEnemyFormation() {
 				crab->InDeathAnimation()) {
 				levelCleared = false;
 
-				HandleEnemyFiring(crab);
+				//HandleEnemyFiring(crab);
 			}
 		}
 	}
@@ -392,7 +399,7 @@ void Level::HandleEnemyFormation() {
 				octopus->InDeathAnimation()) {
 				levelCleared = false;
 
-				HandleEnemyFiring(octopus);
+				//HandleEnemyFiring(octopus);
 			}
 		}
 	}
@@ -416,7 +423,7 @@ void Level::HandleEnemyFormation() {
 				squid->InDeathAnimation()) {
 				levelCleared = false;
 
-				HandleEnemyFiring(squid);
+				//HandleEnemyFiring(squid);
 			}
 		}
 	}
@@ -470,46 +477,57 @@ void Level::HandleEnemyDiving() {
 
 }
 
-void Level::HandleEnemyFiring(Enemy* enemy) {
-	static float fireCooldown = 2.0f;
-	static float fireRate = 0.0f;
-
-	fireRate += mTimer->DeltaTime();
-
-	if (fireRate >= fireCoolDown) {
-		if (CanFire(enemy)) {
-			FireEBullet(enemy);
-			fireRate = 0.0f;
+Enemy* Level::SelectRandomEnemy() {
+	std::vector<Enemy*> eligibleEnemies;
+	for (Enemy* enemy : mEnemies) {
+		if (mFormation->Locked() && !Enemy::Dead) {
+			eligibleEnemies.push_back(enemy);
 		}
 	}
 
-	//if (Enemy::InFormation && mFireTimer <= 0) {
-	//	for (Enemy* enemy : mEnemies) {
-	//		for (int i = 0; i < MAX_EBULLETS; i++) {
-	//			if (!mEBullets[i]->Active()) {
-	//				Vector2 bulletDirection = Vector2(0, -1);
-	//				mEBullets[i]->Fire(Position() + bulletDirection);
+	if (!eligibleEnemies.empty()) {
+		int index = rand() % eligibleEnemies.size();
+		return eligibleEnemies[index];
+	}
 
-	//				EBullet* bullet = new EBullet();
-	//				bullet->Fire(Position() + bulletDirection);
-	//				PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
-
-	//				break;
-	//			}
-	//		}
-	//	}
-	//}
+	return nullptr;
 }
 
-bool Level::CanFire(Enemy* enemy) {
-	return (rand() % 10 == 0);
-}
+//void Level::HandleEnemyFiring(Enemy* enemy) {
+//	mFireRate += mTimer->DeltaTime();
+//
+//	if (mFireRate >= mFireCoolDown) {
+//		if (CanFire(enemy)) {
+//			FireEBullet(enemy);
+//			mFireRate = 0.0f;
+//		}
+//	}
+//
+//	//	for (Enemy* enemy : mEnemies) {
+//	//		for (int i = 0; i < MAX_EBULLETS; i++) {
+//	//			if (!mEBullets[i]->Active()) {
+//	//				Vector2 bulletDirection = Vector2(0, -1);
+//	//				mEBullets[i]->Fire(Position() + bulletDirection);
+//	//
+//	//				EBullet* bullet = new EBullet();
+//	//				bullet->Fire(Position() + bulletDirection);
+//	//				PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
+//	//
+//	//				break;
+//	//			}
+//	//		}
+//	//	}
+//}
 
-void Level::FireEBullet(Enemy* enemy) {
-	Vector2 bulletDirection = Vector2(0, -1);
-	EBullet* mEBullet = new EBullet();
-	mEBullet->Position(enemy->Position() + bulletDirection);
-}
+//bool Level::CanFire(Enemy* enemy) {
+//	return (rand() % 10 == 0);
+//}
+//
+//void Level::FireEBullet(Enemy* enemy) {
+//	Vector2 bulletDirection = Vector2(0, -1);
+//	EBullet* mEBullet = new EBullet();
+//	mEBullet->Position(enemy->Position() + bulletDirection);
+//}
 
 void Level::Update() {
 	mBarrack1->Update();
@@ -517,41 +535,61 @@ void Level::Update() {
 	mBarrack3->Update();
 	mBarrack4->Update();
 
-	for (int i = 0; i < MAX_EBULLETS; i++) {
-		if (!mEBullets[i]->Active()) {
-			Vector2 bulletDirection = Vector2(0, -1);
-			mEBullets[i]->Fire(Position() + bulletDirection);
+	mFireRate += mTimer->DeltaTime();
 
-			EBullet* mEBullet = new EBullet();
-			mEBullet->Fire(mEnemy->Position() + bulletDirection);
-			PhysicsManager::Instance()->RegisterEntity(mEBullet, PhysicsManager::CollisionLayers::HostileProjectile);
+	if (mFireRate >= mFireCoolDown) {
+		mFireRate = 0.0f;
+		Enemy* shooter = SelectRandomEnemy();
 
-			break;
+		if (shooter) {
+			for (auto bullet : mEBullets) {
+				if (!bullet->Active()) {
+					bullet->Fire(shooter->Position());
+					break;
+				}
+			}
 		}
 	}
+
+	for (auto bullet : mEBullets) {
+		bullet->Update();
+	}
+
+	//for (int i = 0; i < MAX_EBULLETS; i++) {
+	//	if (!mEBullets[i]->Active()) {
+	//		Vector2 bulletDirection = Vector2(0, -1);
+	//		mEBullets[i]->Fire(Position() + bulletDirection);
+
+	//		EBullet* mEBullet = new EBullet();
+	//		mEBullet->Fire(mEnemy->Position() + bulletDirection);
+	//		PhysicsManager::Instance()->RegisterEntity(mEBullet, PhysicsManager::CollisionLayers::HostileProjectile);
+
+	//		break;
+	//	}
+	//}
 
 	if (mFormation->Locked()) {
 		for (Crab* crab : mFormationCrabs) {
 			if (crab != nullptr) {
-				HandleEnemyFiring(crab);
+				//HandleEnemyFiring(crab);
 			}
 		}
 
 		for (Octopus* octopus : mFormationOctopi) {
 			if (octopus != nullptr) {
-				HandleEnemyFiring(octopus);
+				//HandleEnemyFiring(octopus);
 			}
 		}
 
 		for (RedShip* redShip : mFormationShip) {
 			if (redShip != nullptr) {
-				HandleEnemyFiring(redShip);
+				//HandleEnemyFiring(redShip);
 			}
 		}
 
 		for (Squid* squid : mFormationSquids) {
 			if (squid != nullptr) {
-				HandleEnemyFiring(squid);
+				//HandleEnemyFiring(squid);
 			}
 		}
 
@@ -588,9 +626,9 @@ void Level::Update() {
 		HandleEnemyFormation();
 
 
-			for (auto enemy : mEnemies) {
+		for (auto enemy : mEnemies) {
 			enemy->Update();
-			}
+		}
 
 		HandleCollisions();
 

@@ -22,16 +22,12 @@ public:
 
 	LevelStates State();
 	
-	bool CanFire(Enemy* enemy);
-	void FireEBullet(Enemy* enemy);
+	Enemy* SelectRandomEnemy();
 
 	void Update() override;
 	void Render() override;
 
 private:
-	float fireCoolDown;
-	EBullet* mEBullet;
-
 	Timer* mTimer;
 	PlaySideBar* mSideBar;
 	Player* mPlayer;
@@ -65,13 +61,13 @@ private:
 
 	static const int MAX_EBULLETS = 2;
 	EBullet* mEBullets[MAX_EBULLETS];
-	int mFireTimer;
+	//std::vector<EBullet*> mEBullets;
+	float mFireCoolDown;
+	float mFireRate;
 
 	RedShip* mDivingShip;
-	//bool mSkipFirstShip;
 	float mShipDiveDelay;
 	float mShipDiveTimer;
-	//bool mShipSpawn;
 
 	std::vector<Enemy*> mEnemies;	//debug testing
 	Enemy* mEnemy;
@@ -118,7 +114,7 @@ private:
 
 	bool EnemyFlyingIn();
 
-	void HandleEnemyFiring(Enemy* enemy);
+	//void HandleEnemyFiring(Enemy* enemy);
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();
 	void HandleEnemyDiving();
