@@ -147,12 +147,12 @@ void Enemy::CreatePaths() {
 
 	currentPath = 6;		
 	path = new BezierPath();
-	
-	path->AddCurve({ 
-		Vector2(1000.0f, 450.0f), 
+
+	path->AddCurve({
+		Vector2(1000.0f, 450.0f),
 		Vector2(1000.0f, 500.0f),
-		Vector2(1000.0f, 550.0f), 
-		Vector2(1000.0f, 600.0f) }, 25);
+		Vector2(1000.0f, 500.0f),
+		Vector2(1000.0f, 450.0f) }, 1);
 	
 	sPaths.push_back(std::vector<Vector2>());
 	path->Sample(&sPaths[currentPath]);
