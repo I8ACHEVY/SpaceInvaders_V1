@@ -30,7 +30,7 @@ public:
 private:
 	Timer* mTimer;
 	PlaySideBar* mSideBar;
-	Player* mPlayer;
+	Player* sPlayer;
 	Player* mStartTimer;
 	Formation* mFormation;
 	

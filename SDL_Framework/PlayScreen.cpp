@@ -104,7 +104,9 @@ void PlayScreen::Update() {
 			mSideBar->Update();
 		}
 
-		mPlayer->Update();
+        if (mPlayer != nullptr) {
+            mPlayer->Update();
+        }
 		mSideBar->SetPlayerScore(mPlayer->Score());
 	}
 	else {

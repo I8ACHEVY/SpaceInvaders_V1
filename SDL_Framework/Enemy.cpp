@@ -203,6 +203,9 @@ Enemy::~Enemy() {
 	delete mDeathAnimation;
 	mDeathAnimation = nullptr;
 
+	delete sPlayer;	//only sPlayer deconstructor, mPlayer has 2
+	sPlayer = nullptr;
+
 }
 
 Enemy::States Enemy::CurrentState() {

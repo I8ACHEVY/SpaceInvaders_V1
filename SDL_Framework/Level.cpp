@@ -34,7 +34,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	mReadyLabelOnScreen = mStageLabelOffScreen;
 	mReadyLabelOffScreen = mReadyLabelOnScreen + 3.0f;
 
-	mPlayer = player;
+	sPlayer = player;
 	mPlayerHit = false;
 	mRespawnDelay = 3.0f;
 	mRespawnLabelOnScreen = 2.0f;
@@ -136,13 +136,14 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 		mEBullets[i] = new EBullet();
 	}
 
-	Enemy::CurrentPlayer(mPlayer);
+	Enemy::CurrentPlayer(sPlayer);
 }
 
 Level::~Level() {
 	mTimer = nullptr;
 	mSideBar = nullptr;
-	mPlayer = nullptr;
+	sPlayer = nullptr;
+	
 
 	delete mBarrack1;
 	mBarrack1 = nullptr;
@@ -212,9 +213,9 @@ void Level::HandleStartLabels() {
 	mLabelTimer += mTimer->DeltaTime();
 
 	if (mLabelTimer >= mStageLabelOffScreen) {
-		mPlayer->Active(true);
-		mPlayer->SetVisible(true);
-		mPlayer->StartTimer();
+		sPlayer->Active(true);
+		sPlayer->SetVisible(true);
+		sPlayer->StartTimer();
 
 		if (mStage > 1) {
 			StartStage();
@@ -229,32 +230,32 @@ void Level::HandleStartLabels() {
 
 void Level::HandleCollisions() {
 	if (!mPlayerHit) {
-		if (mPlayer->WasHit()) {
-			mSideBar->SetTanks(mPlayer->Lives());
+		if (sPlayer->WasHit()) {
+			mSideBar->SetTanks(sPlayer->Lives());
 
 			mPlayerHit = true;
 			mRespawnTimer = 0.0f;
-			mPlayer->Active(false);
+			sPlayer->Active(false);
 		}
 	}
 }
 
 void Level::HandlePlayerDeath() {
-	if (!mPlayer->IsAnimating()) {
-		if (mPlayer->Lives() > 0) {
+	if (!sPlayer->IsAnimating()) {
+		if (sPlayer->Lives() > 0) {
 			if (mRespawnTimer == 0.0f) {
-				mPlayer->SetVisible(false);
+				sPlayer->SetVisible(false);
 			}
 			mRespawnTimer += mTimer->DeltaTime();
 			if (mRespawnTimer >= mRespawnDelay) {
-				mPlayer->Active(true);
-				mPlayer->SetVisible(true);
+				sPlayer->Active(true);
+				sPlayer->SetVisible(true);
 				mPlayerHit = false;
 			}
 		}
 		else {
 			if (mGameOverTimer == 0.0f) {
-				mPlayer->SetVisible(false);
+				sPlayer->SetVisible(false);
 			}
 			mGameOverTimer += mTimer->DeltaTime();
 			if (mGameOverTimer >= mGameOverDelay) {
@@ -380,7 +381,7 @@ void Level::HandleEnemyFormation() {
 
 	bool levelCleared = mSpawningFinished;
 
-	float playerY = mPlayer->Position().y;
+	float playerY = sPlayer->Position().y;
 
 	for (Crab* crab : mFormationCrabs) {
 		if (crab != nullptr) {
@@ -388,7 +389,7 @@ void Level::HandleEnemyFormation() {
 
 			if (crab->Position().y >= playerY) {
 				if (mGameOverTimer == 0.0f) {
-					mPlayer->SetVisible(false);
+					sPlayer->SetVisible(false);
 				}
 				mGameOverTimer += mTimer->DeltaTime();
 				if (mGameOverTimer >= mGameOverDelay) {
@@ -412,7 +413,7 @@ void Level::HandleEnemyFormation() {
 
 			if (octopus->Position().y >= playerY) {
 				if (mGameOverTimer == 0.0f) {
-					mPlayer->SetVisible(false);
+					sPlayer->SetVisible(false);
 				}
 				mGameOverTimer += mTimer->DeltaTime();
 				if (mGameOverTimer >= mGameOverDelay) {
@@ -435,7 +436,7 @@ void Level::HandleEnemyFormation() {
 
 			if (redShip->Position().y >= playerY) {
 				if (mGameOverTimer == 0.0f) {
-					mPlayer->SetVisible(false);
+					sPlayer->SetVisible(false);
 				}
 				mGameOverTimer += mTimer->DeltaTime();
 				if (mGameOverTimer >= mGameOverDelay) {
@@ -456,7 +457,7 @@ void Level::HandleEnemyFormation() {
 
 			if (squid->Position().y >= playerY) {
 				if (mGameOverTimer == 0.0f) {
-					mPlayer->SetVisible(false);
+					sPlayer->SetVisible(false);
 				}
 				mGameOverTimer += mTimer->DeltaTime();
 				if (mGameOverTimer >= mGameOverDelay) {
