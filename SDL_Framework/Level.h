@@ -119,8 +119,8 @@ private:
 	bool EnemyFlyingIn();
 
 	void HandleEnemyFiring(Vector2 bulletDirection);
-	bool CanFire(Enemy* enemy);
-	void FireEBullet(Enemy* enemy);
+	//bool CanFire(Enemy* enemy);
+	//void FireEBullet(Enemy* enemy);
 
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();

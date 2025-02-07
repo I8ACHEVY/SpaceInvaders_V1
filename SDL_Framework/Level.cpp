@@ -516,34 +516,41 @@ void Level::HandleEnemyDiving() {
 
 }
 
-//Enemy* Level::SelectRandomEnemy() {
-//	std::vector<Enemy*> eligibleEnemies;
-//	for (Enemy* enemy : mEnemies) {
-//		if (mFormation->Locked() && !enemy->Dead && !enemy->InDeathAnimation()) {
-//			eligibleEnemies.push_back(enemy);
-//		}
-//	}
-//
-//	if (!eligibleEnemies.empty()) {
-//		int index = rand() % eligibleEnemies.size();
-//		return eligibleEnemies[index];
-//	}
-//
-//	return nullptr;
-//}
+Enemy* Level::SelectRandomEnemy() {
+	std::vector<Enemy*> eligibleEnemies;
+	for (Enemy* enemy : mEnemies) {
+		if (mFormation->Locked() && !enemy->Dead && !enemy->InDeathAnimation()) {
+			eligibleEnemies.push_back(enemy);
+		}
+	}
+
+	if (!eligibleEnemies.empty()) {
+		int index = rand() % eligibleEnemies.size();
+		return eligibleEnemies[index];
+	}
+
+	return nullptr;
+}
 
 void Level::HandleEnemyFiring(Vector2 bulletDirection) {
-	for (int i = 0; i < MAX_EBULLETS; i++) {
-		if (!mEBullets[i]->Active()) {
-			mEBullets[i]->Fire(Position());
-			break;
+	if (mFireRate >= mFireCoolDown ) {
+		Enemy* firingEnemy = SelectRandomEnemy();
+
+		if (firingEnemy) {
+
+			for (int i = 0; i < MAX_EBULLETS; i++) {
+
+				if (!mEBullets[i]->Active()) {
+
+					mEBullets[i]->Fire(firingEnemy->Position());
+					//mAudio->PlaySFX("Fire.wav");
+					mFireRate = 0.0f;
+					break;
+				}
+			}
 		}
 	}
 }
-
-//bool Level::CanFire(Enemy* enemy) {
-//	return (rand() % 10 == 0);
-//}
 
 void Level::Update() {
 	mBarrack1->Update();
@@ -551,33 +558,45 @@ void Level::Update() {
 	mBarrack3->Update();
 	mBarrack4->Update();
 
+
 	mFireRate += mTimer->DeltaTime();
+	std::cout << "Current FireRate" << mFireRate << std::endl;
 
 	if (mFireRate >= mFireCoolDown) {
+		bool fired = false;
+
 		for (int i = 0; i < MAX_CRABS; ++i) {
-			if (mFormationCrabs[i] != nullptr && !mFormationCrabs[i]->
-				CurrentState() == Enemy::States::Dead) {
+			if (mFormationCrabs[i] != nullptr && mFormationCrabs[i]->
+				CurrentState() != Enemy::States::Dead) {
 				HandleEnemyFiring(mFormationCrabs[i]->Position());
+				std::cout << "Crab Bullet" << std::endl;
+				fired = true;
+				mFireRate = 0.0f;
 				break;
 			}
 		}
 
 		for (int i = 0; i < MAX_OCTOPI; ++i) {
-			if (mFormationOctopi[i] != nullptr && !mFormationOctopi[i]->
-				CurrentState() == Enemy::States::Dead) {
+			if (mFormationOctopi[i] != nullptr && mFormationOctopi[i]->
+				CurrentState() != Enemy::States::Dead) {
 				HandleEnemyFiring(mFormationOctopi[i]->Position());
+				std::cout << "Octopi Bullet" << std::endl;
+				fired = true;
+				mFireRate = 0.0f;
 				break;
 			}
 		}
 
 		for (int i = 0; i < MAX_SQUIDS; ++i) {
-			if (mFormationSquids[i] != nullptr && !mFormationSquids[i]->
-				CurrentState() == Enemy::States::Dead) {
+			if (mFormationSquids[i] != nullptr && mFormationSquids[i]->
+				CurrentState() != Enemy::States::Dead) {
 				HandleEnemyFiring(mFormationSquids[i]->Position());
+				std::cout << "Squid Bullet" << std::endl;
+				fired = true;
+				mFireRate = 0.0f;
 				break;
 			}
 		}
-		mFireRate = 0.0f;
 	}
 
 	for (auto& enemy : mEnemies) {
