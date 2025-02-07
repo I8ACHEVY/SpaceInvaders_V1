@@ -6,8 +6,14 @@ std::vector<std::vector<Vector2>> RedShip::sDivePaths;
 
 void RedShip::CreateDivePaths() {
 
-	/*int currentPath = 0;
+	int currentPath = 0;
 	BezierPath* path = new BezierPath();
+
+	path->AddCurve({
+		Vector2(1000.0f, 700.0f),
+		Vector2(1000.0f, 600.0f),
+		Vector2(1000.0f, 600.0f),
+		Vector2(1000.0f, 450.0f) }, 1);
 
 	path->AddCurve({
 		Vector2(1000.0f, 450.0f),
@@ -27,51 +33,24 @@ void RedShip::CreateDivePaths() {
 		Vector2(50.0f, 600.0f),
 		Vector2(50.0f, 450.0f) }, 1);
 
-	sPaths.push_back(std::vector<Vector2>());
-	path->Sample(&sPaths[currentPath]);
-	delete path;*/
-}
-
-void RedShip::HandleFlyInState() {
-
-	if (mCurrentWayPoint < sPaths[mCurrentPath].size()) {
-		Vector2 dist = sPaths[mCurrentPath][mCurrentWayPoint] - Position();
-
-		Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
-
-		if ((sPaths[mCurrentPath][mCurrentWayPoint] - Position()).MagnitudeSqr() < EPSILON * mSpeed / 25.0f) {
-			mCurrentWayPoint++;
-		}
-
-		if (mCurrentWayPoint >= sPaths[mCurrentPath].size()) {
-			PathComplete();
-		}
-	}
-	else {
-		Vector2 dist = WorldFormationPosition() - Position();
-
-		Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
-
-		if (dist.MagnitudeSqr() < EPSILON * mSpeed / 25.0f) {
-			FlyInComplete();
-		}
-	}
+	sDivePaths.push_back(std::vector<Vector2>());
+	path->Sample(&sDivePaths[currentPath]);
+	delete path;
 }
 
 Vector2 RedShip::LocalFormationPosition() {
 	Vector2 retVal;
 	int dir = mIndex % 2 == 0 ? -1 : 1;
 
-	retVal.x =
-		(sFormation->GridSize().x + sFormation->GridSize().x *
-			2 * (mIndex / 2)) * (float)dir;
+	retVal.x = 500.0f;
+
 	retVal.y = -sFormation->GridSize().y * 2.8;
 
 	return retVal;
 }
 
 void RedShip::HandleDiveState() {
-	int currentPath = mIndex % 2;
+	int currentPath = 0;
 
 	if (mCurrentWayPoint < sDivePaths[currentPath].size() &&
 		!sPlayer->IsAnimating() && sPlayer->IsVisible()) {
@@ -85,18 +64,22 @@ void RedShip::HandleDiveState() {
 
 		if (sPlayer->IsVisible()) {
 
-			Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
+			//Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 180.0f);
 		}
 
 		if ((waypointPos - Position()).MagnitudeSqr() < EPSILON * mSpeed / 25) {
 			mCurrentWayPoint++;
+		}
+
+		if (mCurrentWayPoint == sDivePaths[mCurrentPath].size()) {
+			Position(Vector2(WorldFormationPosition().x, 20.0f));
 		}
 	}
 	else {
 		Vector2 dist = WorldFormationPosition() - Position();
 
 		Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
-		Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
+		//Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
 
 		if (dist.MagnitudeSqr() < EPSILON * mSpeed / 25.0f) {
 			JoinFormation();
@@ -105,16 +88,21 @@ void RedShip::HandleDiveState() {
 
 }
 
+void RedShip::Dive(int type) {
+
+	Enemy::Dive();
+}
+
 void RedShip::Hit(PhysEntity* other) {
 	AudioManager::Instance()->PlaySFX("PlayerExplosion.wav", 0, -1);
-	sPlayer->AddScore(mCurrentState == Enemy::InFormation ? 80 : 160);
+	sPlayer->AddScore(60 + rand() % (300 - 60 + 1));
 	Enemy::Hit(other);
 }
 
 void RedShip::RenderDiveState() {
-	int currentPath = mIndex % 2;
-
 	mTexture[0]->Render();
+
+	int currentPath = 0;
 
 	Vector2 finalPos = WorldFormationPosition();
 	auto currentDivePath = sDivePaths[currentPath];
@@ -153,10 +141,6 @@ RedShip::RedShip(int path, int index, bool challenge) :
 	mDeathAnimation->Parent();
 	mDeathAnimation->Position(Vec2_Zero);
 	mDeathAnimation->SetWrapMode(Animation::WrapModes::Once);
-
-	//for (int i = 0; i < MAX_BULLETS; i++) {
-	//	mBullets[i] = new Bullet(false);
-	//}
 }
 
 RedShip::~RedShip() {
@@ -169,11 +153,6 @@ RedShip::~RedShip() {
 		delete mDeathAnimation;
 		mDeathAnimation = nullptr;
 	}
-
-	//for (auto bullet : mBullets) {
-	//	delete bullet;
-	//	bullet = nullptr;
-	//}
 }
 
 void RedShip::UpdateTexture(int index) {

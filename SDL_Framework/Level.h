@@ -7,6 +7,7 @@
 #include "RedShip.h"
 #include "TileLayer.h"
 #include "Tinyxml2.h"
+#include "EBullet.h"
 
 using namespace SDL_Framework;
 using namespace tinyxml2;
@@ -20,6 +21,8 @@ public:
 	~Level();
 
 	LevelStates State();
+	
+	Enemy* SelectRandomEnemy();
 
 	void Update() override;
 	void Render() override;
@@ -27,14 +30,18 @@ public:
 private:
 	Timer* mTimer;
 	PlaySideBar* mSideBar;
-	Player* mPlayer;
-
+	Player* sPlayer;
+	Player* mStartTimer;
 	Formation* mFormation;
+	
 	bool mMovingRight;
 	float mSpeed;
 	float mDropAmount;
 	float mRightBoundary;
 	float mLeftBoundary;
+	int mRightBoundaryHits = 0;
+	int mLeftBoundaryHits = 0;
+	float mSpeedTimer;
 
 	TileLayer* mBarrack1;
 	TileLayer* mBarrack2;
@@ -56,13 +63,18 @@ private:
 	Squid* mFormationSquids[MAX_SQUIDS];
 	RedShip* mFormationShip[MAX_SHIPS];
 
-	//RedShip* mDivingShip;
-	//bool mSkipFirstShip;
-	//float mShipDiveDelay;
-	//float mShipDiveTimer;
-	//bool mShipSpawn;
+	static const int MAX_EBULLETS = 2;
+	EBullet* mEBullets[MAX_EBULLETS];
+	//std::vector<EBullet*> mEBullets;
+	float mFireCoolDown;
+	float mFireRate;
+
+	RedShip* mDivingShip;
+	float mShipDiveDelay;
+	float mShipDiveTimer;
 
 	std::vector<Enemy*> mEnemies;	//debug testing
+	Enemy* mEnemy;
 
 	XMLDocument mSpawningPatterns;
 	int mCurrentFlyInPriority;
@@ -101,11 +113,14 @@ private:
 	void HandleStartLabels();
 	void HandleCollisions();
 	void HandlePlayerDeath();
+	//void HandlePlayerFiring();
 	
 	void StartStage();
 
 	bool EnemyFlyingIn();
 
+	//void HandleEnemyFiring(Enemy* enemy);
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();
+	void HandleEnemyDiving();
 };

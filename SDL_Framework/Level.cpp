@@ -34,18 +34,18 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	mReadyLabelOnScreen = mStageLabelOffScreen;
 	mReadyLabelOffScreen = mReadyLabelOnScreen + 3.0f;
 
-	mPlayer = player;
+	sPlayer = player;
 	mPlayerHit = false;
 	mRespawnDelay = 3.0f;
 	mRespawnLabelOnScreen = 2.0f;
 
-	mGameOverLabel = new GLTexture("GAME OVER!!", "ARCADE.ttf", 40, { 150, 0, 0 });
+	mGameOverLabel = new GLTexture("gameOverSprite.png", 0, 0, 300, 300);
 	mGameOverLabel->Parent(this);
 	mGameOverLabel->Position(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f);
 
-	mGameOverDelay = 6.0f;
+	mGameOverDelay = 8.0f;
 	mGameOverTimer = 0.0f;
-	mGameOverLabelOnScreen = 1.0f;
+	mGameOverLabelOnScreen = 6.0f;
 
 	mCurrentState = Running;
 
@@ -117,6 +117,7 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	mDropAmount = 5.0f;
 	mRightBoundary = Graphics::SCREEN_WIDTH - 480.0f;
 	mLeftBoundary = 480.0f;
+	mSpeedTimer = 0.0f;
 	
 	mCurrentFlyInPriority = 0;
 	mCurrentFlyInIndex = 0;
@@ -124,13 +125,25 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player){
 	mSpawnTimer = 0.0f;
 	mSpawningFinished = false;
 
-	Enemy::CurrentPlayer(mPlayer);
+	mDivingShip = nullptr;
+	mShipDiveDelay = 5.0f;
+	mShipDiveTimer = 0.0f;
+
+	mFireCoolDown = 2.0f;
+	mFireRate = 0.0f;
+
+	for (int i = 0; i < MAX_EBULLETS; i++) {
+		mEBullets[i] = new EBullet();
+	}
+
+	Enemy::CurrentPlayer(sPlayer);
 }
 
 Level::~Level() {
 	mTimer = nullptr;
 	mSideBar = nullptr;
-	mPlayer = nullptr;
+	sPlayer = nullptr;
+	
 
 	delete mBarrack1;
 	mBarrack1 = nullptr;
@@ -184,6 +197,11 @@ Level::~Level() {
 		enemy = nullptr;
 	}
 
+	for (auto bullet : mEBullets) {
+		delete bullet;
+		bullet = nullptr;
+	}
+
 	mEnemies.clear();
 }
 
@@ -195,8 +213,9 @@ void Level::HandleStartLabels() {
 	mLabelTimer += mTimer->DeltaTime();
 
 	if (mLabelTimer >= mStageLabelOffScreen) {
-		mPlayer->Active(true);
-		mPlayer->SetVisible(true);
+		sPlayer->Active(true);
+		sPlayer->SetVisible(true);
+		sPlayer->StartTimer();
 
 		if (mStage > 1) {
 			StartStage();
@@ -211,32 +230,32 @@ void Level::HandleStartLabels() {
 
 void Level::HandleCollisions() {
 	if (!mPlayerHit) {
-		if (mPlayer->WasHit()) {
-			mSideBar->SetTanks(mPlayer->Lives());
+		if (sPlayer->WasHit()) {
+			mSideBar->SetTanks(sPlayer->Lives());
 
 			mPlayerHit = true;
 			mRespawnTimer = 0.0f;
-			mPlayer->Active(false);
+			sPlayer->Active(false);
 		}
 	}
 }
 
 void Level::HandlePlayerDeath() {
-	if (!mPlayer->IsAnimating()) {
-		if (mPlayer->Lives() > 0) {
+	if (!sPlayer->IsAnimating()) {
+		if (sPlayer->Lives() > 0) {
 			if (mRespawnTimer == 0.0f) {
-				mPlayer->SetVisible(false);
+				sPlayer->SetVisible(false);
 			}
 			mRespawnTimer += mTimer->DeltaTime();
 			if (mRespawnTimer >= mRespawnDelay) {
-				mPlayer->Active(true);
-				mPlayer->SetVisible(true);
+				sPlayer->Active(true);
+				sPlayer->SetVisible(true);
 				mPlayerHit = false;
 			}
 		}
 		else {
 			if (mGameOverTimer == 0.0f) {
-				mPlayer->SetVisible(false);
+				sPlayer->SetVisible(false);
 			}
 			mGameOverTimer += mTimer->DeltaTime();
 			if (mGameOverTimer >= mGameOverDelay) {
@@ -362,13 +381,28 @@ void Level::HandleEnemyFormation() {
 
 	bool levelCleared = mSpawningFinished;
 
+	float playerY = sPlayer->Position().y;
+
 	for (Crab* crab : mFormationCrabs) {
 		if (crab != nullptr) {
 			crab->Update();
 
+			if (crab->Position().y >= playerY) {
+				if (mGameOverTimer == 0.0f) {
+					sPlayer->SetVisible(false);
+				}
+				mGameOverTimer += mTimer->DeltaTime();
+				if (mGameOverTimer >= mGameOverDelay) {
+					mCurrentState = GameOver;
+				}
+
+			}
+
 			if (crab->CurrentState() != Enemy::Dead ||
 				crab->InDeathAnimation()) {
 				levelCleared = false;
+
+				//HandleEnemyFiring(crab);
 			}
 		}
 	}
@@ -377,9 +411,21 @@ void Level::HandleEnemyFormation() {
 		if (octopus != nullptr) {
 			octopus->Update();
 
+			if (octopus->Position().y >= playerY) {
+				if (mGameOverTimer == 0.0f) {
+					sPlayer->SetVisible(false);
+				}
+				mGameOverTimer += mTimer->DeltaTime();
+				if (mGameOverTimer >= mGameOverDelay) {
+					mCurrentState = GameOver;
+				}
+			}
+
 			if (octopus->CurrentState() != Enemy::Dead ||
 				octopus->InDeathAnimation()) {
 				levelCleared = false;
+
+				//HandleEnemyFiring(octopus);
 			}
 		}
 	}
@@ -387,6 +433,16 @@ void Level::HandleEnemyFormation() {
 	for (RedShip* redShip : mFormationShip) {
 		if (redShip != nullptr) {
 			redShip->Update();
+
+			if (redShip->Position().y >= playerY) {
+				if (mGameOverTimer == 0.0f) {
+					sPlayer->SetVisible(false);
+				}
+				mGameOverTimer += mTimer->DeltaTime();
+				if (mGameOverTimer >= mGameOverDelay) {
+					mCurrentState = GameOver;
+				}
+			}
 
 			if (redShip->CurrentState() != Enemy::Dead ||
 				redShip->InDeathAnimation()) {
@@ -399,9 +455,21 @@ void Level::HandleEnemyFormation() {
 		if (squid != nullptr) {
 			squid->Update();
 
+			if (squid->Position().y >= playerY) {
+				if (mGameOverTimer == 0.0f) {
+					sPlayer->SetVisible(false);
+				}
+				mGameOverTimer += mTimer->DeltaTime();
+				if (mGameOverTimer >= mGameOverDelay) {
+					mCurrentState = GameOver;
+				}
+			}
+
 			if (squid->CurrentState() != Enemy::Dead ||
 				squid->InDeathAnimation()) {
 				levelCleared = false;
+
+				//HandleEnemyFiring(squid);
 			}
 		}
 	}
@@ -409,8 +477,7 @@ void Level::HandleEnemyFormation() {
 	if (!mFormation->Locked()) {
 		if (mCrabCount == MAX_CRABS &&
 			mOctopusCount == MAX_OCTOPI &&
-			mSquidCount == MAX_SQUIDS && 
-			mShipCount == MAX_SHIPS){
+			mSquidCount == MAX_SQUIDS){		//&& mShipCount == MAX_SHIPS
 
 			if (!EnemyFlyingIn()) {
 				mFormation->Lock();
@@ -418,11 +485,94 @@ void Level::HandleEnemyFormation() {
 		}
 	}
 
+	else {
+		HandleEnemyDiving();
+	}
+
 	if (levelCleared) {
 		mCurrentState = Finished;
 	}
 }
 
+void Level::HandleEnemyDiving() {
+
+	if (mDivingShip == nullptr) {
+		mShipDiveTimer += mTimer->DeltaTime();
+
+		if (mShipDiveTimer >= mShipDiveDelay) {
+
+			for (int i = MAX_SHIPS - 1; i >= 0; i--) {
+
+				if (mFormationShip[i] != nullptr &&
+					mFormationShip[i]->CurrentState() == Enemy::InFormation) {
+
+					mDivingShip = mFormationShip[i];
+					mDivingShip->Dive();
+					break;
+				}
+			}
+			mShipDiveTimer = 0.0f;
+		}
+	}
+	else {
+		if (mDivingShip->CurrentState() != Enemy::Diving) {
+			mDivingShip = nullptr;
+		}
+	}
+
+}
+
+Enemy* Level::SelectRandomEnemy() {
+	std::vector<Enemy*> eligibleEnemies;
+	for (Enemy* enemy : mEnemies) {
+		if (mFormation->Locked() && !Enemy::Dead) {
+			eligibleEnemies.push_back(enemy);
+		}
+	}
+
+	if (!eligibleEnemies.empty()) {
+		int index = rand() % eligibleEnemies.size();
+		return eligibleEnemies[index];
+	}
+
+	return nullptr;
+}
+
+//void Level::HandleEnemyFiring(Enemy* enemy) {
+//	mFireRate += mTimer->DeltaTime();
+//
+//	if (mFireRate >= mFireCoolDown) {
+//		if (CanFire(enemy)) {
+//			FireEBullet(enemy);
+//			mFireRate = 0.0f;
+//		}
+//	}
+//
+//	//	for (Enemy* enemy : mEnemies) {
+//	//		for (int i = 0; i < MAX_EBULLETS; i++) {
+//	//			if (!mEBullets[i]->Active()) {
+//	//				Vector2 bulletDirection = Vector2(0, -1);
+//	//				mEBullets[i]->Fire(Position() + bulletDirection);
+//	//
+//	//				EBullet* bullet = new EBullet();
+//	//				bullet->Fire(Position() + bulletDirection);
+//	//				PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
+//	//
+//	//				break;
+//	//			}
+//	//		}
+//	//	}
+//}
+
+//bool Level::CanFire(Enemy* enemy) {
+//	return (rand() % 10 == 0);
+//}
+//
+//void Level::FireEBullet(Enemy* enemy) {
+//	Vector2 bulletDirection = Vector2(0, -1);
+//	EBullet* mEBullet = new EBullet();
+//	mEBullet->Position(enemy->Position() + bulletDirection);
+//}
 
 void Level::Update() {
 	mBarrack1->Update();
@@ -430,7 +580,63 @@ void Level::Update() {
 	mBarrack3->Update();
 	mBarrack4->Update();
 
+	mFireRate += mTimer->DeltaTime();
+
+	if (mFireRate >= mFireCoolDown) {
+		mFireRate = 0.0f;
+		Enemy* shooter = SelectRandomEnemy();
+
+		if (shooter) {
+			for (auto bullet : mEBullets) {
+				if (!bullet->Active()) {
+					bullet->Fire(shooter->Position());
+					break;
+				}
+			}
+		}
+	}
+
+	for (auto bullet : mEBullets) {
+		bullet->Update();
+	}
+
+	//for (int i = 0; i < MAX_EBULLETS; i++) {
+	//	if (!mEBullets[i]->Active()) {
+	//		Vector2 bulletDirection = Vector2(0, -1);
+	//		mEBullets[i]->Fire(Position() + bulletDirection);
+
+	//		EBullet* mEBullet = new EBullet();
+	//		mEBullet->Fire(mEnemy->Position() + bulletDirection);
+	//		PhysicsManager::Instance()->RegisterEntity(mEBullet, PhysicsManager::CollisionLayers::HostileProjectile);
+
+	//		break;
+	//	}
+	//}
+
 	if (mFormation->Locked()) {
+		for (Crab* crab : mFormationCrabs) {
+			if (crab != nullptr) {
+				//HandleEnemyFiring(crab);
+			}
+		}
+
+		for (Octopus* octopus : mFormationOctopi) {
+			if (octopus != nullptr) {
+				//HandleEnemyFiring(octopus);
+			}
+		}
+
+		for (RedShip* redShip : mFormationShip) {
+			if (redShip != nullptr) {
+				//HandleEnemyFiring(redShip);
+			}
+		}
+
+		for (Squid* squid : mFormationSquids) {
+			if (squid != nullptr) {
+				//HandleEnemyFiring(squid);
+			}
+		}
 
 		float deltaTime = mTimer->DeltaTime();
 
@@ -439,7 +645,12 @@ void Level::Update() {
 
 			if (mFormation->Position().x >= mRightBoundary) {
 				mMovingRight = false;
-				mFormation->Translate(Vector2(0.0f, mDropAmount));
+				mRightBoundaryHits++;
+
+				if (mRightBoundaryHits >= 3) {
+					mFormation->Translate(Vector2(0.0f, mDropAmount));
+					mRightBoundaryHits = 0;
+				}
 			}
 		}
 		else {
@@ -447,7 +658,41 @@ void Level::Update() {
 
 			if (mFormation->Position().x <= mLeftBoundary) {
 				mMovingRight = true;
-				mFormation->Translate(Vector2(0.0f, mDropAmount));
+				mLeftBoundaryHits++;
+
+				if (mLeftBoundaryHits >= 3) {
+					mFormation->Translate(Vector2(0.0f, mDropAmount));
+					mLeftBoundaryHits = 0;
+				}
+			}
+		}
+
+		mSpeedTimer += mTimer->DeltaTime();
+		if (mStage == 1) {
+			if (mSpeedTimer >= 5.0f) {
+				mSpeed += 10.0f;
+				mSpeedTimer = 0.0f;
+			}
+		}
+
+		if (mStage == 2) {
+			if (mSpeedTimer >= 5.0f) {
+				mSpeed += 15.0f;
+				mSpeedTimer = 0.0f;
+			}
+		}
+
+		if (mStage == 3) {
+			if (mSpeedTimer >= 5.0f) {
+				mSpeed += 20.0f;
+				mSpeedTimer = 0.0f;
+			}
+		}
+
+		if (mStage == 4) {
+			if (mSpeedTimer >= 5.0f) {
+				mSpeed += 25.0f;
+				mSpeedTimer = 0.0f;
 			}
 		}
 	}
@@ -457,6 +702,7 @@ void Level::Update() {
 	}
 	else {
 
+
 		if (!mSpawningFinished) {
 			HandleEnemySpawning();
 		}
@@ -464,9 +710,9 @@ void Level::Update() {
 		HandleEnemyFormation();
 
 
-			for (auto enemy : mEnemies) {
+		for (auto enemy : mEnemies) {
 			enemy->Update();
-			}
+		}
 
 		HandleCollisions();
 
@@ -486,6 +732,12 @@ void Level::Render() {
 	mBarrack2->Render();
 	mBarrack3->Render();
 	mBarrack4->Render();
+
+	for (int i = 0; i < MAX_EBULLETS; i++) {
+		if (mEBullets[i]->Active()) {
+			mEBullets[i]->Render();
+		}
+	}
 
 	if (!mStageStarted) {
 		if (mLabelTimer > mStageLabelOnScreen &&

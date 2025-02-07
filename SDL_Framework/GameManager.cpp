@@ -76,7 +76,7 @@ namespace SDL_Framework {
 
 		if (mBorderTexture) {
 		
-			mBorderTexture->Render(); //(0, 0, 1070, 1040);
+			mBorderTexture->Render(); 
 			mBorderTexture->Position(530,520);
 			mBorderTexture->Scale(Vector2(1.35f, 1.35f));
 		}
@@ -84,7 +84,7 @@ namespace SDL_Framework {
 		mGraphics->Render();
 	}
 
-	GameManager::GameManager() : mQuit(false){//, mBorderTexture(nullptr) {
+	GameManager::GameManager() : mQuit(false){
 		Graphics::SetMode(Graphics::RenderMode::GL);
 		mGraphics = Graphics::Instance();
 

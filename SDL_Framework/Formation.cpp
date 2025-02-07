@@ -70,7 +70,7 @@ Vector2 Formation::GridSize() {
 }
 
 bool Formation::Locked() {
-	return mLocked && mOffsetCounter == 4;
+	return mLocked;
 }
 
 void Formation::Lock() {

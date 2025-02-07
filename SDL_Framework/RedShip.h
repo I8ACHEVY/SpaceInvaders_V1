@@ -15,7 +15,7 @@ namespace SDL_Framework {
 
 		static void CreateDivePaths();
 
-		//void Dive(int type = 0) override;
+		void Dive(int type = 0) override;
 
 		void Hit(PhysEntity* other) override;
 		bool IgnoreCollision(PhysEntity* Entity);
@@ -26,22 +26,18 @@ namespace SDL_Framework {
 	private:
 		static std::vector<std::vector<Vector2>> sDivePaths;
 
-		static const int MAX_BULLETS = 2;
-		Bullet* mBullets[MAX_BULLETS];
-
 		GLTexture* mRedShip;
 		PhysEntity* mCollider;
 
 		bool mVisible;
 
 		int mRedShipIndex;
-	/*	unsigned mCurrentPath;
-		Vector2 mDiveStartPosition;*/
+		unsigned mCurrentPath;
+		Vector2 mDiveStartPosition;
 
 		Vector2 LocalFormationPosition() override;
 
 		void HandleDiveState() override;
-		void HandleFlyInState() override;
 		void RenderDiveState() override;
 	};
 }

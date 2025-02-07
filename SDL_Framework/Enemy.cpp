@@ -5,7 +5,6 @@
 std::vector<std::vector<Vector2>>Enemy::sPaths;
 Player* Enemy::sPlayer = nullptr;
 Formation* Enemy::sFormation = nullptr;
-int Enemy::sActiveBullets = 0;
 
 void Enemy::CreatePaths() {
 	int screenXPoint = (int)(Graphics::Instance()->SCREEN_WIDTH * 0.46f);
@@ -56,7 +55,6 @@ void Enemy::CreatePaths() {
 
 	currentPath = 2;
 	float temp = screenXPoint - 100.0f;
-
 	path = new BezierPath();
 
 	path->AddCurve({
@@ -108,7 +106,7 @@ void Enemy::CreatePaths() {
 		Vector2(screenXPoint - 350.0f, screenYPoint + -30.0f),
 		Vector2(screenXPoint - 350.0f, screenYPoint + -50.0f),
 		Vector2(120.0f, screenYPoint + 100.0f),
-		Vector2(120.0f, screenYPoint + 100.0f) }, 1
+		Vector2(120.0f, screenYPoint + 100.0f) }, 25
 		);
 
 	path->AddCurve({
@@ -132,7 +130,7 @@ void Enemy::CreatePaths() {
 		Vector2(screenXPoint + 400.0f, screenYPoint + -30.0f),
 		Vector2(screenXPoint + 400.0f, screenYPoint + -50.0f),
 		Vector2(900.0f, screenYPoint + 100.0f),
-		Vector2(900.0f, screenYPoint + 100.0f) }, 1
+		Vector2(900.0f, screenYPoint + 100.0f) }, 25
 		);
 
 	path->AddCurve({
@@ -149,24 +147,12 @@ void Enemy::CreatePaths() {
 	currentPath = 6;		
 	path = new BezierPath();
 
-	path->AddCurve({ 
-		Vector2(1000.0f, 450.0f), 
-		Vector2(1000.0f, 600.0f),
-		Vector2(300.0f, 600.0f), 
-		Vector2(300.0f, 450.0f) }, 1);
-
 	path->AddCurve({
-		Vector2(780.0f, 450.0f),
-		Vector2(780.0f, 600.0f),
-		Vector2(300.0f, 600.0f),
-		Vector2(300.0f, 450.0f) }, 1);
-
-	path->AddCurve({
-		Vector2(780.0f, 450.0f),
-		Vector2(780.0f, 600.0f),
-		Vector2(50.0f, 600.0f),
-		Vector2(50.0f, 450.0f) }, 1);
-
+		Vector2(900.0f, 0.0f),
+		Vector2(900.0f, 0.0f),
+		Vector2(1000.0f, 500.0f),
+		Vector2(1000.0f, 450.0f) }, 1);
+	
 	sPaths.push_back(std::vector<Vector2>());
 	path->Sample(&sPaths[currentPath]);
 	delete path;
@@ -179,30 +165,6 @@ void Enemy::SetFormation(Formation* formation) {
 
 void Enemy::CurrentPlayer(Player* player) {
 	sPlayer = player;
-}
-
-void Enemy::HandleFiring() {
-	mFireCoolDownTimer -= mTimer->DeltaTime();
-	
-	if (sPlayer == nullptr) return;
-	//if (sActiveBullets >= 2) return;
-
-	//if (mFireCoolDownTimer <= 0.0f) {
-		for (int i = 0; i < MAX_BULLETS; i++) {
-			if (!mBullets[i]->Active()) {
-				Vector2 bulletDirection = Vector2(0, -1);
-				mBullets[i]->Fire(Position() + bulletDirection);
-
-				EBullet* bullet = new EBullet();
-				bullet->Fire(Position() + bulletDirection);
-				PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
-
-				//sActiveBullets += 2;
-				//mFireCoolDownTimer = 3.0f;
-				break;
-			}
-		}
-	//}
 }
 
 Enemy::Enemy(int path, int index, bool challenge) :
@@ -228,9 +190,6 @@ Enemy::Enemy(int path, int index, bool challenge) :
 	mDeathAnimation->Position(Vec2_Zero);
 	mDeathAnimation->SetWrapMode(Animation::WrapModes::Once);
 
-	for (int i = 0; i < MAX_BULLETS; i++) {
-		mBullets[i] = new EBullet();
-	}
 }
 
 Enemy::~Enemy() {
@@ -244,10 +203,9 @@ Enemy::~Enemy() {
 	delete mDeathAnimation;
 	mDeathAnimation = nullptr;
 
-	for (auto bullet : mBullets) {
-		delete bullet;
-		bullet = nullptr;
-	}
+	delete sPlayer;	//only sPlayer deconstructor, mPlayer has 2
+	sPlayer = nullptr;
+
 }
 
 Enemy::States Enemy::CurrentState() {
@@ -290,26 +248,15 @@ void Enemy::Dive(int type) {
 }
 
 void Enemy::Update() {
+
 	if (Active()) {
 		HandleStates();
-	}
-
-	for (int i = 0; i < MAX_BULLETS; i++) {
-		mBullets[i]->Update();
-	}
-
-	if (mFireCoolDownTimer > 0.0f) {
-		mFireCoolDownTimer -= mTimer->DeltaTime();
 	}
 }
 
 void Enemy::Render() {
 	if (Active()) {
 		RenderStates();
-	}
-
-	for (int i = 0; i < MAX_BULLETS; i++) {
-		mBullets[i]->Render();
 	}
 }
 
@@ -379,7 +326,6 @@ void Enemy::HandleStates() {
 
 	case InFormation:
 		HandleInFormationState();
-		HandleFiring();
 		break;
 
 	case Diving:

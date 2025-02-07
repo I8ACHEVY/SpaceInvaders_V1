@@ -21,7 +21,7 @@ namespace SDL_Framework {
 				}
 			}
 
-			delete mBroadPhaseCollider;
+			delete mBroadPhaseCollider;	// Possible dangling pointer
 			mBroadPhaseCollider = new CircleCollider(furthestDistance, true);
 			mBroadPhaseCollider->Parent(this);
 			mBroadPhaseCollider->Position(Vec2_Zero);
@@ -34,7 +34,7 @@ namespace SDL_Framework {
 	}
 
 	PhysEntity::~PhysEntity() {
-		for (auto colliders : mColliders) {
+		for (auto& colliders : mColliders) {
 			delete colliders;
 			colliders = nullptr;
 		}
@@ -76,8 +76,7 @@ namespace SDL_Framework {
 	}
 
 	bool PhysEntity::CheckCollision(PhysEntity* other) {
-		if (IgnoreCollision() || other->IgnoreCollision()) {
-
+		if (other == nullptr || IgnoreCollision() || other->IgnoreCollision()) {
 			return false;
 		}
 

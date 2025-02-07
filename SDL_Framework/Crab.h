@@ -9,7 +9,7 @@ public:
 
 	//void Dive(int type = 0) override;
 
-	void HandleFiring();
+	//void HandleFiring();
 
 	void Hit(PhysEntity* other) override;
 
