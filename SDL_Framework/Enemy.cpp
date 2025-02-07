@@ -148,8 +148,8 @@ void Enemy::CreatePaths() {
 	path = new BezierPath();
 
 	path->AddCurve({
-		Vector2(1000.0f, 450.0f),
-		Vector2(1000.0f, 500.0f),
+		Vector2(900.0f, 0.0f),
+		Vector2(900.0f, 0.0f),
 		Vector2(1000.0f, 500.0f),
 		Vector2(1000.0f, 450.0f) }, 1);
 	
