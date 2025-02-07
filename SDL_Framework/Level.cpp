@@ -401,8 +401,6 @@ void Level::HandleEnemyFormation() {
 			if (crab->CurrentState() != Enemy::Dead ||
 				crab->InDeathAnimation()) {
 				levelCleared = false;
-
-				//HandleEnemyFiring(crab);
 			}
 		}
 	}
@@ -424,8 +422,6 @@ void Level::HandleEnemyFormation() {
 			if (octopus->CurrentState() != Enemy::Dead ||
 				octopus->InDeathAnimation()) {
 				levelCleared = false;
-
-				//HandleEnemyFiring(octopus);
 			}
 		}
 	}
@@ -468,8 +464,6 @@ void Level::HandleEnemyFormation() {
 			if (squid->CurrentState() != Enemy::Dead ||
 				squid->InDeathAnimation()) {
 				levelCleared = false;
-
-				//HandleEnemyFiring(squid);
 			}
 		}
 	}
@@ -477,7 +471,7 @@ void Level::HandleEnemyFormation() {
 	if (!mFormation->Locked()) {
 		if (mCrabCount == MAX_CRABS &&
 			mOctopusCount == MAX_OCTOPI &&
-			mSquidCount == MAX_SQUIDS){		//&& mShipCount == MAX_SHIPS
+			mSquidCount == MAX_SQUIDS){	
 
 			if (!EnemyFlyingIn()) {
 				mFormation->Lock();
@@ -525,7 +519,7 @@ void Level::HandleEnemyDiving() {
 Enemy* Level::SelectRandomEnemy() {
 	std::vector<Enemy*> eligibleEnemies;
 	for (Enemy* enemy : mEnemies) {
-		if (mFormation->Locked() && !Enemy::Dead) {
+		if (mFormation->Locked() && !enemy->Dead && !enemy->InDeathAnimation()) {
 			eligibleEnemies.push_back(enemy);
 		}
 	}
@@ -538,41 +532,63 @@ Enemy* Level::SelectRandomEnemy() {
 	return nullptr;
 }
 
-//void Level::HandleEnemyFiring(Enemy* enemy) {
-//	mFireRate += mTimer->DeltaTime();
-//
-//	if (mFireRate >= mFireCoolDown) {
-//		if (CanFire(enemy)) {
-//			FireEBullet(enemy);
-//			mFireRate = 0.0f;
-//		}
-//	}
-//
-//	//	for (Enemy* enemy : mEnemies) {
-//	//		for (int i = 0; i < MAX_EBULLETS; i++) {
-//	//			if (!mEBullets[i]->Active()) {
-//	//				Vector2 bulletDirection = Vector2(0, -1);
-//	//				mEBullets[i]->Fire(Position() + bulletDirection);
-//	//
-//	//				EBullet* bullet = new EBullet();
-//	//				bullet->Fire(Position() + bulletDirection);
-//	//				PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
-//	//
-//	//				break;
-//	//			}
-//	//		}
-//	//	}
-//}
+void Level::HandleEnemyFiring(Vector2 bulletDirection) {
+	mFireRate += mTimer->DeltaTime();
 
-//bool Level::CanFire(Enemy* enemy) {
-//	return (rand() % 10 == 0);
-//}
-//
-//void Level::FireEBullet(Enemy* enemy) {
-//	Vector2 bulletDirection = Vector2(0, -1);
-//	EBullet* mEBullet = new EBullet();
-//	mEBullet->Position(enemy->Position() + bulletDirection);
-//}
+	if (mFireRate >= mFireCoolDown) {
+		std::vector<Enemy*>firingCandidates;
+
+		for (Crab* crab : mFormationCrabs) {
+			if (crab != nullptr && crab->CurrentState() == Enemy::InFormation) {
+				firingCandidates.push_back(crab);
+			}
+		}
+
+		for (Octopus* octopus : mFormationOctopi) {
+			if (octopus != nullptr && octopus->CurrentState() == Enemy::InFormation) {
+				firingCandidates.push_back(octopus);
+			}
+		}
+
+		for (Squid* squid : mFormationSquids) {
+			if (squid != nullptr && squid->CurrentState() == Enemy::InFormation) {
+				firingCandidates.push_back(squid);
+			}
+		}
+
+		if (!firingCandidates.empty()) {
+			int randomIndex = rand() % firingCandidates.size();
+			Vector2 firePosition = firingCandidates[randomIndex]->Position();
+
+			if (!mEBullets[i]->Active()) {
+				mEBullets[i]->Fire(Position());
+				mAudio->PlaySFX("Fire.wav");
+				break;
+			}
+
+			Vector2 bulletDirection = Vector2(0, -1);
+			mEBullet = new EBullet
+			mEBullet->Fire(Position() + bulletDirection);
+			PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
+
+			Fire(firePosition);
+
+			break;
+		}
+
+		mFireRate = 0.0f;
+	}
+}
+
+bool Level::CanFire(Enemy* enemy) {
+	return (rand() % 10 == 0);
+}
+
+void Level::FireEBullet(Enemy* enemy) {
+	Vector2 bulletDirection = Vector2(0, -1);
+	EBullet* mEBullet = new EBullet(); //Remove?
+	HandleEnemyFiring(enemy->Position() + bulletDirection);
+}
 
 void Level::Update() {
 	mBarrack1->Update();
@@ -587,31 +603,13 @@ void Level::Update() {
 		Enemy* shooter = SelectRandomEnemy();
 
 		if (shooter) {
-			for (auto bullet : mEBullets) {
-				if (!bullet->Active()) {
-					bullet->Fire(shooter->Position());
-					break;
-				}
-			}
+			FireEBullet(shooter);
 		}
 	}
 
-	for (auto bullet : mEBullets) {
-		bullet->Update();
+	for (auto& enemy : mEnemies) {
+		enemy->Update();
 	}
-
-	//for (int i = 0; i < MAX_EBULLETS; i++) {
-	//	if (!mEBullets[i]->Active()) {
-	//		Vector2 bulletDirection = Vector2(0, -1);
-	//		mEBullets[i]->Fire(Position() + bulletDirection);
-
-	//		EBullet* mEBullet = new EBullet();
-	//		mEBullet->Fire(mEnemy->Position() + bulletDirection);
-	//		PhysicsManager::Instance()->RegisterEntity(mEBullet, PhysicsManager::CollisionLayers::HostileProjectile);
-
-	//		break;
-	//	}
-	//}
 
 	if (mFormation->Locked()) {
 		for (Crab* crab : mFormationCrabs) {
@@ -628,7 +626,6 @@ void Level::Update() {
 
 		for (RedShip* redShip : mFormationShip) {
 			if (redShip != nullptr) {
-				//HandleEnemyFiring(redShip);
 			}
 		}
 

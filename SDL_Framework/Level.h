@@ -113,13 +113,15 @@ private:
 	void HandleStartLabels();
 	void HandleCollisions();
 	void HandlePlayerDeath();
-	//void HandlePlayerFiring();
 	
 	void StartStage();
 
 	bool EnemyFlyingIn();
 
-	//void HandleEnemyFiring(Enemy* enemy);
+	void HandleEnemyFiring(Vector2 bulletDirection);
+	bool CanFire(Enemy* enemy);
+	void FireEBullet(Enemy* enemy);
+
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();
 	void HandleEnemyDiving();
