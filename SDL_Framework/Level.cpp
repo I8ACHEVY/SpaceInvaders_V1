@@ -516,79 +516,34 @@ void Level::HandleEnemyDiving() {
 
 }
 
-Enemy* Level::SelectRandomEnemy() {
-	std::vector<Enemy*> eligibleEnemies;
-	for (Enemy* enemy : mEnemies) {
-		if (mFormation->Locked() && !enemy->Dead && !enemy->InDeathAnimation()) {
-			eligibleEnemies.push_back(enemy);
-		}
-	}
-
-	if (!eligibleEnemies.empty()) {
-		int index = rand() % eligibleEnemies.size();
-		return eligibleEnemies[index];
-	}
-
-	return nullptr;
-}
+//Enemy* Level::SelectRandomEnemy() {
+//	std::vector<Enemy*> eligibleEnemies;
+//	for (Enemy* enemy : mEnemies) {
+//		if (mFormation->Locked() && !enemy->Dead && !enemy->InDeathAnimation()) {
+//			eligibleEnemies.push_back(enemy);
+//		}
+//	}
+//
+//	if (!eligibleEnemies.empty()) {
+//		int index = rand() % eligibleEnemies.size();
+//		return eligibleEnemies[index];
+//	}
+//
+//	return nullptr;
+//}
 
 void Level::HandleEnemyFiring(Vector2 bulletDirection) {
-	mFireRate += mTimer->DeltaTime();
-
-	if (mFireRate >= mFireCoolDown) {
-		std::vector<Enemy*>firingCandidates;
-
-		for (Crab* crab : mFormationCrabs) {
-			if (crab != nullptr && crab->CurrentState() == Enemy::InFormation) {
-				firingCandidates.push_back(crab);
-			}
-		}
-
-		for (Octopus* octopus : mFormationOctopi) {
-			if (octopus != nullptr && octopus->CurrentState() == Enemy::InFormation) {
-				firingCandidates.push_back(octopus);
-			}
-		}
-
-		for (Squid* squid : mFormationSquids) {
-			if (squid != nullptr && squid->CurrentState() == Enemy::InFormation) {
-				firingCandidates.push_back(squid);
-			}
-		}
-
-		if (!firingCandidates.empty()) {
-			int randomIndex = rand() % firingCandidates.size();
-			Vector2 firePosition = firingCandidates[randomIndex]->Position();
-
-			if (!mEBullets[i]->Active()) {
-				mEBullets[i]->Fire(Position());
-				mAudio->PlaySFX("Fire.wav");
-				break;
-			}
-
-			Vector2 bulletDirection = Vector2(0, -1);
-			mEBullet = new EBullet
-			mEBullet->Fire(Position() + bulletDirection);
-			PhysicsManager::Instance()->RegisterEntity(bullet, PhysicsManager::CollisionLayers::HostileProjectile);
-
-			Fire(firePosition);
-
+	for (int i = 0; i < MAX_EBULLETS; i++) {
+		if (!mEBullets[i]->Active()) {
+			mEBullets[i]->Fire(Position());
 			break;
 		}
-
-		mFireRate = 0.0f;
 	}
 }
 
-bool Level::CanFire(Enemy* enemy) {
-	return (rand() % 10 == 0);
-}
-
-void Level::FireEBullet(Enemy* enemy) {
-	Vector2 bulletDirection = Vector2(0, -1);
-	EBullet* mEBullet = new EBullet(); //Remove?
-	HandleEnemyFiring(enemy->Position() + bulletDirection);
-}
+//bool Level::CanFire(Enemy* enemy) {
+//	return (rand() % 10 == 0);
+//}
 
 void Level::Update() {
 	mBarrack1->Update();
@@ -599,12 +554,30 @@ void Level::Update() {
 	mFireRate += mTimer->DeltaTime();
 
 	if (mFireRate >= mFireCoolDown) {
-		mFireRate = 0.0f;
-		Enemy* shooter = SelectRandomEnemy();
-
-		if (shooter) {
-			FireEBullet(shooter);
+		for (int i = 0; i < MAX_CRABS; ++i) {
+			if (mFormationCrabs[i] != nullptr && !mFormationCrabs[i]->
+				CurrentState() == Enemy::States::Dead) {
+				HandleEnemyFiring(mFormationCrabs[i]->Position());
+				break;
+			}
 		}
+
+		for (int i = 0; i < MAX_OCTOPI; ++i) {
+			if (mFormationOctopi[i] != nullptr && !mFormationOctopi[i]->
+				CurrentState() == Enemy::States::Dead) {
+				HandleEnemyFiring(mFormationOctopi[i]->Position());
+				break;
+			}
+		}
+
+		for (int i = 0; i < MAX_SQUIDS; ++i) {
+			if (mFormationSquids[i] != nullptr && !mFormationSquids[i]->
+				CurrentState() == Enemy::States::Dead) {
+				HandleEnemyFiring(mFormationSquids[i]->Position());
+				break;
+			}
+		}
+		mFireRate = 0.0f;
 	}
 
 	for (auto& enemy : mEnemies) {
@@ -614,13 +587,11 @@ void Level::Update() {
 	if (mFormation->Locked()) {
 		for (Crab* crab : mFormationCrabs) {
 			if (crab != nullptr) {
-				//HandleEnemyFiring(crab);
 			}
 		}
 
 		for (Octopus* octopus : mFormationOctopi) {
 			if (octopus != nullptr) {
-				//HandleEnemyFiring(octopus);
 			}
 		}
 
@@ -631,7 +602,6 @@ void Level::Update() {
 
 		for (Squid* squid : mFormationSquids) {
 			if (squid != nullptr) {
-				//HandleEnemyFiring(squid);
 			}
 		}
 
