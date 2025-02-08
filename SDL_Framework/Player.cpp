@@ -22,8 +22,6 @@ void Player::HandleMovement() {
 	Position(pos);
 }
 
-
-
 void Player::HandleFiring() {
 	if (mInput->KeyPressed(SDL_SCANCODE_SPACE) || mInput->MouseButtonPressed(InputManager::Left)) {
 		for (int i = 0; i < MAX_BULLETS; i++) {
@@ -55,8 +53,6 @@ Player::Player() {
 	mTank = new GLTexture("InvaderSprites.png", 278, 228, 27, 17);
 	mTank->Parent(this);
 	mTank->Position(Vec2_Zero);
-	//mShip->Scale(Vector2(1.5f, 1.5f));
-
 
 	mDeathAnimation = new GLAnimatedTexture("PlayerExplosion.png", 0, 0, 128, 128, 4, 1.0f,
 		Animation::Layouts::Horizontal);
@@ -167,7 +163,7 @@ void Player::Update() {
 	else {
 		if (Active()) {
 			HandleMovement();
-			if (mStartTimer >= 10.0f) {
+			if (mStartTimer >= 6.0f) {
 				HandleFiring();
 			}
 		}

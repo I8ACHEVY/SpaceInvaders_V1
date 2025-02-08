@@ -66,17 +66,6 @@ void Crab::HandleDiveState() {
 
 }
 
-//void Crab::HandleFiring() {
-//	mFireTimer += mTimer->DeltaTime();
-//
-//	if (mFireTimer >= mFireInterval) {
-//		HandleFiring();
-//
-//		mFireTimer = 0.0f;
-//		mFireInterval = (rand() % 3) + 2.0f;
-//	}
-//}
-
 void Crab::Hit(PhysEntity* other) {
 	AudioManager::Instance()->PlaySFX("ButterflyDestroyed.wav", 0, -1); 
 	sPlayer->AddScore(20);
@@ -94,14 +83,11 @@ Enemy(path, index, challenge), mFireTimer(0.0f)
 	for (auto texture : mTexture) {
 		texture->Parent(this);
 		texture->Position(Vec2_Zero);
-		//texture->Scale(Vector2(1.7f, 1.7f));
 	}
 	
 	mType = Enemy::Crab;
 
 	AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
-
-	//mFireInterval = (rand() % 3) + 2.0f;
 }
 
 Crab::~Crab() {}

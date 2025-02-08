@@ -23,8 +23,8 @@ Vector2 Octopus::LocalFormationPosition() {
 	int enemiesPerRow = 11;
 	int middle = enemiesPerRow / 2;
 	retVal.x = (mIndex % enemiesPerRow - middle) * sFormation->GridSize().x * 1.2f;
-	retVal.y = sFormation->GridSize().y * 0.1 + sFormation->GridSize().y * 0.5f *
-		((mIndex / enemiesPerRow));
+	retVal.y = sFormation->GridSize().y * 0.1 + 
+			   sFormation->GridSize().y * 0.5f * ((mIndex / enemiesPerRow));
 
 	return retVal;
 }
@@ -82,8 +82,6 @@ Octopus::Octopus(int path, int index, bool challenge) :
 	for (auto texture : mTexture) {
 		texture->Parent(this);
 		texture->Position(Vec2_Zero);
-		//texture->Scale(Vector2(1.7f, 1.7f));
-
 	}
 
 	mType = Enemy::Octopus;

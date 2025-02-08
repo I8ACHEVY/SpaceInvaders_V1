@@ -131,8 +131,6 @@ namespace SDL_Framework {
 	}
 
 	GameManager::~GameManager() {
-		//Release pointers/ variables
-
 		//Release modules
 		Graphics::Release();
 		mGraphics = nullptr;

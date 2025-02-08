@@ -521,19 +521,16 @@ void Level::HandleEnemyDiving() {
 
 Enemy* Level::SelectRandomEnemy() {
 	std::vector<Enemy*> eligibleEnemies;
-	//std::cout << "SelectRandomEnemy called" << std::endl;
+
 	for (Enemy* enemy : mEnemies) {
-		//std::cout << "Is formation locked: " << mFormation->Locked() << std::endl;
-		if (mFormation->Locked()){// && !enemy->Dead && !enemy->InDeathAnimation()) {
+
+		if (mFormation->Locked()){
 			eligibleEnemies.push_back(enemy);
-			//std::cout << "eligible enemies " << eligibleEnemies.size() << std::endl;
 		}
 	}
 
 	if (!eligibleEnemies.empty()) {
-		//std::cout << "eligibleEnemies Empty, start random range" << std::endl;
 		int index = Random::Instance()->RandomRange(0, eligibleEnemies.size() - 1);
-		//std::cout << "Number of eligible enemies: " << eligibleEnemies.size() << std::endl;
 		return eligibleEnemies[index];
 	}
 	else {
@@ -544,17 +541,12 @@ Enemy* Level::SelectRandomEnemy() {
 void Level::HandleEnemyFiring(Vector2 bulletDirection) {
 	if (mFireRate >= mFireCoolDown ) {
 		Enemy* firingEnemy = SelectRandomEnemy();
-		std::cout << "Selected enemy: " << (firingEnemy ? "Yes" : "No") << std::endl;
-		std::cout << "FireRate is within cooldown fire bullet" << std::endl;
 
 		if (firingEnemy) {
-			std::cout << "random firing enemy selected" << std::endl;
 			for (int i = 0; i < MAX_EBULLETS; i++) {
-				std::cout << "Bullet " << i << " active: " << mEBullets[i]->Active() << std::endl;
 				if (!mEBullets[i]->Active()) {
-					std::cout << "Firing bullet at position: " << firingEnemy->Position().x << "," << firingEnemy->Position().y << std::endl;
 					mEBullets[i]->Fire(firingEnemy->Position());
-					//mAudio->PlaySFX("Fire.wav");
+					AudioManager::Instance()->PlaySFX("Fire.wav", 0, -1);
 					mFireRate = 0.0f;
 					break;
 				}
@@ -571,7 +563,12 @@ void Level::Update() {
 
 
 	mFireRate += mTimer->DeltaTime();
-	//std::cout << "Current FireRate" << mFireRate << std::endl;
+
+	for (int i = 0; i < MAX_EBULLETS; i++) {
+		if (mEBullets[i]->Active()) {
+			mEBullets[i]->Update();
+		}
+	}
 
 	if (mFireRate >= mFireCoolDown) {
 		bool fired = false;
@@ -608,10 +605,6 @@ void Level::Update() {
 				break;
 			}
 		}
-	}
-
-	for (auto& enemy : mEnemies) {
-		enemy->Update();
 	}
 
 	if (mFormation->Locked()) {
@@ -707,7 +700,7 @@ void Level::Update() {
 		HandleEnemyFormation();
 
 
-		for (auto enemy : mEnemies) {
+		for (auto& enemy : mEnemies) {
 			enemy->Update();
 		}
 

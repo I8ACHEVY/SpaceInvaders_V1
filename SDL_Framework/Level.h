@@ -33,6 +33,7 @@ private:
 	Player* sPlayer;
 	Player* mStartTimer;
 	Formation* mFormation;
+	AudioManager* mAudioSFX;
 	
 	bool mMovingRight;
 	float mSpeed;
@@ -65,7 +66,6 @@ private:
 
 	static const int MAX_EBULLETS = 3;
 	EBullet* mEBullets[MAX_EBULLETS];
-	//std::vector<EBullet*> mEBullets;
 	float mFireCoolDown;
 	float mFireRate;
 
@@ -73,7 +73,7 @@ private:
 	float mShipDiveDelay;
 	float mShipDiveTimer;
 
-	std::vector<Enemy*> mEnemies;	//debug testing
+	std::vector<Enemy*> mEnemies;
 	Enemy* mEnemy;
 
 	XMLDocument mSpawningPatterns;
@@ -119,8 +119,6 @@ private:
 	bool EnemyFlyingIn();
 
 	void HandleEnemyFiring(Vector2 bulletDirection);
-	//bool CanFire(Enemy* enemy);
-	//void FireEBullet(Enemy* enemy);
 
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();

@@ -43,7 +43,6 @@ namespace SDL_Framework {
 		for (int i = 0; i < 4; i++) {
 			mTexture[i]->Parent(this);
 			mTexture[i]->Position(Vec2_Zero);
-			//mTexture[i]->Scale(Vector2(1.7f, 1.7f));
 		}
 
 		AddCollider(new BoxCollider(mTexture[0]->ScaledDimensions()));

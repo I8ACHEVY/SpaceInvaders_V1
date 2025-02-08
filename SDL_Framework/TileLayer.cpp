@@ -41,10 +41,3 @@ namespace SDL_Framework {
 		}
 	}
 }
-
-// render 
-//int numRows = 3;
-//int numTilesPerRow = 10;
-//float spacing = 10.0f;
-
-//mTileLayer = new TileLayer(numRows, numTilesPerRow, spacing);
