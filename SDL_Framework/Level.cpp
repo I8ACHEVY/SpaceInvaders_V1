@@ -577,7 +577,6 @@ void Level::Update() {
 			if (mFormationCrabs[i] != nullptr && mFormationCrabs[i]->
 				CurrentState() != Enemy::States::Dead) {
 				HandleEnemyFiring(mFormationCrabs[i]->Position());
-				std::cout << "Crab Bullet" << std::endl;
 				fired = true;
 				mFireRate = 0.0f;
 				break;
@@ -588,7 +587,6 @@ void Level::Update() {
 			if (mFormationOctopi[i] != nullptr && mFormationOctopi[i]->
 				CurrentState() != Enemy::States::Dead) {
 				HandleEnemyFiring(mFormationOctopi[i]->Position());
-				std::cout << "Octopi Bullet" << std::endl;
 				fired = true;
 				mFireRate = 0.0f;
 				break;
@@ -599,7 +597,6 @@ void Level::Update() {
 			if (mFormationSquids[i] != nullptr && mFormationSquids[i]->
 				CurrentState() != Enemy::States::Dead) {
 				HandleEnemyFiring(mFormationSquids[i]->Position());
-				std::cout << "Squid Bullet" << std::endl;
 				fired = true;
 				mFireRate = 0.0f;
 				break;
