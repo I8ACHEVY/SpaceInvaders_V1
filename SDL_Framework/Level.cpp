@@ -539,9 +539,9 @@ void Level::HandleEnemyFiring(Vector2 bulletDirection) {
 		if (firingEnemy) {
 
 			for (int i = 0; i < MAX_EBULLETS; i++) {
-
+				std::cout << "Bullet " << i << " active: " << mEBullets[i]->Active() << std::endl;
 				if (!mEBullets[i]->Active()) {
-
+					std::cout << "Firing bullet at position: " << firingEnemy->Position().x << "," << firingEnemy->Position().y << std::endl;
 					mEBullets[i]->Fire(firingEnemy->Position());
 					//mAudio->PlaySFX("Fire.wav");
 					mFireRate = 0.0f;
