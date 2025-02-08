@@ -294,17 +294,20 @@ void Level::HandleEnemySpawning() {
 				     if (type.compare("Crab") == 0) {
 							
 							mFormationCrabs[index] = new Crab(path, index, false);
+							mEnemies.push_back(mFormationCrabs[index]);
 							mCrabCount += 1;
 					}
 					else if (type.compare("Octopus") == 0) {
 
 							mFormationOctopi[index] = new Octopus(path, index, false);
+							mEnemies.push_back(mFormationOctopi[index]);
 							mOctopusCount += 1;
 
 					}
 					else if (type.compare("Squid") == 0) {
 
 							mFormationSquids[index] = new Squid(path, index, false);
+							mEnemies.push_back(mFormationSquids[index]);
 							mSquidCount += 1;
 
 					}
@@ -518,23 +521,30 @@ void Level::HandleEnemyDiving() {
 
 Enemy* Level::SelectRandomEnemy() {
 	std::vector<Enemy*> eligibleEnemies;
+	//std::cout << "SelectRandomEnemy called" << std::endl;
 	for (Enemy* enemy : mEnemies) {
-		if (mFormation->Locked() && !enemy->Dead && !enemy->InDeathAnimation()) {
+		//std::cout << "Is formation locked: " << mFormation->Locked() << std::endl;
+		if (mFormation->Locked()){// && !enemy->Dead && !enemy->InDeathAnimation()) {
 			eligibleEnemies.push_back(enemy);
+			//std::cout << "eligible enemies " << eligibleEnemies.size() << std::endl;
 		}
 	}
 
 	if (!eligibleEnemies.empty()) {
-		int index = rand() % eligibleEnemies.size();
+		//std::cout << "eligibleEnemies Empty, start random range" << std::endl;
+		int index = Random::Instance()->RandomRange(0, eligibleEnemies.size() - 1);
+		//std::cout << "Number of eligible enemies: " << eligibleEnemies.size() << std::endl;
 		return eligibleEnemies[index];
 	}
-
-	return nullptr;
+	else {
+		return nullptr;
+	}
 }
 
 void Level::HandleEnemyFiring(Vector2 bulletDirection) {
 	if (mFireRate >= mFireCoolDown ) {
 		Enemy* firingEnemy = SelectRandomEnemy();
+		std::cout << "Selected enemy: " << (firingEnemy ? "Yes" : "No") << std::endl;
 		std::cout << "FireRate is within cooldown fire bullet" << std::endl;
 
 		if (firingEnemy) {
@@ -561,7 +571,7 @@ void Level::Update() {
 
 
 	mFireRate += mTimer->DeltaTime();
-	std::cout << "Current FireRate" << mFireRate << std::endl;
+	//std::cout << "Current FireRate" << mFireRate << std::endl;
 
 	if (mFireRate >= mFireCoolDown) {
 		bool fired = false;
