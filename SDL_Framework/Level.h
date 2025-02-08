@@ -63,7 +63,7 @@ private:
 	Squid* mFormationSquids[MAX_SQUIDS];
 	RedShip* mFormationShip[MAX_SHIPS];
 
-	static const int MAX_EBULLETS = 2;
+	static const int MAX_EBULLETS = 3;
 	EBullet* mEBullets[MAX_EBULLETS];
 	//std::vector<EBullet*> mEBullets;
 	float mFireCoolDown;

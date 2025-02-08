@@ -535,9 +535,10 @@ Enemy* Level::SelectRandomEnemy() {
 void Level::HandleEnemyFiring(Vector2 bulletDirection) {
 	if (mFireRate >= mFireCoolDown ) {
 		Enemy* firingEnemy = SelectRandomEnemy();
+		std::cout << "FireRate is within cooldown fire bullet" << std::endl;
 
 		if (firingEnemy) {
-
+			std::cout << "random firing enemy selected" << std::endl;
 			for (int i = 0; i < MAX_EBULLETS; i++) {
 				std::cout << "Bullet " << i << " active: " << mEBullets[i]->Active() << std::endl;
 				if (!mEBullets[i]->Active()) {
