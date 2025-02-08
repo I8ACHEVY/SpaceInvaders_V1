@@ -130,11 +130,6 @@ RedShip::RedShip(int path, int index, bool challenge) :
 
 	AddCollider(new BoxCollider(mTexture[1]->ScaledDimensions()));
 
-
-	mId = PhysicsManager::Instance()->RegisterEntity(this,
-	
-	PhysicsManager::CollisionLayers::Hostile);
-
 	mDeathAnimation = new GLAnimatedTexture("PlayerExplosion.png", 0, 0, 128, 128, 4, 1.0f,
 		Animation::Layouts::Horizontal);
 	

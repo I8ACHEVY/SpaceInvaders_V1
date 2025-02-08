@@ -33,6 +33,7 @@ private:
 	Player* sPlayer;
 	Player* mStartTimer;
 	Formation* mFormation;
+	AudioManager* mAudioSFX;
 	
 	bool mMovingRight;
 	float mSpeed;
@@ -63,9 +64,8 @@ private:
 	Squid* mFormationSquids[MAX_SQUIDS];
 	RedShip* mFormationShip[MAX_SHIPS];
 
-	static const int MAX_EBULLETS = 2;
+	static const int MAX_EBULLETS = 3;
 	EBullet* mEBullets[MAX_EBULLETS];
-	//std::vector<EBullet*> mEBullets;
 	float mFireCoolDown;
 	float mFireRate;
 
@@ -73,7 +73,7 @@ private:
 	float mShipDiveDelay;
 	float mShipDiveTimer;
 
-	std::vector<Enemy*> mEnemies;	//debug testing
+	std::vector<Enemy*> mEnemies;
 	Enemy* mEnemy;
 
 	XMLDocument mSpawningPatterns;
@@ -113,13 +113,13 @@ private:
 	void HandleStartLabels();
 	void HandleCollisions();
 	void HandlePlayerDeath();
-	//void HandlePlayerFiring();
 	
 	void StartStage();
 
 	bool EnemyFlyingIn();
 
-	//void HandleEnemyFiring(Enemy* enemy);
+	void HandleEnemyFiring(Vector2 bulletDirection);
+
 	void HandleEnemySpawning();
 	void HandleEnemyFormation();
 	void HandleEnemyDiving();

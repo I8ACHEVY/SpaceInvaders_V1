@@ -16,7 +16,7 @@ EBullet::EBullet() {
 	mAlienBullet->Position(Vec2_Zero);
 	mAlienBullet->SetWrapMode(Animation::WrapModes::Loop);
 
-	mSpeed = 100.0f;
+	mSpeed = 150.0f;
 
 	Reload();
 
@@ -52,7 +52,7 @@ void EBullet::Update() {
 		Translate(Vec2_Up * mSpeed * mTimer->DeltaTime());
 
 		Vector2 pos = Position();
-		if (pos.y < OFFSCREEN_BUFFER) {
+		if (pos.y > OFFSCREEN_BUFFER) {
 			Reload();
 		}
 	}
